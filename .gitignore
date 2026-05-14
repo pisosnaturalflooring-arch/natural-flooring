@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+.DS_Store
+npm-debug.log*
+
+# Large raw image archives — only the cleaned root-level images are tracked
+public/images/NATURAL FLOORING*/
+*.HEIC
+*.heic

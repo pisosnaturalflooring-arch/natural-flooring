@@ -1,0 +1,77 @@
+import styles from "../NaturalFlooringPage.module.css";
+import { ClockIcon, ExternalLink, InstagramIcon, MapPinIcon, PhoneIcon, WhatsAppIcon } from "./shared";
+
+export default function FooterSection({ footer, footerLinks, instagramHref, whatsappHref }) {
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.footerGrid}>
+        <div>
+          <div className={styles.logo}>
+            <span className={styles.logoTop}>Natural Flooring</span>
+            <span className={styles.logoSub}>Pisos & Escaleras · San Fernando</span>
+          </div>
+          <p className={styles.footerText}>{footer.description}</p>
+          <div className={styles.footerSocials}>
+            <ExternalLink href={instagramHref} className={styles.footerSocial} ariaLabel="Instagram">
+              <InstagramIcon />
+            </ExternalLink>
+            <ExternalLink href={whatsappHref} className={styles.footerSocial} ariaLabel="WhatsApp">
+              <WhatsAppIcon />
+            </ExternalLink>
+          </div>
+        </div>
+
+        <div>
+          <div className={styles.footerHeading}>Navegación</div>
+          <div className={styles.footerLinks}>
+            {footerLinks.map((link) => (
+              <a key={link.href} href={link.href} className={styles.footerLink}>
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className={styles.footerHeading}>Contacto</div>
+          <div className={styles.footerMetaList}>
+            <div className={styles.footerMetaRow}>
+              <MapPinIcon />
+              <div>
+                <div>{footer.addressLine1}</div>
+                <div>{footer.addressLine2}</div>
+              </div>
+            </div>
+            <div className={styles.footerMetaRow}>
+              <PhoneIcon />
+              <ExternalLink href={whatsappHref} className={styles.footerMetaLink}>
+                +54 11 6997-7725
+              </ExternalLink>
+            </div>
+            <div className={styles.footerMetaRow}>
+              <ClockIcon />
+              <div>
+                <div>{footer.hoursWeek}</div>
+                <div>{footer.hoursSaturday}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className={styles.footerHeading}>Presupuesto gratis</div>
+          <p className={styles.footerText}>{footer.ctaText}</p>
+          <ExternalLink href={whatsappHref} className={styles.footerCta}>
+            <WhatsAppIcon />
+            Escribinos ahora
+          </ExternalLink>
+        </div>
+      </div>
+
+      <div className={styles.footerBottom}>
+        <span>{footer.copyright}</span>
+        <span>{footer.bottomAddress}</span>
+      </div>
+    </footer>
+  );
+}
