@@ -3,6 +3,7 @@
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { ExternalLink, SectionHead, cx } from "./shared";
+import { links } from "../data";
 
 export default function MaintenanceSection({ maintenanceProducts, whatsappHref }) {
   return (
@@ -34,9 +35,14 @@ export default function MaintenanceSection({ maintenanceProducts, whatsappHref }
               <div className={styles.productCategory}>{product.category}</div>
               <div className={styles.productTitle}>{product.title}</div>
               <p className={styles.productDescription}>{product.description}</p>
-              <ExternalLink href={product.href} className={styles.productLink}>
-                Consultar precio →
-              </ExternalLink>
+              <div className={styles.productActions}>
+                <ExternalLink href={product.href} className={styles.productLink}>
+                  Consultar precio →
+                </ExternalLink>
+                <ExternalLink href={links.mlStore} className={cx(styles.productLink, styles.productLinkMl)}>
+                  Ver en ML →
+                </ExternalLink>
+              </div>
             </div>
           </Reveal>
         ))}

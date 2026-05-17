@@ -16,13 +16,12 @@ export default function HeaderSection() {
   }, []);
 
   useEffect(() => {
-    // Map every section on the page to the nav link it belongs to
     const SECTION_NAV_MAP = {
       "categorias":              "#categorias",
-      "obras":                   "#categorias",
-      "por-que-elegirnos":       "#por-que-elegirnos",
-      "proceso":                 "#por-que-elegirnos",
-      "escaleras":               "#por-que-elegirnos",
+      "por-que-elegirnos":       "#categorias",
+      "proceso":                 "#categorias",
+      "escaleras":               "#categorias",
+      "obras":                   "#proyectos",
       "antes-despues":           "#proyectos",
       "comercial":               "#proyectos",
       "proyectos":               "#proyectos",
@@ -35,21 +34,28 @@ export default function HeaderSection() {
 
     const sections = Object.keys(SECTION_NAV_MAP)
       .map((id) => document.getElementById(id))
-      .filter(Boolean);
+      .filter(Boolean)
+      .sort((a, b) => a.offsetTop - b.offsetTop);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(SECTION_NAV_MAP[entry.target.id]);
-          }
-        });
-      },
-      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
-    );
+    let rafId;
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const focusY = window.scrollY + window.innerHeight * 0.4;
+        let active = "";
+        for (const el of sections) {
+          if (el.offsetTop <= focusY) active = SECTION_NAV_MAP[el.id];
+        }
+        setActiveSection(active);
+      });
+    };
 
-    sections.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -71,9 +77,11 @@ export default function HeaderSection() {
         ))}
       </nav>
 
-      <ExternalLink href={links.whatsappGeneral} className={styles.navCta}>
-        WhatsApp
-      </ExternalLink>
+      <div className={styles.headerIconGroup}>
+        <ExternalLink href={links.whatsappGeneral} className={styles.navCta} ariaLabel="Consultanos por WhatsApp">
+          Consultanos
+        </ExternalLink>
+      </div>
     </header>
   );
 }

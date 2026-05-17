@@ -2,38 +2,41 @@
 
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
-import { ExternalLink, SectionHead } from "./shared";
+import { ExternalLink, cx } from "./shared";
 
 export default function ProcessSection({ processSteps, whatsappHref }) {
   return (
     <section className={styles.processSection} id="proceso">
-      <SectionHead
-        label="Simple y transparente"
-        title={
-          <>
+      <div className={styles.processInner}>
+
+        <Reveal className={styles.processLeft}>
+          <p className={styles.sectionLabelInverse}>Simple y transparente</p>
+          <h2 className={cx(styles.sectionTitleInverse, styles.processHeading)}>
             CÓMO
             <br />
             TRABAJAMOS
-          </>
-        }
-        inverse
-      />
+          </h2>
+          <ExternalLink
+            href={whatsappHref}
+            className={cx(styles.primaryButton, styles.processCtaBtn)}
+          >
+            Empezá tu proyecto →
+          </ExternalLink>
+        </Reveal>
 
-      <div className={styles.processSteps}>
-        {processSteps.map((step, index) => (
-          <Reveal key={step.num} delay={0.1 * index} className={styles.processStep}>
-            <div className={styles.processNum}>{step.num}</div>
-            <div className={styles.processTitle}>{step.title}</div>
-            <p className={styles.processDesc}>{step.description}</p>
-          </Reveal>
-        ))}
+        <div className={styles.processSteps}>
+          {processSteps.map((step, index) => (
+            <Reveal key={step.num} delay={0.08 * index} className={styles.processStep}>
+              <div className={styles.processNum}>{step.num}</div>
+              <div className={styles.processStepBody}>
+                <div className={styles.processStepTitle}>{step.title}</div>
+                <p className={styles.processDesc}>{step.description}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
       </div>
-
-      <Reveal delay={0.3} className={styles.processCta}>
-        <ExternalLink href={whatsappHref} className={styles.primaryButton}>
-          Empezá tu proyecto →
-        </ExternalLink>
-      </Reveal>
     </section>
   );
 }

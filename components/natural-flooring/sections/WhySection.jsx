@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
+import { cx } from "./shared";
 
 const ICONS = {
   materials: (
@@ -51,11 +52,11 @@ export default function WhySection({ why, whyItems }) {
 
         <div>
           <Reveal>
-            <p className={styles.sectionLabelInverse}>Por qué elegirnos</p>
-            <h2 className={styles.sectionTitleInverse}>
-              CALIDAD EN
+            <p className={styles.sectionLabelInverse}>Así trabajamos</p>
+            <h2 className={cx(styles.sectionTitleInverse, styles.whySectionTitle)}>
+              CONFIANZA DE
               <br />
-              CADA DETALLE
+              PRINCIPIO A FIN
             </h2>
           </Reveal>
 

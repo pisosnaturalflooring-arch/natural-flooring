@@ -1,5 +1,6 @@
 import styles from "../NaturalFlooringPage.module.css";
-import { ClockIcon, ExternalLink, InstagramIcon, MapPinIcon, PhoneIcon, WhatsAppIcon } from "./shared";
+import { links } from "../data";
+import { ClockIcon, ExternalLink, InstagramIcon, MapPinIcon, MercadoLibreIcon, PhoneIcon, WhatsAppIcon } from "./shared";
 
 export default function FooterSection({ footer, footerLinks, instagramHref, whatsappHref }) {
   return (
@@ -17,6 +18,9 @@ export default function FooterSection({ footer, footerLinks, instagramHref, what
             </ExternalLink>
             <ExternalLink href={whatsappHref} className={styles.footerSocial} ariaLabel="WhatsApp">
               <WhatsAppIcon />
+            </ExternalLink>
+            <ExternalLink href={links.mlStore} className={styles.footerSocial} ariaLabel="Mercado Libre">
+              <MercadoLibreIcon />
             </ExternalLink>
           </div>
         </div>

@@ -1,4 +1,5 @@
 export const links = {
+  mlStore: "https://listado.mercadolibre.com.ar/pagina/naturalflooringanddeck/",
   whatsappGeneral:
     'https://api.whatsapp.com/send?phone=5491169977725&text=%22%C2%A1Hola!%20Estoy%20interesado%2Fa%20en%20sus%20pisos%20de%20madera%20y%20productos%20de%20instalaci%C3%B3n.%20%C2%BFMe%20pueden%20contar%20m%C3%A1s%20al%20respecto%3F%20Gracias',
   whatsappStairs:
@@ -15,10 +16,9 @@ export const links = {
 };
 
 export const navLinks = [
-  { label: "Productos", href: "#categorias" },
-  { label: "Nosotros", href: "#por-que-elegirnos" },
+  { label: "Nosotros", href: "#categorias" },
   { label: "Proyectos", href: "#proyectos" },
-  { label: "Mantenimiento", href: "#productos-mantenimiento" },
+  { label: "Productos", href: "#productos-mantenimiento" },
   { label: "Contacto", href: "#contacto" },
 ];
 
@@ -27,14 +27,14 @@ export const hero = {
   titleLead: "TRANSFORMÁ",
   titleAccent: "PISO.",
   description:
-    "Pisos de madera, flotantes, vinílicos y decks exteriores. Vení a conocer nuestro showroom en San Fernando o pedí asesoramiento sin cargo.",
-  image: "/images/piso-de-madera-natural.jpg",
-  imageAlt: "Piso de madera natural",
+    "Madera, flotantes, vinílicos y decks exteriores. Visitá nuestro showroom en San Fernando o pedí asesoramiento sin cargo.",
+  image: "/images/hero-deck.jpg",
+  imageAlt: "Deck de madera natural con amoblamientos exteriores",
   imageTag: "Stock disponible · Entrega inmediata",
   stats: [
-    { value: "+200", label: "Obras realizadas" },
+    { value: "200+", label: "Obras realizadas" },
     { value: "15+", label: "Años en el rubro" },
-    { value: "SIN CARGO", label: "Presupuesto de obra" },
+    { value: "GRATIS", label: "Consulta inicial" },
   ],
 };
 
@@ -51,29 +51,29 @@ export const categories = [
   {
     tag: "Madera",
     title: "MADERA NATURAL",
-    image: "/images/prods1.jpeg",
-    alt: "Piso de madera natural",
+    image: "/images/roble-eslabonia.jpg",
+    alt: "Piso de madera natural en espiga, roble eslabonia",
     href: "#contacto",
   },
   {
     tag: "Vinílico",
-    title: "DRYBACK & LVT",
-    image: "/images/prods2.jpeg",
-    alt: "Piso vinílico Dryback y LVT",
+    title: "PISO VINÍLICO",
+    image: "/images/gimnasio-sportclub.jpg",
+    alt: "Piso vinílico instalado en gimnasio comercial",
     href: "#contacto",
   },
   {
     tag: "Exterior",
     title: "DECK WPC",
-    image: "/images/prods3.jpeg",
-    alt: "Deck WPC exterior",
+    image: "/images/deck-lapacho-zona-norte.jpg",
+    alt: "Deck de madera lapacho con piscina",
     href: "#contacto",
   },
   {
-    tag: "Escaleras",
+    tag: "Madera",
     title: "ESCALERAS",
-    image: "/images/prods4.jpeg",
-    alt: "Revestimiento de escaleras",
+    image: "/images/escalera-lapacho.jpg",
+    alt: "Escalera revestida en lapacho con baranda de vidrio",
     href: "#escaleras",
   },
 ];
@@ -123,9 +123,9 @@ export const featuredProjects = [
   {
     size: "small",
     category: "Comercial",
-    name: "Gimnasio renovado",
+    name: "Sport Club · Zona Norte",
     image: "/images/gimnasio-sportclub.jpg",
-    alt: "Gimnasio renovado",
+    alt: "Sport Club Zona Norte — piso de madera alto tránsito",
     before: "/images/antes-gimnasio-con-piso-deteriorado.jpg",
     materials: "Madera · Alto tránsito",
     description:
@@ -136,33 +136,34 @@ export const featuredProjects = [
 export const why = {
   image: "/images/calidadencadadetalle.jpeg",
   imageAlt: "Calidad en cada detalle de instalación",
-  badgeValue: "15+",
-  badgeLabel: "años en el rubro",
+  badgeValue: "200+",
+  badgeLabel: "obras realizadas",
 };
 
 export const whyItems = [
   {
-    iconKey: "materials",
-    title: "Materiales de primera línea",
+    iconKey: "consult",
+    title: "Asesoramiento sin cargo",
     description:
-      "Madera, flotantes, vinílicos, SPC y decks. Showroom en San Fernando con entrega inmediata.",
+      "Antes de tomar cualquier decisión, te asesoramos. Te ayudamos a elegir el material ideal para tu espacio y presupuesto, sin compromiso.",
+  },
+  {
+    iconKey: "warranty",
+    title: "Garantía de obra",
+    description:
+      "Todos nuestros trabajos tienen garantía. Tu inversión protegida de principio a fin.",
   },
   {
     iconKey: "install",
     title: "Instalación profesional",
     description:
-      "Especialistas en madera, vinílico, SPC y WPC. Trabajo prolijo con terminaciones de calidad en cada obra.",
+      "Especialistas en madera, vinílico, SPC y WPC. Trabajo prolijo con terminaciones que duran.",
   },
   {
-    iconKey: "warranty",
-    title: "Garantía de obra",
-    description: "Todos los trabajos tienen garantía. Tu inversión protegida de principio a fin.",
-  },
-  {
-    iconKey: "consult",
-    title: "Asesoramiento sin cargo",
+    iconKey: "materials",
+    title: "Showroom en San Fernando",
     description:
-      "Te ayudamos a elegir el material ideal para tu espacio y presupuesto. Sin compromiso.",
+      "Vení a ver y tocar los materiales antes de decidir. Stock disponible con entrega inmediata.",
   },
 ];
 
@@ -170,13 +171,12 @@ export const staircase = {
   image: "/images/renovatuescalera.jpeg",
   alt: "Escalera de madera terminada con revestimiento",
   description:
-    "A veces no hace falta una gran obra para transformar un espacio. Realizamos revestimientos completos en madera: una escalera moderna, cálida y totalmente integrada al estilo de tu casa. Un cambio limpio, con materiales premium y terminaciones prolijas que hacen la diferencia.",
+    "No hace falta una gran obra para transformar un espacio. Revestimos tu escalera en madera: moderna, cálida y totalmente integrada al estilo de tu casa.",
   features: [
+    "Instalación profesional en 1 a 2 días",
     "Sin demolición ni obra pesada",
     "Diseño moderno con terminaciones prolijas",
     "Materiales resistentes y durables",
-    "Instalación profesional en 1 a 2 días",
-    "Asesoramiento personalizado sin cargo",
   ],
 };
 
@@ -255,18 +255,18 @@ export const archiveProjects = [
   },
   {
     category: "madera",
-    group: "Comercial · Zona Norte",
-    title: "Gimnasio renovado",
+    group: "Sport Club · Zona Norte",
+    title: "Sport Club · Zona Norte",
     subtitle: "Madera · Alto tránsito",
     image: "/images/despues-gimnasio-renovado.jpg",
-    alt: "Gimnasio renovado con piso de madera",
+    alt: "Sport Club Zona Norte — piso de madera alto tránsito",
     before: "/images/antes-gimnasio-con-piso-deteriorado.jpg",
     materials: "Madera · Alto tránsito",
     description: "Renovación de sala de entrenamiento. Instalación rápida con mínima interrupción del espacio.",
   },
   {
     category: "madera",
-    group: "Comercial · Zona Norte",
+    group: "Sport Club · Zona Norte",
     title: "Durante la obra",
     subtitle: "Proceso de instalación",
     image: "/images/gimnasiomientras.jpeg",
@@ -274,7 +274,7 @@ export const archiveProjects = [
   },
   {
     category: "madera",
-    group: "Comercial · Zona Norte",
+    group: "Sport Club · Zona Norte",
     title: "Estado original",
     subtitle: "Antes de la renovación",
     image: "/images/antes-gimnasio-con-piso-deteriorado.jpg",
@@ -436,7 +436,7 @@ export const processSteps = [
     num: "01",
     title: "Consultá",
     description:
-      "Contactanos por WhatsApp o visitá nuestro showroom en San Fernando. Asesoramiento sin cargo, sin compromiso.",
+      "Contactanos por WhatsApp o visitá el showroom en San Fernando. Sin cargo.",
   },
   {
     num: "02",

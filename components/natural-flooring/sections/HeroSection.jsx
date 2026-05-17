@@ -25,7 +25,7 @@ export default function HeroSection({ hero }) {
           <a href="#categorias" className={styles.primaryButton}>
             Ver productos
           </a>
-          <a href="#obras" className={styles.secondaryButton}>
+          <a href="#proyectos" className={styles.secondaryButton}>
             Ver obras
           </a>
         </div>

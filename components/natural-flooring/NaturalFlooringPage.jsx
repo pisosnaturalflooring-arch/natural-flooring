@@ -7,7 +7,6 @@ import {
   archiveProjects,
   beforeAfter,
   categories,
-  commercialShowcase,
   contactItems,
   featuredProjects,
   footer,
@@ -27,7 +26,6 @@ import ArchiveSection from "./sections/ArchiveSection";
 import BeforeAfterSection from "./sections/BeforeAfterSection";
 import BookingSection from "./sections/BookingSection";
 import CategoriesSection from "./sections/CategoriesSection";
-import CommercialShowcaseSection from "./sections/CommercialShowcaseSection";
 import ContactSection from "./sections/ContactSection";
 import FeaturedProjectsSection from "./sections/FeaturedProjectsSection";
 import FooterSection from "./sections/FooterSection";
@@ -70,22 +68,21 @@ export default function NaturalFlooringPage() {
       {/* 2. What you offer */}
       <CategoriesSection categories={categories} />
 
-      {/* 3. Proof of quality */}
+      {/* 3. Why choose us */}
+      <WhySection why={why} whyItems={whyItems} />
+
+      {/* 4. How easy it is to start */}
+      <ProcessSection processSteps={processSteps} whatsappHref={links.whatsappGeneral} />
+
+      {/* 5. Specific services */}
+      <StaircaseSection staircase={staircase} whatsappHref={links.whatsappStairs} />
+
+      {/* 6. Projects — curated first, then full archive */}
       <FeaturedProjectsSection
         featuredProjects={featuredProjects}
         onProjectOpen={setSelectedProject}
       />
-
-      {/* 4. Why choose us — now that they've seen the work */}
-      <WhySection why={why} whyItems={whyItems} />
-
-      {/* 5. How easy it is to start */}
-      <ProcessSection processSteps={processSteps} whatsappHref={links.whatsappGeneral} />
-
-      {/* 6–7. Specific services */}
-      <StaircaseSection staircase={staircase} whatsappHref={links.whatsappStairs} />
       <BeforeAfterSection beforeAfter={beforeAfter} whatsappHref={links.whatsappGeneral} />
-      <CommercialShowcaseSection commercialShowcase={commercialShowcase} />
 
       {/* 8. Deep dive into all projects */}
       <ArchiveSection
