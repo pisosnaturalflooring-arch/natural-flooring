@@ -1,10 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { ExternalLink, InstagramIcon, SectionHead } from "./shared";
 
-export default function SocialSection({ instagramEmbeds, instagramHref }) {
+function ReelIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11" aria-hidden>
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+
+export default function SocialSection({ instagramPosts, instagramHref }) {
   return (
     <section className={styles.socialSection} id="redes">
       <SectionHead
@@ -26,18 +35,34 @@ export default function SocialSection({ instagramEmbeds, instagramHref }) {
       />
 
       <div className={styles.socialGrid}>
-        {instagramEmbeds.map((embed, index) => (
-          <Reveal key={embed} delay={0.08 * index} className={styles.socialCard}>
-            <div className={styles.socialFrameWrap}>
-              <iframe
-                src={embed}
-                className={styles.socialFrame}
-                allowFullScreen
-                scrolling="no"
-                loading="lazy"
-                title={`Instagram embed ${index + 1}`}
-              />
-            </div>
+        {instagramPosts.map((post, index) => (
+          <Reveal key={post.image} delay={0.06 * index}>
+            <ExternalLink
+              href={post.href}
+              className={styles.socialCard}
+              ariaLabel={`Ver en Instagram: ${post.alt}`}
+            >
+              <div className={styles.socialThumb}>
+                <Image
+                  src={post.image}
+                  alt={post.alt}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 340px"
+                  className={styles.socialThumbImg}
+                />
+
+                {post.isReel && (
+                  <div className={styles.socialReelBadge}>
+                    <ReelIcon />
+                  </div>
+                )}
+
+                <div className={styles.socialCaptionBar}>
+                  <span className={styles.socialCaptionText}>{post.caption}</span>
+                  <InstagramIcon size={13} />
+                </div>
+              </div>
+            </ExternalLink>
           </Reveal>
         ))}
       </div>

@@ -1459,7 +1459,7 @@
 }
 
 .socialSection {
-  background: var(--olive-dark);
+  background: var(--warm-black);
 }
 
 .socialButton {
@@ -1487,31 +1487,85 @@
 .socialGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  max-width: 960px;
+  gap: 0.75rem;
+  max-width: 1020px;
   margin: 0 auto;
 }
 
 .socialCard {
+  display: block;
+  text-decoration: none;
   overflow: hidden;
-  border: 0.5px solid rgba(200, 212, 168, 0.12);
   border-radius: 3px;
+  border: 0.5px solid rgba(200, 212, 168, 0.1);
+}
+
+.socialCard:hover .socialThumbImg {
+  transform: scale(1.03);
+}
+
+.socialCard:hover .socialCaptionBar {
+  transform: translateY(0);
+}
+
+.socialThumb {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
   background: rgba(200, 212, 168, 0.06);
 }
 
-.socialFrameWrap {
-  position: relative;
-  height: 0;
-  overflow: hidden;
-  padding-bottom: 177.77%;
+.socialThumbImg {
+  object-fit: cover;
+  transition: transform 0.45s ease;
 }
 
-.socialFrame {
+/* Reel badge — always visible, survives hover */
+.socialReelBadge {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  background: rgba(0, 0, 0, 0.52);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  z-index: 3;
+  pointer-events: none;
+  padding-left: 1px;
+}
+
+/* Caption bar slides up from bottom on hover */
+.socialCaptionBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.5rem 0.875rem 0.75rem;
+  background: linear-gradient(to top, rgba(22, 27, 14, 0.88) 0%, transparent 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.socialCaptionText {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.socialCaptionBar svg {
+  color: rgba(200, 212, 168, 0.7);
+  flex-shrink: 0;
 }
 
 .socialFooter {
@@ -1799,7 +1853,7 @@
 
 .contactPhotoImg {
   object-fit: cover !important;
-  object-position: center 65%;
+  object-position: center center;
 }
 
 .contactPhotoOverlay {
@@ -2550,7 +2604,11 @@ a.contactRow:hover {
     padding: 2.5rem 1.5rem;
   }
 
-  .socialGrid,
+  .socialGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
   .maintenanceGrid,
   .footerGrid {
     grid-template-columns: 1fr;

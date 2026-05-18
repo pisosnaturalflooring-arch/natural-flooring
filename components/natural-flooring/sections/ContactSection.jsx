@@ -38,7 +38,7 @@ export default function ContactSection({ contactItems, whatsappHref }) {
             TU PROYECTO
           </h2>
           <p className={styles.contactIntro}>
-            Asesoramiento sin cargo · Presupuesto en 24hs · Visita a domicilio
+            Venís al showroom o te visitamos en casa — asesoramiento y presupuesto sin cargo.
           </p>
         </Reveal>
 

@@ -12,7 +12,7 @@ import {
   footer,
   footerLinks,
   hero,
-  instagramEmbeds,
+  instagramPosts,
   links,
   maintenanceProducts,
   processSteps,
@@ -107,7 +107,7 @@ export default function NaturalFlooringPage() {
       />
 
       {/* 11. Content */}
-      <SocialSection instagramEmbeds={instagramEmbeds} instagramHref={links.instagram} />
+      <SocialSection instagramPosts={instagramPosts} instagramHref={links.instagram} />
 
       {/* 12. Action */}
       <ContactSection contactItems={contactItems} whatsappHref={links.whatsappGeneral} />

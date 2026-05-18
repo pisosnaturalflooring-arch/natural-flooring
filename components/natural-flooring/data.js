@@ -526,10 +526,49 @@ export const maintenanceProducts = [
   },
 ];
 
-export const instagramEmbeds = [
-  "https://www.instagram.com/p/DW19REahgGH/embed/",
-  "https://www.instagram.com/p/DXhte5ykWJU/embed/",
-  "https://www.instagram.com/p/DOO26rGEXPg/embed/",
+export const instagramPosts = [
+  {
+    image: "/images/ig/reel-DXxO_kvBxyU.jpg",
+    alt: "Deck de madera renovado en un día — con pileta y muebles blancos",
+    caption: "Deck · 8 horas",
+    href: "https://www.instagram.com/reel/DXxO_kvBxyU/",
+    isReel: true,
+  },
+  {
+    image: "/images/ig/reel-DYXzcPmEZpJ.jpg",
+    alt: "Terraza comercial con deck de madera y guirnaldas de luz",
+    caption: "Deck · Comercial",
+    href: "https://www.instagram.com/p/DYXzcPmEZpJ/",
+    isReel: true,
+  },
+  {
+    image: "/images/ig/reel-DW9fYIXkZHK.jpg",
+    alt: "Escalera moderna con peldaños de madera y baranda de hierro negro",
+    caption: "Escaleras · Renovación",
+    href: "https://www.instagram.com/p/DW9fYIXkZHK/",
+    isReel: false,
+  },
+  {
+    image: "/images/ig/reel-DW19REahgGH.jpg",
+    alt: "Instalación de escalera en madera — proceso y resultado",
+    caption: "Escaleras · Proceso",
+    href: "https://www.instagram.com/reel/DW19REahgGH/",
+    isReel: true,
+  },
+  {
+    image: "/images/ig/reel-DWkBexCiQtq.jpg",
+    alt: "Renovación de gimnasio — antes y después en San Fernando",
+    caption: "Gimnasio · Antes y después",
+    href: "https://www.instagram.com/p/DWkBexCiQtq/",
+    isReel: false,
+  },
+  {
+    image: "/images/ig/reel-DOO26rGEXPg.jpg",
+    alt: "Deck exterior para disfrutar en verano — patio con madera natural",
+    caption: "Deck · Exterior",
+    href: "https://www.instagram.com/reel/DOO26rGEXPg/",
+    isReel: true,
+  },
 ];
 
 export const reviewsPrimary = [
