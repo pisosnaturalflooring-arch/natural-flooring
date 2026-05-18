@@ -1,11 +1,33 @@
 "use client";
 
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { ExternalLink, SectionHead, cx } from "./shared";
 import { links } from "../data";
 
 export default function MaintenanceSection({ maintenanceProducts, whatsappHref }) {
+  const carouselRef = useRef(null);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(true);
+
+  const updateButtons = useCallback(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 1);
+    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    updateButtons();
+    window.addEventListener("resize", updateButtons);
+    return () => window.removeEventListener("resize", updateButtons);
+  }, [updateButtons]);
+
+  const scroll = (dir) => {
+    carouselRef.current?.scrollBy({ left: dir * 288, behavior: "smooth" });
+  };
+
   return (
     <section className={styles.altSection} id="productos-mantenimiento">
       <SectionHead
@@ -27,26 +49,50 @@ export default function MaintenanceSection({ maintenanceProducts, whatsappHref }
         }
       />
 
-      <div className={styles.maintenanceGrid}>
-        {maintenanceProducts.map((product, index) => (
-          <Reveal key={product.title} as="article" delay={0.06 * index} className={styles.productCard}>
-            <div className={cx(styles.productVisual, styles[`productVisual${product.theme}`])}>{product.icon}</div>
-            <div className={styles.productBody}>
-              <div className={styles.productCategory}>{product.category}</div>
-              <div className={styles.productTitle}>{product.title}</div>
-              <p className={styles.productDescription}>{product.description}</p>
-              <div className={styles.productActions}>
-                <ExternalLink href={product.href} className={styles.productLink}>
-                  Consultar precio →
-                </ExternalLink>
-                <ExternalLink href={links.mlStore} className={cx(styles.productLink, styles.productLinkMl)}>
-                  Ver en ML →
+      <Reveal delay={0.05} className={styles.carouselOuter}>
+        <button
+          onClick={() => scroll(-1)}
+          className={cx(styles.carouselBtn, !canLeft && styles.carouselBtnHidden)}
+          aria-label="Anterior"
+          tabIndex={canLeft ? 0 : -1}
+        >
+          ←
+        </button>
+
+        <div
+          className={styles.productCarousel}
+          ref={carouselRef}
+          onScroll={updateButtons}
+        >
+          {maintenanceProducts.map((product) => (
+            <article key={product.title} className={styles.productCard}>
+              <div className={styles.productVisual}>
+                <img src={product.image} alt={product.title} />
+              </div>
+              <div className={styles.productBody}>
+                <div className={styles.productCategory}>{product.category}</div>
+                <div className={styles.productTitle}>{product.title}</div>
+                <p className={styles.productDescription}>{product.description}</p>
+                <ExternalLink
+                  href={links.mlStore}
+                  className={cx(styles.productLink, styles.productLinkMl)}
+                >
+                  Ver en Mercado Libre →
                 </ExternalLink>
               </div>
-            </div>
-          </Reveal>
-        ))}
-      </div>
+            </article>
+          ))}
+        </div>
+
+        <button
+          onClick={() => scroll(1)}
+          className={cx(styles.carouselBtn, !canRight && styles.carouselBtnHidden)}
+          aria-label="Siguiente"
+          tabIndex={canRight ? 0 : -1}
+        >
+          →
+        </button>
+      </Reveal>
 
       <Reveal className={styles.helpBanner}>
         <div>
