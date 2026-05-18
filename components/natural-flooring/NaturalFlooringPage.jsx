@@ -24,7 +24,6 @@ import {
 } from "./data";
 import ArchiveSection from "./sections/ArchiveSection";
 import BeforeAfterSection from "./sections/BeforeAfterSection";
-import BookingSection from "./sections/BookingSection";
 import CategoriesSection from "./sections/CategoriesSection";
 import ContactSection from "./sections/ContactSection";
 import FeaturedProjectsSection from "./sections/FeaturedProjectsSection";
@@ -110,8 +109,7 @@ export default function NaturalFlooringPage() {
       {/* 11. Content */}
       <SocialSection instagramEmbeds={instagramEmbeds} instagramHref={links.instagram} />
 
-      {/* 12–13. Action */}
-      <BookingSection />
+      {/* 12. Action */}
       <ContactSection contactItems={contactItems} whatsappHref={links.whatsappGeneral} />
 
       <FooterSection

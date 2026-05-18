@@ -1,5 +1,4 @@
 import { Bebas_Neue, Instrument_Sans } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -25,12 +24,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es" className={`${bebasNeue.variable} ${instrumentSans.variable}`}>
-      <head>
-        <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
-      </head>
       <body>
         {children}
-        <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
       </body>
     </html>
   );

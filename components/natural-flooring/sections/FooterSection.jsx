@@ -1,6 +1,6 @@
 import styles from "../NaturalFlooringPage.module.css";
 import { links } from "../data";
-import { ClockIcon, ExternalLink, InstagramIcon, MapPinIcon, MercadoLibreIcon, PhoneIcon, WhatsAppIcon } from "./shared";
+import { ClockIcon, EmailIcon, ExternalLink, InstagramIcon, MapPinIcon, MercadoLibreIcon, PhoneIcon, WhatsAppIcon } from "./shared";
 
 export default function FooterSection({ footer, footerLinks, instagramHref, whatsappHref }) {
   return (
@@ -48,8 +48,14 @@ export default function FooterSection({ footer, footerLinks, instagramHref, what
             </div>
             <div className={styles.footerMetaRow}>
               <PhoneIcon />
-              <ExternalLink href={whatsappHref} className={styles.footerMetaLink}>
+              <ExternalLink href={links.phone} className={styles.footerMetaLink}>
                 +54 11 6997-7725
+              </ExternalLink>
+            </div>
+            <div className={styles.footerMetaRow}>
+              <EmailIcon />
+              <ExternalLink href={links.email} className={styles.footerMetaLink}>
+                pisosnaturalflooring@gmail.com
               </ExternalLink>
             </div>
             <div className={styles.footerMetaRow}>

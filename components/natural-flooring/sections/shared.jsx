@@ -122,6 +122,7 @@ export function PhoneIcon() {
 
 export function ContactGlyph({ kind }) {
   if (kind === "whatsapp") return <WhatsAppIcon fill="#c8d4a8" />;
+  if (kind === "phone") return <PhoneIcon />;
   if (kind === "email") return <EmailIcon />;
   if (kind === "location") return <MapPinIcon />;
   return <ClockIcon />;
