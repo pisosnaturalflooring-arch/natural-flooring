@@ -602,10 +602,12 @@
 .categoryName {
   margin: 0 0 0.75rem;
   font-family: var(--display);
-  font-size: 1.75rem;
+  font-size: clamp(1.25rem, 5.2vw, 1.75rem);
   line-height: 1;
   letter-spacing: 0.03em;
   color: var(--cream);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .categoryMore {
@@ -2670,7 +2672,7 @@ a.contactRow:hover {
   }
 
   .mapWrap {
-    height: 240px;
+    height: 320px;
   }
 
   .bookingGrid {
@@ -2772,6 +2774,50 @@ a.contactRow:hover {
   .header {
     padding-top: 0;
     padding-bottom: 0;
+    padding-left: 1rem;
+    padding-right: 1.25rem;
+    height: 64px;
+    gap: 0.75rem;
+  }
+
+  .logo {
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  .logo .brandMarkOnDark,
+  .logo .brandMarkBare {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .logoTop {
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .logoSub {
+    display: none;
+  }
+
+  .navCta {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .headerIconGroup {
+    gap: 0.5rem;
+    padding-right: 0;
+  }
+
+  .headerIconGroup::before {
+    display: block;
+    width: 1px;
+    height: 1.1rem;
+    margin-right: 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .nav {
@@ -2780,6 +2826,7 @@ a.contactRow:hover {
 
   .hero {
     grid-template-columns: 1fr;
+    padding-top: 64px;
   }
 
   .heroRight {
@@ -2791,7 +2838,9 @@ a.contactRow:hover {
   }
 
   .heroTitle {
-    font-size: clamp(4rem, 18vw, 6rem);
+    font-size: clamp(2.75rem, 13vw, 5rem);
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .speciesStrip,
