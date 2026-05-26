@@ -2527,6 +2527,47 @@ a.contactRow:hover {
   }
 }
 
+@media (max-width: 1100px) and (min-width: 769px) {
+  .header {
+    height: 76px;
+    padding: 0 1.75rem;
+    gap: 1rem;
+  }
+
+  .logoTop {
+    font-size: 1.15rem;
+  }
+
+  .logoSub {
+    font-size: 0.46rem;
+  }
+
+  .navLink {
+    padding: 0.45rem 0.55rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  .navLink::after {
+    left: 0.55rem;
+    right: 0.55rem;
+  }
+
+  .navCta {
+    padding: 0.45rem 0.95rem;
+    font-size: 0.66rem;
+  }
+
+  .headerIconGroup {
+    gap: 0.4rem;
+    padding-right: 0;
+  }
+
+  .headerIconGroup::before {
+    margin-right: 0.35rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .whyInner,
   .commercialGrid {
@@ -2568,6 +2609,73 @@ a.contactRow:hover {
 
   .bookingContent {
     padding: 2.5rem 1.5rem;
+  }
+
+  .reviewsGrid,
+  .reviewsGridSecondary {
+    grid-template-columns: 1fr;
+  }
+
+  .socialCaptionBar {
+    transform: translateY(0);
+    padding: 1.75rem 0.75rem 0.6rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .modalBackdrop {
+    padding: 0.75rem;
+  }
+
+  .modalDialog {
+    max-width: 100%;
+    max-height: 94vh;
+  }
+
+  .modalBody {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .modalLeft {
+    border-right: 0;
+    border-bottom: 1px solid rgba(200, 212, 168, 0.08);
+  }
+
+  .modalMainImageWrap {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .modalImageSlide {
+    height: auto;
+  }
+
+  .modalRight {
+    padding: 1.5rem 1.25rem 1.75rem;
+  }
+
+  .modalThumbs {
+    padding: 0.5rem;
+  }
+
+  .modalThumb {
+    width: 60px;
+    height: 44px;
+  }
+
+  .modalArrow {
+    width: 2.1rem;
+    height: 2.1rem;
+    font-size: 1.25rem;
+  }
+
+  .modalArrowPrev {
+    left: 0.5rem;
+  }
+
+  .modalArrowNext {
+    right: 0.5rem;
   }
 }
 
@@ -2669,8 +2777,50 @@ a.contactRow:hover {
     font-size: 1.2rem;
   }
 
+  .archiveRow {
+    gap: 1rem;
+    padding: 0.95rem 0;
+  }
+
+  .archiveRowTitle {
+    font-size: 1rem;
+  }
+
+  .archiveFooter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .loadMoreButton {
+    width: 100%;
+    padding: 0.85rem 1rem;
+  }
+
+  .archiveFooter .sectionLink,
+  .archiveFooter .sectionLinkInverse {
+    align-self: flex-start;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
   .reviewsEmblaSlide {
     flex: 0 0 85%;
+  }
+
+  .reviewsGrid,
+  .reviewsGridSecondary {
+    grid-template-columns: 1fr;
+  }
+
+  .reviewCardLight,
+  .reviewCardDark,
+  .reviewScoreCard {
+    padding: 1.4rem 1.25rem;
+  }
+
+  .reviewScoreValue {
+    font-size: 3rem;
   }
 
   .sectionHead,
