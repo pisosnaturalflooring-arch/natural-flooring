@@ -56,7 +56,7 @@ export default function WhySection({ why, whyItems }) {
             <h2 className={cx(styles.sectionTitleInverse, styles.whySectionTitle)}>
               CONFIANZA DE
               <br />
-              PRINCIPIO A FIN
+              {"PRINCIPIO A FIN"}
             </h2>
           </Reveal>
 

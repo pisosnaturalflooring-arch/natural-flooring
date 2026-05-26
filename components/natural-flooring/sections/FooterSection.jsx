@@ -1,5 +1,6 @@
 import styles from "../NaturalFlooringPage.module.css";
 import { links } from "../data";
+import { NaturalFlooringMark } from "./BrandLogo";
 import { ClockIcon, EmailIcon, ExternalLink, InstagramIcon, MapPinIcon, MercadoLibreIcon, PhoneIcon, WhatsAppIcon } from "./shared";
 
 export default function FooterSection({ footer, footerLinks, instagramHref, whatsappHref }) {
@@ -8,8 +9,11 @@ export default function FooterSection({ footer, footerLinks, instagramHref, what
       <div className={styles.footerGrid}>
         <div>
           <div className={styles.logo}>
-            <span className={styles.logoTop}>Natural Flooring</span>
-            <span className={styles.logoSub}>Pisos & Escaleras · San Fernando</span>
+            <NaturalFlooringMark size={56} />
+            <span className={styles.logoText}>
+              <span className={styles.logoTop}>Natural Flooring</span>
+              <span className={styles.logoSub}>Pisos & Escaleras · San Fernando</span>
+            </span>
           </div>
           <p className={styles.footerText}>{footer.description}</p>
           <div className={styles.footerSocials}>

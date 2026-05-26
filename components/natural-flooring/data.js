@@ -159,8 +159,8 @@ export const featuredProjects = [
 ];
 
 export const why = {
-  image: "/images/boutique-spc-roble-europeo.jpg",
-  imageAlt: "Piso SPC roble europeo instalado en local comercial boutique",
+  image: "/images/pinotea-brillante.jpg",
+  imageAlt: "Piso de pinotea con terminación brillante",
   badgeValue: "200+",
   badgeLabel: "obras realizadas",
 };

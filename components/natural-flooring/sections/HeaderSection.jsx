@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
 import { links, navLinks } from "../data";
+import { NaturalFlooringMark } from "./BrandLogo";
 import { ExternalLink, cx } from "./shared";
 
 export default function HeaderSection() {
@@ -61,8 +62,11 @@ export default function HeaderSection() {
   return (
     <header className={cx(styles.header, scrolled && styles.headerScrolled)}>
       <a href="#" className={styles.logo}>
-        <span className={styles.logoTop}>Natural Flooring</span>
-        <span className={styles.logoSub}>Pisos & Escaleras · San Fernando</span>
+        <NaturalFlooringMark size={48} />
+        <span className={styles.logoText}>
+          <span className={styles.logoTop}>Natural Flooring</span>
+          <span className={styles.logoSub}>Pisos & Escaleras · San Fernando</span>
+        </span>
       </a>
 
       <nav className={styles.nav}>
