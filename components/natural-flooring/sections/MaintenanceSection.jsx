@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { ExternalLink, SectionHead, cx } from "./shared";
@@ -67,7 +68,13 @@ export default function MaintenanceSection({ maintenanceProducts, whatsappHref }
           {maintenanceProducts.map((product) => (
             <article key={product.title} className={styles.productCard}>
               <div className={styles.productVisual}>
-                <img src={product.image} alt={product.title} />
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  fill
+                  sizes="272px"
+                  className={styles.productVisualImg}
+                />
               </div>
               <div className={styles.productBody}>
                 <div className={styles.productCategory}>{product.category}</div>
@@ -101,7 +108,7 @@ export default function MaintenanceSection({ maintenanceProducts, whatsappHref }
             Contanos qué tipo de piso tenés y te decimos exactamente qué usar.
           </p>
         </div>
-        <ExternalLink href={whatsappHref} className={styles.helpBannerButton}>
+        <ExternalLink href={links.whatsappMaintenanceHelp} className={styles.helpBannerButton}>
           Consultá por WhatsApp →
         </ExternalLink>
       </Reveal>

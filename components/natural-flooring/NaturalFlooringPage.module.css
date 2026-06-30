@@ -642,6 +642,13 @@
   padding: 0;
   cursor: pointer;
   text-align: left;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.obra:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  z-index: 10;
 }
 
 .obra1 {
@@ -789,6 +796,13 @@
   margin-top: 2rem;
 }
 
+.whyCta {
+  margin-top: 2rem;
+  display: inline-flex;
+  background: var(--brand-green) !important;
+  color: #fff !important;
+}
+
 .whyItem {
   display: flex;
   gap: 1rem;
@@ -831,6 +845,7 @@
   flex-shrink: 0;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
+
 
 .brandIconCircle svg {
   display: block;
@@ -885,13 +900,40 @@
   border-top: 1px solid rgba(200, 212, 168, 0.12);
 }
 
+/* Timeline column sits to the left of the number */
 .processStep {
   display: grid;
-  grid-template-columns: 3rem 1fr;
-  gap: 1.75rem;
+  grid-template-columns: 1.5rem 3rem 1fr;
+  gap: 0 1.75rem;
   padding: 1.25rem 0;
   border-bottom: 1px solid rgba(200, 212, 168, 0.12);
   align-items: start;
+  position: relative;
+}
+
+.processTimeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.35rem;
+  height: 100%;
+}
+
+.processTimelineDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(96, 174, 27, 0.5);
+}
+
+.processTimelineLine {
+  flex: 1;
+  width: 2px;
+  margin-top: 4px;
+  background: linear-gradient(to bottom, var(--brand-green), rgba(96, 174, 27, 0.1));
+  min-height: 40px;
 }
 
 .processNum {
@@ -1495,6 +1537,14 @@
   overflow: hidden;
 }
 
+.productVisual {
+  height: 220px;
+  background: #fff;
+  position: relative; /* needed for Next.js fill Image */
+  overflow: hidden;
+}
+
+/* Fallback for native img (if any remain) */
 .productVisual img {
   max-height: 100%;
   max-width: 100%;
@@ -1503,6 +1553,13 @@
   object-fit: contain;
   transition: transform 0.35s ease;
   display: block;
+}
+
+/* Next.js Image fill inside productVisual */
+.productVisualImg {
+  object-fit: contain !important;
+  padding: 1.5rem;
+  transition: transform 0.35s ease;
 }
 
 .productBody {
@@ -2232,7 +2289,34 @@ a.contactRow:hover {
   border-top: 1px solid rgba(200, 212, 168, 0.07);
   font-size: 0.68rem;
   letter-spacing: 0.04em;
-  color: rgba(244, 241, 232, 0.18);
+  color: rgba(244, 241, 232, 0.55); /* raised from 0.18 — was near-invisible */
+}
+
+/* Back to top floating button */
+.backToTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--brand-green);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(96, 174, 27, 0.45);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.backToTop:hover {
+  background: var(--brand-olive);
+  transform: translateY(-2px);
 }
 
 .modalBackdrop {
@@ -3667,25 +3751,31 @@ a.contactRow:hover {
 }
 
 .speciesSliderViewport {
-  overflow: hidden;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
   width: 100%;
   cursor: grab;
-  touch-action: pan-y pinch-zoom; /* Prevents touch scroll hijacking on mobile */
 }
 
 .speciesSliderViewport:active {
   cursor: grabbing;
 }
 
+.speciesSliderViewport::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
 .speciesSliderContainer {
   display: flex;
-  will-change: transform;
 }
 
 .speciesSlide {
   flex: 0 0 100%;
   min-width: 0;
   padding: 0.5rem;
+  scroll-snap-align: start;
 }
 
 /* Split Card design */

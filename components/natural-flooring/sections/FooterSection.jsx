@@ -1,18 +1,30 @@
+"use client";
+
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { useState } from "react";
+import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { links } from "../data";
 import { NaturalFlooringMark } from "./BrandLogo";
 import { ClockIcon, EmailIcon, ExternalLink, InstagramIcon, MapPinIcon, MercadoLibreIcon, PhoneIcon, WhatsAppIcon } from "./shared";
 
 export default function FooterSection({ footer, footerLinks, instagramHref, whatsappHref }) {
+  const { scrollY } = useScroll();
+  const [showTop, setShowTop] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setShowTop(latest > 600);
+  });
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
-        <div>
+        <Reveal direction="up" delay={0}>
           <div className={styles.logo}>
             <NaturalFlooringMark size={56} />
             <span className={styles.logoText}>
               <span className={styles.logoTop}>Natural Flooring</span>
-              <span className={styles.logoSub}>Pisos & Escaleras · San Fernando</span>
+              <span className={styles.logoSub}>Pisos &amp; Escaleras · San Fernando</span>
             </span>
           </div>
           <p className={styles.footerText}>{footer.description}</p>
@@ -27,20 +39,22 @@ export default function FooterSection({ footer, footerLinks, instagramHref, what
               <MercadoLibreIcon />
             </ExternalLink>
           </div>
-        </div>
+        </Reveal>
 
-        <div>
-          <div className={styles.footerHeading}>Navegación</div>
-          <div className={styles.footerLinks}>
-            {footerLinks.map((link) => (
-              <a key={link.href} href={link.href} className={styles.footerLink}>
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </div>
+        <Reveal direction="up" delay={0.08}>
+          <nav aria-label="Footer navigation">
+            <div className={styles.footerHeading}>Navegación</div>
+            <div className={styles.footerLinks}>
+              {footerLinks.map((link) => (
+                <a key={link.href} href={link.href} className={styles.footerLink}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+        </Reveal>
 
-        <div>
+        <Reveal direction="up" delay={0.16}>
           <div className={styles.footerHeading}>Contacto</div>
           <div className={styles.footerMetaList}>
             <div className={styles.footerMetaRow}>
@@ -70,22 +84,35 @@ export default function FooterSection({ footer, footerLinks, instagramHref, what
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        <div>
+        <Reveal direction="up" delay={0.24}>
           <div className={styles.footerHeading}>Presupuesto gratis</div>
           <p className={styles.footerText}>{footer.ctaText}</p>
           <ExternalLink href={whatsappHref} className={styles.footerCta}>
             <WhatsAppIcon />
             Escribinos ahora
           </ExternalLink>
-        </div>
+        </Reveal>
       </div>
 
       <div className={styles.footerBottom}>
         <span>{footer.copyright}</span>
-        <span>{footer.bottomAddress}</span>
       </div>
+
+      {/* Back to top button */}
+      <motion.button
+        type="button"
+        className={styles.backToTop}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: showTop ? 1 : 0, scale: showTop ? 1 : 0.8, pointerEvents: showTop ? "auto" : "none" }}
+        transition={{ duration: 0.25 }}
+        aria-label="Volver al inicio"
+      >
+        ↑
+      </motion.button>
     </footer>
   );
 }
+

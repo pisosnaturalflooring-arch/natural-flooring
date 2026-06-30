@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
-import { cx } from "./shared";
+import { ExternalLink, cx } from "./shared";
+import { links } from "../data";
 
 const ICONS = {
   materials: (
@@ -73,6 +74,15 @@ export default function WhySection({ why, whyItems }) {
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={0.35}>
+            <ExternalLink
+              href={links.whatsappGeneral}
+              className={cx(styles.primaryButton, styles.whyCta)}
+            >
+              Consultanos sin cargo →
+            </ExternalLink>
+          </Reveal>
         </div>
       </div>
     </section>

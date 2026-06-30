@@ -2,13 +2,12 @@
   "name": "naturalfloorings-next",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --no-turbopack",
     "test": "node --test",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.38.0",
     "next": "latest",
     "react": "latest",

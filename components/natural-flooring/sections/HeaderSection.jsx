@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useEffect, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
 import { links, navLinks } from "../data";
@@ -7,14 +8,20 @@ import { NaturalFlooringMark } from "./BrandLogo";
 import { ExternalLink, cx } from "./shared";
 
 export default function HeaderSection() {
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious();
+    if (latest > 100 && latest > previous) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+    setScrolled(latest > 24);
+  });
 
   useEffect(() => {
     const SECTION_NAV_MAP = {
@@ -62,7 +69,15 @@ export default function HeaderSection() {
   }, []);
 
   return (
-    <header className={cx(styles.header, scrolled && styles.headerScrolled)}>
+    <motion.header
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={cx(styles.header, scrolled && styles.headerScrolled)}
+    >
       <a href="#" className={styles.logo}>
         <NaturalFlooringMark size={48} />
         <span className={styles.logoText}>
@@ -88,6 +103,6 @@ export default function HeaderSection() {
           Consultanos
         </ExternalLink>
       </div>
-    </header>
+    </motion.header>
   );
 }

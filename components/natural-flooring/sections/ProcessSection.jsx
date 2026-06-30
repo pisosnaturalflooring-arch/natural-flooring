@@ -27,6 +27,13 @@ export default function ProcessSection({ processSteps, whatsappHref }) {
         <div className={styles.processSteps}>
           {processSteps.map((step, index) => (
             <Reveal key={step.num} delay={0.08 * index} className={styles.processStep}>
+              {/* Timeline column: dot + connecting line */}
+              <div className={styles.processTimeline}>
+                <div className={styles.processTimelineDot} />
+                {index < processSteps.length - 1 && (
+                  <div className={styles.processTimelineLine} />
+                )}
+              </div>
               <div className={styles.processNum}>{step.num}</div>
               <div className={styles.processStepBody}>
                 <div className={styles.processStepTitle}>{step.title}</div>
@@ -40,3 +47,4 @@ export default function ProcessSection({ processSteps, whatsappHref }) {
     </section>
   );
 }
+

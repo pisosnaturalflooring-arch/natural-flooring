@@ -2,8 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import styles from "../NaturalFlooringPage.module.css";
 import { links } from "../data";
@@ -70,26 +69,27 @@ export default function WoodRecommenderSection() {
     });
   }, []);
 
-  // Embla Slider configuration for a native draggable catalog
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
+  // Native scroll-snap slider — mirrors the ProjectModal gallery approach
+  const sliderRef = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollSnaps, setScrollSnaps] = useState([]);
+  const totalSlides = allMaterials.length;
 
-  useEffect(() => {
-    if (!emblaApi) return undefined;
+  const handleSliderScroll = useCallback(() => {
+    const el = sliderRef.current;
+    if (!el || el.offsetWidth === 0) return;
+    setSelectedIndex(Math.round(el.scrollLeft / el.offsetWidth));
+  }, []);
 
-    const onSelect = () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-    };
+  const scrollToSlide = useCallback((idx) => {
+    const el = sliderRef.current;
+    if (!el) return;
+    // clamp index with wrap-around
+    const target = ((idx % totalSlides) + totalSlides) % totalSlides;
+    el.scrollTo({ left: target * el.offsetWidth, behavior: "smooth" });
+  }, [totalSlides]);
 
-    setScrollSnaps(emblaApi.scrollSnapList());
-    emblaApi.on("select", onSelect);
-    onSelect();
-
-    return () => {
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi, allMaterials]);
+  const scrollPrev = useCallback(() => scrollToSlide(selectedIndex - 1), [selectedIndex, scrollToSlide]);
+  const scrollNext = useCallback(() => scrollToSlide(selectedIndex + 1), [selectedIndex, scrollToSlide]);
 
   // Handle body scrolling lock when fullscreen modal is active
   useEffect(() => {
@@ -170,9 +170,7 @@ export default function WoodRecommenderSection() {
     setIsTesting(true);
   }
 
-  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
-  const scrollNext = () => emblaApi && emblaApi.scrollNext();
-  const scrollTo = (index) => emblaApi && emblaApi.scrollTo(index);
+
 
   return (
     <section id="asesor" className={styles.recommenderSection}>
@@ -405,9 +403,13 @@ export default function WoodRecommenderSection() {
           <p>Arrastra para explorar y comprender la diferencia entre cada uno de los distintos tipos de madera y materiales.</p>
         </div>
 
-        {/* Embla slider container */}
+        {/* Native scroll-snap slider container */}
         <div className={styles.speciesSliderWrapper}>
-          <div className={styles.speciesSliderViewport} ref={emblaRef}>
+          <div
+            className={styles.speciesSliderViewport}
+            ref={sliderRef}
+            onScroll={handleSliderScroll}
+          >
             <div className={styles.speciesSliderContainer}>
               {allMaterials.map((material, index) => (
                 <div className={styles.speciesSlide} key={material.id}>
@@ -485,9 +487,9 @@ export default function WoodRecommenderSection() {
         </div>
 
         {/* Slider dots indicators */}
-        {scrollSnaps.length > 1 && (
+        {totalSlides > 1 && (
           <div className={styles.sliderDots}>
-            {scrollSnaps.map((_, idx) => (
+            {allMaterials.map((_, idx) => (
               <button
                 key={idx}
                 type="button"
@@ -495,7 +497,7 @@ export default function WoodRecommenderSection() {
                   styles.sliderDot,
                   idx === selectedIndex && styles.sliderDotActive
                 )}
-                onClick={() => scrollTo(idx)}
+                onClick={() => scrollToSlide(idx)}
                 aria-label={`Ir al material ${idx + 1}`}
               />
             ))}
