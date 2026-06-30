@@ -18,6 +18,7 @@ export const links = {
 
 export const navLinks = [
   { label: "Nosotros", href: "#categorias" },
+  { label: "Asesor", href: "#asesor" },
   { label: "Proyectos", href: "#proyectos" },
   { label: "Productos", href: "#productos-mantenimiento" },
   { label: "Contacto", href: "#contacto" },

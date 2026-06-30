@@ -37,6 +37,7 @@ import ReviewsSection from "./sections/ReviewsSection";
 import SocialSection from "./sections/SocialSection";
 import StaircaseSection from "./sections/StaircaseSection";
 import WhySection from "./sections/WhySection";
+import WoodRecommenderSection from "./sections/WoodRecommenderSection";
 
 export default function NaturalFlooringPage() {
   const [activeCategory, setActiveCategory] = useState("todos");
@@ -75,6 +76,9 @@ export default function NaturalFlooringPage() {
 
       {/* 5. Specific services */}
       <StaircaseSection staircase={staircase} whatsappHref={links.whatsappStairs} />
+
+      {/* 6. Guided material recommendation */}
+      <WoodRecommenderSection />
 
       {/* 6. Projects — curated first, then full archive */}
       <FeaturedProjectsSection

@@ -18,6 +18,8 @@ export default function HeaderSection() {
 
   useEffect(() => {
     const SECTION_NAV_MAP = {
+      "asesor":                  "#asesor",
+      "materiales-asesor":       "#asesor",
       "categorias":              "#categorias",
       "por-que-elegirnos":       "#categorias",
       "proceso":                 "#categorias",
@@ -33,18 +35,18 @@ export default function HeaderSection() {
       "contacto":                "#contacto",
     };
 
-    const sections = Object.keys(SECTION_NAV_MAP)
-      .map((id) => document.getElementById(id))
-      .filter(Boolean)
-      .sort((a, b) => a.offsetTop - b.offsetTop);
-
     let rafId;
     const onScroll = () => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const focusY = window.scrollY + window.innerHeight * 0.4;
+        const activeElements = Object.keys(SECTION_NAV_MAP)
+          .map((id) => document.getElementById(id))
+          .filter(Boolean)
+          .sort((a, b) => a.offsetTop - b.offsetTop);
+
         let active = "";
-        for (const el of sections) {
+        for (const el of activeElements) {
           if (el.offsetTop <= focusY) active = SECTION_NAV_MAP[el.id];
         }
         setActiveSection(active);
