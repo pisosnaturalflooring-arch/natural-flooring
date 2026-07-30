@@ -60,8 +60,8 @@ export const categories = [
   {
     tag: "Vinílico",
     title: "PISO VINÍLICO",
-    image: "/images/spc-gris-instalado.jpg",
-    alt: "Piso SPC gris ártico instalado en living residencial",
+    image: "/images/boutique-spc-roble-europeo.jpg",
+    alt: "Piso SPC roble europeo instalado en boutique — vestidor con revestimiento claro",
     href: "#contacto",
   },
   {
@@ -74,8 +74,8 @@ export const categories = [
   {
     tag: "Madera",
     title: "ESCALERAS",
-    image: "/images/escalera-lapacho.jpg",
-    alt: "Escalera revestida en lapacho con baranda de vidrio",
+    image: "/images/escalera-lapacho-3.jpg",
+    alt: "Escalera revestida en lapacho — detalle de peldaños y contrahuellas",
     href: "#escaleras",
   },
 ];

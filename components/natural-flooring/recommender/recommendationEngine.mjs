@@ -162,8 +162,8 @@ export const materialLibrary = [
     label: "Kiri",
     family: "Madera natural",
     bestUse: "Revestimientos livianos y decorativos",
-    image: "/images/calidadencadadetalle.jpeg",
-    imageAlt: "Detalle de revestimiento de madera clara",
+    image: "/images/revestimiento-pared-madera.jpeg",
+    imageAlt: "Living con pared revestida en madera — revestimiento decorativo vertical",
     statLabel: "Revestimiento",
     statValue: "Liviano",
     projects: ["covering"],
@@ -323,6 +323,9 @@ function createReason(primary, answers) {
 }
 
 function createCaveat(primary, answers) {
+  if (!primary.exposures.includes(answers.exposure)) {
+    return "Para ese tipo de proyecto en esa ubicacion no hay una opcion ideal: te mostramos la mas cercana y conviene revisarla con nuestro asesoramiento antes de decidir.";
+  }
   if (answers.openness === "natural-only" && answers.exposure === "interior-humid") {
     return "Como elegiste madera natural, priorizamos una especie mas resistente, aunque una alternativa como SPC o vinilico puede pedir menos cuidado frente a la humedad.";
   }

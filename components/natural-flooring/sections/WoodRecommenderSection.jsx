@@ -115,6 +115,17 @@ export default function WoodRecommenderSection() {
   const recommendation = useMemo(() => getRecommendation(answers), [answers]);
   const summary = useMemo(() => buildSummary(recommendation.answers), [recommendation.answers]);
 
+  // Ficha del material recomendado — complementa "tus respuestas" con datos del material en si
+  const materialFacts = useMemo(() => {
+    const material = recommendation.primary;
+    return [
+      { label: "Conviene para", value: material.bestUse },
+      { label: "Rendimiento", value: material.statValue },
+      { label: "Mantenimiento", value: material.maintenance },
+      { label: "Ambiente ideal", value: getExposureLabel(material) },
+    ];
+  }, [recommendation.primary]);
+
   const recommendedImage = useMemo(() => {
     if (recommendation.primary.id === "petiribi") return "/images/detalle-escalera-petiribi.jpg";
     if (recommendation.primary.id === "guatambu") return "/images/guatambu-salon-gimnasio.jpg";
@@ -340,37 +351,52 @@ export default function WoodRecommenderSection() {
                       <div className={styles.resultImageOverlay3D}>
                         <span>Recomendado</span>
                       </div>
+                      <div className={styles.resultFamilyBadge3D}>
+                        {recommendation.primary.natural ? "Madera Natural" : "Material Tecnico"}
+                      </div>
                     </div>
-                    
+
                     <div className={styles.resultInfoContent3D}>
                       <p className={styles.resultLabel3D}>La opcion mas segura es</p>
                       <h3>{recommendation.primary.label}</h3>
                       <p className={styles.resultReason3D}>{recommendation.reason}</p>
+
+                      {/* Ficha del material recomendado: lo que define la eleccion */}
+                      <div className={styles.resultSpecsGrid3D}>
+                        {materialFacts.map((item) => (
+                          <div key={item.label} className={styles.specCard3D}>
+                            <span className={styles.specLabel3D}>{item.label}</span>
+                            <strong className={styles.specValue3D}>{item.value}</strong>
+                          </div>
+                        ))}
+                      </div>
+
                       {recommendation.caveat && (
                         <p className={styles.resultCaveat3D}>{recommendation.caveat}</p>
                       )}
-                      
+
                       <div className={styles.resultGrid3D}>
                         <div className={styles.resultAlternativesBlock3D}>
-                          <h4>Alternativas</h4>
+                          <h4>Tambien pueden funcionar</h4>
                           <div className={styles.resultAlternatives3D}>
                             {recommendation.alternatives.map((material) => (
                               <span key={material.id} className={styles.alternativeBadge3D}>
-                                {material.label}
+                                <strong>{material.label}</strong>
+                                <em>{material.bestUse}</em>
                               </span>
                             ))}
                           </div>
                         </div>
                         <div className={styles.resultSpecsBlock3D}>
-                          <h4>Criterio aplicado</h4>
-                          <div className={styles.resultSpecsGrid3D}>
+                          <h4>Tus respuestas</h4>
+                          <ul className={styles.resultAnswerList3D}>
                             {summary.map((item) => (
-                              <div key={item.label} className={styles.specCard3D}>
-                                <span className={styles.specLabel3D}>{item.label}</span>
-                                <strong className={styles.specValue3D}>{item.value}</strong>
-                              </div>
+                              <li key={item.label}>
+                                <span>{item.label}</span>
+                                {item.value}
+                              </li>
                             ))}
-                          </div>
+                          </ul>
                         </div>
                       </div>
 
