@@ -30,8 +30,8 @@ export const hero = {
   titleAccent: "PISO.",
   description:
     "Madera, flotantes, vinílicos y decks exteriores. Visitá nuestro showroom en San Fernando o pedí asesoramiento sin cargo.",
-  image: "/images/hero-deck.jpg",
-  imageAlt: "Deck de madera natural con amoblamientos exteriores",
+  image: "/images/hero-deck-pileta.jpg",
+  imageAlt: "Deck gris con reposeras junto a la pileta frente al río",
   imageTag: "Stock disponible · Entrega inmediata",
   stats: [
     { value: "200+", label: "Obras realizadas" },
@@ -67,8 +67,8 @@ export const categories = [
   {
     tag: "Exterior",
     title: "DECK WPC",
-    image: "/images/deck-lapacho-terraza.jpg",
-    alt: "Deck lapacho en terraza con pérgola — Zona Norte",
+    image: "/images/deck-wpc-patio-pileta.jpg",
+    alt: "Deck WPC en patio con pileta — pasarela, tarima y banco del mismo compuesto",
     href: "#contacto",
   },
   {
@@ -661,6 +661,57 @@ export const contactItems = [
     value: "Lun–Vie 9 a 18 · Sáb 9 a 13",
   },
 ];
+
+export const chatbotFaq = {
+  title: "Asistente Natural Flooring",
+  subtitle: "Respuestas al instante",
+  greeting:
+    "¡Hola! 👋 Soy el asistente de Natural Flooring. Elegí una pregunta y te la respondo al instante.",
+  ctaLabel: "¿No encontraste tu respuesta? Escribinos por WhatsApp",
+  ctaHref: links.whatsappGeneral,
+  items: [
+    {
+      id: "presupuesto",
+      q: "¿El presupuesto tiene costo?",
+      a: "No, la consulta inicial es gratis. Vamos a tu domicilio, medimos el espacio y te entregamos un presupuesto detallado en 24 horas, sin cargo ni compromiso.",
+    },
+    {
+      id: "zonas",
+      q: "¿En qué zonas trabajan?",
+      a: "Nuestro showroom está en San Fernando (3 de Febrero 234) y trabajamos en toda Zona Norte y GBA. Para obras más grandes también llegamos a CABA y alrededores.",
+    },
+    {
+      id: "plazos",
+      q: "¿Cuánto tarda una instalación?",
+      a: "Depende de los metros: un ambiente estándar lleva 2 a 3 días, y un pulido con hidrolaqueado entre 3 y 5. Al cotizar te confirmamos el plazo exacto y lo cumplimos.",
+    },
+    {
+      id: "material",
+      q: "¿Madera, vinílico o WPC? ¿Cuál me conviene?",
+      a: "Cada material tiene su lugar: madera para calidez e interiores nobles, vinílico para practicidad y ambientes húmedos, WPC para exteriores sin mantenimiento. Probá el asesor de esta página: con 4 preguntas te recomendamos el ideal para tu caso.",
+    },
+    {
+      id: "pulido",
+      q: "¿Recuperan pisos existentes?",
+      a: "Sí — hacemos pulido, plastificado e hidrolaqueado de pisos de madera. Quedan como nuevos sin necesidad de cambiarlos. Mirá los antes y después en la sección Proyectos.",
+    },
+    {
+      id: "productos",
+      q: "¿Venden productos de mantenimiento?",
+      a: "Sí, tenemos stock de Kekol, Varathane y Vermeister con entrega inmediata. En la sección Productos está el catálogo completo para pedirlos por WhatsApp.",
+    },
+    {
+      id: "showroom",
+      q: "¿Dónde están y en qué horario?",
+      a: "Showroom: 3 de Febrero 234, San Fernando. Lunes a viernes de 9 a 18 y sábados de 9 a 13. Vení a ver y tocar los materiales en persona.",
+    },
+    {
+      id: "escaleras",
+      q: "¿Hacen escaleras?",
+      a: "Sí, revestimos escaleras en madera maciza y vinílico — es una de nuestras especialidades. En la sección Escaleras podés ver trabajos terminados.",
+    },
+  ],
+};
 
 export const processSteps = [
   {

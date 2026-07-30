@@ -7,6 +7,7 @@ import {
   archiveProjects,
   beforeAfter,
   categories,
+  chatbotFaq,
   contactItems,
   featuredProjects,
   footer,
@@ -25,6 +26,7 @@ import {
 import ArchiveSection from "./sections/ArchiveSection";
 import BeforeAfterSection from "./sections/BeforeAfterSection";
 import CategoriesSection from "./sections/CategoriesSection";
+import ChatbotWidget from "./sections/ChatbotWidget";
 import ContactSection from "./sections/ContactSection";
 import FeaturedProjectsSection from "./sections/FeaturedProjectsSection";
 import FooterSection from "./sections/FooterSection";
@@ -124,6 +126,8 @@ export default function NaturalFlooringPage() {
       />
 
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+
+      <ChatbotWidget faq={chatbotFaq} />
     </main>
   );
 }

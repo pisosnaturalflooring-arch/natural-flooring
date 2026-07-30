@@ -63,7 +63,7 @@ export default function WoodRecommenderSection() {
         return { ...material, image: "/images/detalle-escalera-petiribi.jpg" };
       }
       if (material.id === "guatambu") {
-        return { ...material, image: "/images/piso-de-madera-natural.jpg" };
+        return { ...material, image: "/images/guatambu-salon-gimnasio.jpg" };
       }
       return material;
     });
@@ -117,7 +117,7 @@ export default function WoodRecommenderSection() {
 
   const recommendedImage = useMemo(() => {
     if (recommendation.primary.id === "petiribi") return "/images/detalle-escalera-petiribi.jpg";
-    if (recommendation.primary.id === "guatambu") return "/images/piso-de-madera-natural.jpg";
+    if (recommendation.primary.id === "guatambu") return "/images/guatambu-salon-gimnasio.jpg";
     return recommendation.primary.image;
   }, [recommendation.primary]);
 
