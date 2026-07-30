@@ -192,7 +192,7 @@ export default function WoodRecommenderSection() {
             <span className={styles.woodShowcaseBannerTag}>Asistente de Selección</span>
             <h3>¿No sabés qué madera o material te conviene?</h3>
             <p>
-              Respondé 4 preguntas rápidas sobre tu ambiente y descubrí cuál es la especie recomendada para tu piso o deck.
+              Respondé {recommenderSteps.length} preguntas rápidas sobre tu ambiente y descubrí cuál es la especie recomendada para tu piso o deck.
             </p>
           </div>
           <div className={styles.woodShowcaseBannerAction}>

@@ -1,3 +1,9 @@
+import { recommenderSteps } from "./recommender/recommendationEngine.mjs";
+
+// La cantidad de preguntas del asesor sale del propio motor: si se agrega o
+// saca un paso, los textos que la mencionan se actualizan solos.
+const totalPreguntas = recommenderSteps.length;
+
 export const links = {
   mlStore: "https://listado.mercadolibre.com.ar/pagina/naturalflooringanddeck/",
   whatsappGeneral:
@@ -688,7 +694,7 @@ export const chatbotFaq = {
     {
       id: "material",
       q: "¿Madera, vinílico o WPC? ¿Cuál me conviene?",
-      a: "Cada material tiene su lugar: madera para calidez e interiores nobles, vinílico para practicidad y ambientes húmedos, WPC para exteriores sin mantenimiento. Probá el asesor de esta página: con 4 preguntas te recomendamos el ideal para tu caso.",
+      a: `Cada material tiene su lugar: madera para calidez e interiores nobles, vinílico para practicidad y ambientes húmedos, WPC para exteriores sin mantenimiento. Probá el asesor de esta página: con ${totalPreguntas} preguntas te recomendamos el ideal para tu caso.`,
     },
     {
       id: "pulido",
