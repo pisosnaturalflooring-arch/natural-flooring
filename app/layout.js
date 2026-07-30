@@ -27,10 +27,43 @@ const leagueSpartan = League_Spartan({
   display: "swap",
 });
 
+// Dominio final del sitio. Se puede pisar por entorno (Vercel/Cloudflare)
+// sin tocar código, para previews o si el dominio cambia.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://naturalflooring.com.ar";
+
+const title = "Natural Flooring — Pisos & Escaleras · San Fernando";
+const description =
+  "Showroom en San Fernando. Pisos de madera, flotantes, vinílicos, decks y escaleras a medida.";
+
 export const metadata = {
-  title: "Natural Flooring — Pisos & Escaleras · San Fernando",
-  description:
-    "Showroom en San Fernando. Pisos de madera, flotantes, vinílicos, decks y escaleras a medida.",
+  // Necesario para que las URLs de Open Graph salgan absolutas: sin esto
+  // los previews de WhatsApp e Instagram no cargan la imagen.
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "es_AR",
+    url: "/",
+    siteName: "Natural Flooring",
+    title,
+    description,
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Frente del showroom de Natural Flooring en San Fernando",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default function RootLayout({ children }) {
