@@ -69,7 +69,7 @@ describe("recommender configuration", () => {
   });
 
   it("keeps the material library synchronized with required metadata", () => {
-    assert.ok(materialLibrary.length >= 8);
+    assert.ok(materialLibrary.length >= 7);
     for (const material of materialLibrary) {
       assert.ok(material.id);
       assert.ok(material.label);

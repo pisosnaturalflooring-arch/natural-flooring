@@ -2,7 +2,6 @@ export const PROJECT_TYPES = {
   INTERIOR_FLOOR: "interior-floor",
   DECK: "deck",
   STAIRS: "stairs",
-  COVERING: "covering",
   UNSURE: "unsure",
 };
 
@@ -15,7 +14,6 @@ export const recommenderSteps = [
       { id: PROJECT_TYPES.INTERIOR_FLOOR, label: "Piso interior", detail: "Living, dormitorio, cocina seca o local." },
       { id: PROJECT_TYPES.DECK, label: "Deck exterior", detail: "Galeria, terraza, pileta o balcon." },
       { id: PROJECT_TYPES.STAIRS, label: "Escalera", detail: "Revestimiento de peldaños o renovacion." },
-      { id: PROJECT_TYPES.COVERING, label: "Revestimiento / pared", detail: "Madera decorativa o superficie vertical." },
       { id: PROJECT_TYPES.UNSURE, label: "No estoy seguro", detail: "Te guiamos con la opcion mas prudente." },
     ],
   },
@@ -158,26 +156,6 @@ export const materialLibrary = [
     decision: "Elegilo cuando buscas amplitud visual y una madera clara.",
   },
   {
-    id: "kiri",
-    label: "Kiri",
-    family: "Madera natural",
-    bestUse: "Revestimientos livianos y decorativos",
-    image: "/images/revestimiento-pared-madera.jpeg",
-    imageAlt: "Living con pared revestida en madera — revestimiento decorativo vertical",
-    statLabel: "Revestimiento",
-    statValue: "Liviano",
-    projects: ["covering"],
-    exposures: ["interior-dry"],
-    intensities: ["low", "medium"],
-    priorities: ["natural-look"],
-    maintenance: "Bajo",
-    natural: true,
-    tones: ["light", "warm", "no-preference"],
-    explanation: "Es liviano y suma calidez visual sin exigir una solucion estructural pesada.",
-    importance: "Importa por su ligereza: permite sumar madera en paredes o superficies verticales sin tratarlo como un piso estructural.",
-    decision: "Elegilo cuando el objetivo es revestir y dar textura con poco peso visual.",
-  },
-  {
     id: "wpc-deck",
     label: "Deck WPC",
     family: "WPC",
@@ -260,7 +238,6 @@ function normalizeAnswers(answers = {}) {
   const normalized = { ...fallbackAnswers, ...answers };
   if (normalized.projectType === PROJECT_TYPES.UNSURE) {
     if (normalized.exposure.startsWith("exterior")) normalized.projectType = PROJECT_TYPES.DECK;
-    else if (normalized.priority === "natural-look") normalized.projectType = PROJECT_TYPES.COVERING;
     else normalized.projectType = PROJECT_TYPES.INTERIOR_FLOOR;
   }
   return normalized;

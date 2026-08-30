@@ -29,10 +29,12 @@ import CategoriesSection from "./sections/CategoriesSection";
 import ChatbotWidget from "./sections/ChatbotWidget";
 import ContactSection from "./sections/ContactSection";
 import FeaturedProjectsSection from "./sections/FeaturedProjectsSection";
+import FloorVisualizerSection from "./sections/FloorVisualizerSection";
 import FooterSection from "./sections/FooterSection";
 import HeaderSection from "./sections/HeaderSection";
 import HeroSection from "./sections/HeroSection";
 import MaintenanceSection from "./sections/MaintenanceSection";
+import NewsletterPopup from "./sections/NewsletterPopup";
 import ProcessSection from "./sections/ProcessSection";
 import ProjectModal from "./sections/ProjectModal";
 import ReviewsSection from "./sections/ReviewsSection";
@@ -82,6 +84,9 @@ export default function NaturalFlooringPage() {
       {/* 6. Guided material recommendation */}
       <WoodRecommenderSection />
 
+      {/* 6b. Interactive floor visualizer */}
+      <FloorVisualizerSection />
+
       {/* 6. Projects — curated first, then full archive */}
       <FeaturedProjectsSection
         featuredProjects={featuredProjects}
@@ -128,6 +133,8 @@ export default function NaturalFlooringPage() {
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
 
       <ChatbotWidget faq={chatbotFaq} />
+
+      <NewsletterPopup />
     </main>
   );
 }
