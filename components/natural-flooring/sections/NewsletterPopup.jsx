@@ -23,6 +23,10 @@ export default function NewsletterPopup() {
   const [openedFrom, setOpenedFrom] = useState("popup-scroll");
 
   const inputRef = useRef(null);
+  const modalRef = useRef(null);
+  // Al pasar a "listo" el contenido es mucho mas corto que el formulario. Sin
+  // congelar la altura el modal se encoge de golpe y la foto salta.
+  const [lockedHeight, setLockedHeight] = useState(null);
 
   useEffect(() => {
     const stored = readPromoStatus(window.localStorage);
@@ -106,6 +110,7 @@ export default function NewsletterPopup() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "No pudimos registrar tu teléfono.");
+      setLockedHeight(modalRef.current?.offsetHeight ?? null);
       setFormState("ok");
       remember("subscribed");
       setTimeout(() => setOpen(false), 3200);
@@ -124,6 +129,7 @@ export default function NewsletterPopup() {
           type="button"
           className={styles.promoPill}
           onClick={() => {
+            setLockedHeight(null);
             setOpenedFrom("promo-pill");
             setOpen(true);
           }}
@@ -137,7 +143,9 @@ export default function NewsletterPopup() {
       {open && (
         <div className={styles.promoOverlay} onClick={close}>
           <div
+            ref={modalRef}
             className={styles.promoModal}
+            style={lockedHeight ? { minHeight: `${lockedHeight}px` } : undefined}
             role="dialog"
             aria-modal="true"
             aria-labelledby="promo-title"
@@ -211,11 +219,9 @@ export default function NewsletterPopup() {
                       aria-describedby={formState === "error" ? "promo-error" : undefined}
                     />
 
-                    {formState === "error" && (
-                      <p className={styles.promoError} id="promo-error" role="alert">
-                        {errorMsg}
-                      </p>
-                    )}
+                    <p className={styles.promoError} id="promo-error" aria-live="polite">
+                      {formState === "error" ? errorMsg : ""}
+                    </p>
 
                     <button
                       type="submit"

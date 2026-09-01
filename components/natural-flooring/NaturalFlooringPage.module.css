@@ -2770,6 +2770,8 @@ a.contactRow:hover {
 
 .promoBody {
   position: relative;
+  display: flex;
+  flex-direction: column;
   padding: 2.1rem 1.9rem 1.5rem;
   overflow-y: auto;
 }
@@ -2887,7 +2889,10 @@ a.contactRow:hover {
 }
 
 .promoError {
-  /* Va dentro del form, entre el input y el boton: el gap del flex lo separa. */
+  /* Va dentro del form, entre el input y el boton, y su hueco esta reservado
+     siempre: que aparezca el error no puede mover el resto del modal. */
+  min-height: 1.1rem;
+  margin: 0;
   font-size: 0.8rem;
   line-height: 1.35;
   color: #b3261e;
@@ -2901,6 +2906,9 @@ a.contactRow:hover {
 }
 
 .promoSuccess {
+  /* El modal conserva la altura del formulario, asi que el exito se centra
+     en vez de quedar colgado del borde de arriba. */
+  margin: auto 0;
   padding: 0.5rem 0;
 }
 
