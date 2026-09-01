@@ -9,13 +9,6 @@ npm-debug.log*
 .env.local
 .env*.local
 
-# Base de datos local de leads (teléfonos capturados)
-leads.db
-leads.db-journal
-leads.db-wal
-leads.db-shm
-subscribers.csv
-
 # Large raw image archives — only the cleaned root-level images are tracked
 public/images/NATURAL FLOORING*/
 *.HEIC
