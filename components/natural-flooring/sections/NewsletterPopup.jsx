@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
+import { sanitizePhoneInput } from "../../../lib/leadValidation.mjs";
 import {
   readPromoStatus,
   shouldAutoOpen,
@@ -194,10 +195,21 @@ export default function NewsletterPopup() {
                       className={styles.promoInput}
                       placeholder="11 2345-6789"
                       value={phone}
-                      onChange={(event) => setPhone(event.target.value)}
+                      onChange={(event) => {
+                        setPhone(sanitizePhoneInput(event.target.value));
+                        // Que el error no siga en pantalla mientras lo esta corrigiendo.
+                        if (formState === "error") setFormState("idle");
+                      }}
                       autoComplete="tel"
                       aria-describedby={formState === "error" ? "promo-error" : undefined}
                     />
+
+                    {formState === "error" && (
+                      <p className={styles.promoError} id="promo-error" role="alert">
+                        {errorMsg}
+                      </p>
+                    )}
+
                     <button
                       type="submit"
                       className={styles.promoSubmit}
@@ -206,12 +218,6 @@ export default function NewsletterPopup() {
                       {formState === "loading" ? "Enviando…" : "Quiero el descuento"}
                     </button>
                   </form>
-
-                  {formState === "error" && (
-                    <p className={styles.promoError} id="promo-error" role="alert">
-                      {errorMsg}
-                    </p>
-                  )}
 
                   <p className={styles.promoFine}>
                     Solo te escribimos nosotros. Pedís la baja cuando quieras.

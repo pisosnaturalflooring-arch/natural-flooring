@@ -1,7 +1,5 @@
 "use client";
 
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { links } from "../data";
@@ -9,13 +7,6 @@ import { NaturalFlooringMark } from "./BrandLogo";
 import { ClockIcon, EmailIcon, ExternalLink, InstagramIcon, MapPinIcon, MercadoLibreIcon, PhoneIcon, WhatsAppIcon } from "./shared";
 
 export default function FooterSection({ footer, footerLinks, instagramHref, whatsappHref }) {
-  const { scrollY } = useScroll();
-  const [showTop, setShowTop] = useState(false);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setShowTop(latest > 600);
-  });
-
   return (
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
@@ -99,19 +90,6 @@ export default function FooterSection({ footer, footerLinks, instagramHref, what
       <div className={styles.footerBottom}>
         <span>{footer.copyright}</span>
       </div>
-
-      {/* Back to top button */}
-      <motion.button
-        type="button"
-        className={styles.backToTop}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: showTop ? 1 : 0, scale: showTop ? 1 : 0.8, pointerEvents: showTop ? "auto" : "none" }}
-        transition={{ duration: 0.25 }}
-        aria-label="Volver al inicio"
-      >
-        ↑
-      </motion.button>
     </footer>
   );
 }

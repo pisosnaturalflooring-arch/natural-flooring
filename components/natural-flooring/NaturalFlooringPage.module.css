@@ -2292,33 +2292,6 @@ a.contactRow:hover {
   color: rgba(244, 241, 232, 0.55); /* raised from 0.18 — was near-invisible */
 }
 
-/* Back to top floating button */
-.backToTop {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 200;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--brand-green);
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(96, 174, 27, 0.45);
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.backToTop:hover {
-  background: var(--brand-olive);
-  transform: translateY(-2px);
-}
-
 /* Visualizador de piso interactivo */
 .visualizer {
   background: var(--olive-dark);
@@ -2912,8 +2885,9 @@ a.contactRow:hover {
 }
 
 .promoError {
-  margin-top: 0.6rem;
-  font-size: 0.82rem;
+  /* Va dentro del form, entre el input y el boton: el gap del flex lo separa. */
+  font-size: 0.8rem;
+  line-height: 1.35;
   color: #b3261e;
 }
 
