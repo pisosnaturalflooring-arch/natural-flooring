@@ -30,6 +30,7 @@ export default function NewsletterPopup() {
 
     // preview manual: agregar ?popup=1 a la URL para verlo al instante
     if (window.location.search.includes("popup=1")) {
+      setOpenedFrom("preview");
       const timer = setTimeout(() => setOpen(true), 300);
       return () => clearTimeout(timer);
     }
