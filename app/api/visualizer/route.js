@@ -27,13 +27,12 @@ export async function POST(request) {
   const validation = validateVisualizerInput({
     image: form.get("image"),
     material: form.get("material"),
-    direction: form.get("direction"),
     size: form.get("size"),
   });
   if (!validation.ok) {
     return Response.json({ error: validation.error }, { status: 400 });
   }
-  const { image, material, direction, size } = validation.value;
+  const { image, material, size } = validation.value;
 
   // El limite se consume recien aca: un pedido invalido no gasta plata, asi que
   // equivocarse de archivo no puede dejar a nadie bloqueado diez minutos.
@@ -49,7 +48,7 @@ export async function POST(request) {
     const oaForm = new FormData();
     oaForm.append("model", "gpt-image-1");
     oaForm.append("image", image, image.name || "room.png");
-    oaForm.append("prompt", buildPrompt(material, direction));
+    oaForm.append("prompt", buildPrompt(material));
     oaForm.append("size", size);
     oaForm.append("quality", "medium"); // subí a "high" para más detalle (más costo)
     oaForm.append("input_fidelity", "high"); // preserva el resto de la escena
