@@ -8,7 +8,7 @@ import {
   writePromoStatus,
 } from "../promoPreference.mjs";
 
-const PROMO_IMAGE = "/images/parquet-espiga-av25-1.jpg";
+const PROMO_IMAGE = "/images/roble-eslabonia-1.jpg";
 
 export default function NewsletterPopup() {
   // null mientras no leimos localStorage: en el server no existe, y renderizar
@@ -18,6 +18,9 @@ export default function NewsletterPopup() {
   const [phone, setPhone] = useState("");
   const [formState, setFormState] = useState("idle"); // idle | loading | ok | error
   const [errorMsg, setErrorMsg] = useState("");
+  // De donde salio esta apertura: va al mail para saber que convierte mas,
+  // si el popup que salta solo o la pastilla que el visitante busca.
+  const [openedFrom, setOpenedFrom] = useState("popup-scroll");
 
   const inputRef = useRef(null);
 
@@ -98,7 +101,7 @@ export default function NewsletterPopup() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, source: "popup-scroll" }),
+        body: JSON.stringify({ phone, source: openedFrom }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "No pudimos registrar tu teléfono.");
@@ -119,7 +122,10 @@ export default function NewsletterPopup() {
         <button
           type="button"
           className={styles.promoPill}
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpenedFrom("promo-pill");
+            setOpen(true);
+          }}
           aria-label="Ver la promoción: 10% de descuento en tu primer presupuesto"
         >
           <span className={styles.promoPillMark}>10%</span>
@@ -140,7 +146,7 @@ export default function NewsletterPopup() {
               className={styles.promoFigure}
               style={{ backgroundImage: `url(${PROMO_IMAGE})` }}
               role="img"
-              aria-label="Piso de roble colocado en espiga en un living"
+              aria-label="Parquet de roble lustrado en un ambiente con luz natural"
             />
 
             <div className={styles.promoBody}>

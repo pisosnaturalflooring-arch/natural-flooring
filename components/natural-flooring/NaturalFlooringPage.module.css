@@ -2760,9 +2760,11 @@ a.contactRow:hover {
 }
 
 .promoFigure {
-  background-size: cover;
-  /* Sesgado hacia abajo: arriba la foto agarra zocalo y pared, no el piso. */
-  background-position: center 72%;
+  /* La foto tiene casi la misma proporcion que el hueco, asi que "cover" no
+     recorta y quedaba un tercio de pared vacia arriba. Se agranda a mano y se
+     ancla abajo para que mande el parquet. */
+  background-size: auto 138%;
+  background-position: center bottom;
   border-right: 3px solid var(--brand-green);
 }
 
@@ -2954,7 +2956,8 @@ a.contactRow:hover {
 /* Chatbot de preguntas frecuentes */
 .chatbotLauncher {
   position: fixed;
-  bottom: 5.4rem;
+  /* Alineado con la pastilla de promo de la esquina opuesta. */
+  bottom: 2rem;
   right: 2rem;
   z-index: 300;
   width: 52px;
@@ -2979,7 +2982,7 @@ a.contactRow:hover {
 
 .chatbotPanel {
   position: fixed;
-  bottom: calc(5.4rem + 64px);
+  bottom: calc(2rem + 64px);
   right: 2rem;
   z-index: 300;
   width: min(360px, calc(100vw - 2rem));
@@ -3137,11 +3140,13 @@ a.contactRow:hover {
 @media (max-width: 640px) {
   .chatbotPanel {
     right: 1rem;
+    bottom: calc(1.2rem + 64px);
     width: calc(100vw - 2rem);
   }
 
   .chatbotLauncher {
     right: 1.5rem;
+    bottom: 1.2rem;
   }
 }
 
