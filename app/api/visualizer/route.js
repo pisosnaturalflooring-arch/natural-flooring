@@ -1,3 +1,4 @@
+import { createFloorCheck } from "../../../lib/floorCheck.mjs";
 import { clientIp, createRateLimiter } from "../../../lib/rateLimit.mjs";
 import { buildPrompt, validateVisualizerInput } from "../../../lib/visualizerInput.mjs";
 
@@ -44,10 +45,33 @@ export async function POST(request) {
     );
   }
 
+  // Antes de gastar la generacion cara, un modelo chico confirma que la foto
+  // muestre un piso. Falla abierto: ver lib/floorCheck.mjs.
+  const bytes = Buffer.from(await image.arrayBuffer());
+  const dataUrl = `data:${image.type};base64,${bytes.toString("base64")}`;
+  const chequeo = await createFloorCheck({
+    apiKey,
+    model: process.env.OPENAI_VISION_MODEL || "gpt-4o-mini",
+  })(dataUrl);
+
+  if (!chequeo.allowed) {
+    console.warn("[visualizer] Foto rechazada:", chequeo.motivo);
+    return Response.json(
+      {
+        error:
+          "No encontramos un piso en esa foto. Sacala de pie, mostrando el suelo del ambiente que querés renovar.",
+      },
+      { status: 422 }
+    );
+  }
+  if (chequeo.skipped) {
+    console.warn("[visualizer] Chequeo de foto omitido:", chequeo.skipped);
+  }
+
   try {
     const oaForm = new FormData();
     oaForm.append("model", "gpt-image-1");
-    oaForm.append("image", image, image.name || "room.png");
+    oaForm.append("image", new Blob([bytes], { type: image.type }), image.name || "room.png");
     oaForm.append("prompt", buildPrompt(material));
     oaForm.append("size", size);
     oaForm.append("quality", "medium"); // subí a "high" para más detalle (más costo)

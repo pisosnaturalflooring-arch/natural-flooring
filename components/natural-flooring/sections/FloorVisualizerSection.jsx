@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
+import { MIN_IMAGE_SIDE, isBigEnough } from "../../../lib/visualizerInput.mjs";
 import { materialLibrary } from "../recommender/recommendationEngine.mjs";
 import { VISUALIZER_STEPS, currentStep, isStepReachable } from "../visualizerSteps.mjs";
 import CompareSlider from "./CompareSlider";
@@ -21,6 +22,7 @@ export default function FloorVisualizerSection() {
   const [resultUrl, setResultUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [requested, setRequested] = useState(null);
+  const [dragging, setDragging] = useState(false);
 
   const objectUrlRef = useRef("");
 
@@ -36,40 +38,44 @@ export default function FloorVisualizerSection() {
   );
 
   const selectFile = useCallback((f) => {
-    if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
     const url = URL.createObjectURL(f);
-    objectUrlRef.current = url;
-    setFile(f);
-    setPreviewUrl(url);
-    setResultUrl("");
-    setStatus("idle");
-    setErrorMsg("");
-    setRequested(null);
-
-    // El tamano que se le pide a la IA sigue la forma de la foto original.
     const img = new window.Image();
+
     img.onload = () => {
+      if (!isBigEnough(img.naturalWidth, img.naturalHeight)) {
+        URL.revokeObjectURL(url);
+        setErrorMsg(
+          `Esa foto es muy chica (${img.naturalWidth}×${img.naturalHeight}). Necesitamos al menos ${MIN_IMAGE_SIDE} píxeles de lado.`
+        );
+        return;
+      }
+
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = url;
+      setFile(f);
+      setPreviewUrl(url);
+      setResultUrl("");
+      setStatus("idle");
+      setErrorMsg("");
+      setRequested(null);
+
+      // El tamano que se le pide a la IA sigue la forma de la foto original.
       const r = img.naturalWidth / img.naturalHeight;
       setSizeHint(r > 1.2 ? "1536x1024" : r < 0.83 ? "1024x1536" : "1024x1024");
       setAspect(`${img.naturalWidth} / ${img.naturalHeight}`);
     };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      setErrorMsg("No pudimos leer esa imagen. Probá con un JPG, PNG o WEBP.");
+    };
+
     img.src = url;
   }, []);
 
   function onFile(e) {
     const f = e.target.files?.[0];
     if (f) selectFile(f);
-  }
-
-  async function useSample() {
-    try {
-      const res = await fetch(SAMPLE_IMAGE);
-      const blob = await res.blob();
-      selectFile(new File([blob], "ejemplo.jpg", { type: blob.type || "image/jpeg" }));
-    } catch {
-      setErrorMsg("No se pudo cargar la foto de ejemplo.");
-      setStatus("error");
-    }
   }
 
   async function generar(materialId) {
@@ -157,25 +163,66 @@ export default function FloorVisualizerSection() {
 
         {paso === "foto" && (
           <div className={styles.stepPanel}>
-            <div className={styles.dropZone}>
-              <p className={styles.dropTitle}>Subí una foto de tu ambiente</p>
-              <p className={styles.dropHint}>
-                Sacala de pie, mostrando buena parte del piso y con luz. Cuanto mejor se vea el
-                suelo, mejor sale el resultado.
-              </p>
-              <div className={styles.dropActions}>
-                <label className={styles.visualizerPrimaryBtn}>
-                  Elegir foto
-                  <input type="file" accept="image/png,image/jpeg,image/webp" onChange={onFile} hidden />
-                </label>
-                <button type="button" className={styles.visualizerGhostBtn} onClick={useSample}>
-                  Usar la foto de ejemplo
-                </button>
-              </div>
-            </div>
+            <label
+              className={dragging ? `${styles.dropZone} ${styles.dropZoneOver}` : styles.dropZone}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragging(true);
+              }}
+              onDragLeave={() => setDragging(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setDragging(false);
+                const f = e.dataTransfer.files?.[0];
+                if (f) selectFile(f);
+              }}
+            >
+              <input type="file" accept="image/png,image/jpeg,image/webp" onChange={onFile} hidden />
 
+              <span className={styles.dropIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2a1.5 1.5 0 0 0 1.24-.66l.72-1.08A1.5 1.5 0 0 1 9.9 4.6h4.2a1.5 1.5 0 0 1 1.24.66l.72 1.08A1.5 1.5 0 0 0 17.3 7h2.2A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" />
+                  <circle cx="12" cy="13" r="3.4" />
+                </svg>
+              </span>
+
+              <p className={styles.dropTitle}>Subí una foto de tu ambiente</p>
+              <p className={styles.dropHint}>Arrastrala acá o elegila desde tu dispositivo</p>
+
+              <span className={styles.visualizerPrimaryBtn}>Elegir foto</span>
+
+              <ul className={styles.dropTips}>
+                {[
+                  ["De pie", "M12 4.5a1.6 1.6 0 1 0 0-.1M12 7v6m0 0-2.5 6m2.5-6 2.5 6M8.5 9.5h7"],
+                  ["Con luz", "M12 3v2m0 14v2m9-9h-2M5 12H3m14.5-6.5-1.4 1.4M7.9 16.1l-1.4 1.4m11 0-1.4-1.4M7.9 7.9 6.5 6.5M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0"],
+                  ["Que se vea el piso", "M3 15h18M3 15l3-9h12l3 9M3 15v4h18v-4M9 6v9m6-9v9"],
+                ].map(([texto, path]) => (
+                  <li key={texto} className={styles.dropTip}>
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d={path} />
+                    </svg>
+                    {texto}
+                  </li>
+                ))}
+              </ul>
+
+              {errorMsg && (
+                <p className={styles.visualizerError} role="alert">
+                  {errorMsg}
+                </p>
+              )}
+            </label>
+
+            {/* Ilustra que foto sirve, asi que se carga sin lazy: en blanco no ilustra nada. */}
             <figure className={styles.sampleCard}>
-              <Image src={SAMPLE_IMAGE} alt="Dormitorio con piso de eucalipto" width={220} height={160} className={styles.sampleImg} />
+              <Image
+                src={SAMPLE_IMAGE}
+                alt="Dormitorio con piso de eucalipto"
+                width={220}
+                height={160}
+                className={styles.sampleImg}
+                loading="eager"
+              />
               <figcaption className={styles.sampleCaption}>Una foto así funciona bien</figcaption>
             </figure>
           </div>
