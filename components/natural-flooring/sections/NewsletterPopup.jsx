@@ -27,31 +27,42 @@ export default function NewsletterPopup() {
   // Al pasar a "listo" el contenido es mucho mas corto que el formulario. Sin
   // congelar la altura el modal se encoge de golpe y la foto salta.
   const [lockedHeight, setLockedHeight] = useState(null);
+  const [isPreview, setIsPreview] = useState(false);
 
   useEffect(() => {
-    const stored = readPromoStatus(window.localStorage);
-    setStatus(stored);
-
+    setStatus(readPromoStatus(window.localStorage));
     // preview manual: agregar ?popup=1 a la URL para verlo al instante
     if (window.location.search.includes("popup=1")) {
+      setIsPreview(true);
       setOpenedFrom("preview");
-      const timer = setTimeout(() => setOpen(true), 300);
-      return () => clearTimeout(timer);
     }
+  }, []);
 
-    if (!shouldAutoOpen(stored)) return undefined;
+  useEffect(() => {
+    if (!isPreview) return undefined;
+    const timer = setTimeout(() => setOpen(true), 300);
+    return () => clearTimeout(timer);
+  }, [isPreview]);
 
-    // aparece cuando el usuario scrollea pasada la primera pantalla
+  /**
+   * Apertura automatica al scrollear pasada la primera pantalla.
+   *
+   * Depende de `status` a proposito: antes el listener se registraba una sola
+   * vez al montar y solo se desarmaba cuando disparaba, asi que alguien que
+   * abria por la pastilla sin haber scrolleado y se suscribia lo dejaba armado
+   * — y el primer scroll posterior le reabria el modal con el "listo" adentro.
+   * Ahora suscribirse o cerrar cambia el estado y la limpieza lo desarma.
+   */
+  useEffect(() => {
+    if (isPreview || open || !shouldAutoOpen(status)) return undefined;
+
     const onScroll = () => {
-      if (window.scrollY > window.innerHeight * 0.7) {
-        setOpen(true);
-        window.removeEventListener("scroll", onScroll);
-      }
+      if (window.scrollY > window.innerHeight * 0.7) setOpen(true);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll(); // por si la pagina ya viene scrolleada
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [status, open, isPreview]);
 
   const remember = useCallback((next) => {
     setStatus(next);
