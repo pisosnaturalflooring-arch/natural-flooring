@@ -7,9 +7,8 @@ import { MIN_IMAGE_SIDE, isBigEnough } from "../../../lib/visualizerInput.mjs";
 import { ERROR_CODES, describeError } from "../../../lib/visualizerErrors.mjs";
 import { materialLibrary } from "../recommender/recommendationEngine.mjs";
 import { VISUALIZER_STEPS, currentStep, isStepReachable } from "../visualizerSteps.mjs";
-import CompareSlider from "./CompareSlider";
 import WoodWipe, { useWoodWipe } from "./WoodWipe";
-import { SectionHead, ExternalLink } from "./shared";
+import { SectionHead, ExternalLink, cx } from "./shared";
 
 const SAMPLE_IMAGE = "/images/euca-rostrata-dormitorio.jpg";
 const WHATSAPP_BASE = "https://api.whatsapp.com/send?phone=5491169977725&text=";
@@ -26,6 +25,7 @@ export default function FloorVisualizerSection() {
   const [fallo, setFallo] = useState(null); // { code, retryAfterSeconds, error }
   const [requested, setRequested] = useState(null);
   const [dragging, setDragging] = useState(false);
+  const [mostrandoAntes, setMostrandoAntes] = useState(false);
 
   const objectUrlRef = useRef("");
   const pasoPrevioRef = useRef(0);
@@ -60,6 +60,18 @@ export default function FloorVisualizerSection() {
     pasoPrevioRef.current = indicePaso;
     barrer(haciaAdelante ? "forward" : "backward", () => setVistaVisible(vista));
   }, [vista, vistaVisible, indicePaso, barrer]);
+
+  /**
+   * Revelacion automatica al llegar al resultado: se ve la foto original un
+   * instante y el resultado aparece encima. Sin esto el cambio pasa
+   * desapercibido, que era todo el punto de generar la imagen.
+   */
+  useEffect(() => {
+    if (vistaVisible !== "resultado" || status !== "done" || !resultUrl) return undefined;
+    setMostrandoAntes(true);
+    const t = setTimeout(() => setMostrandoAntes(false), 700);
+    return () => clearTimeout(t);
+  }, [vistaVisible, status, resultUrl]);
 
   // El progreso acompana a lo que se ve, no al estado: si se adelanta, el
   // contador salta antes de que los tablones tapen y se nota el truco.
@@ -189,6 +201,20 @@ export default function FloorVisualizerSection() {
               2" mientras se avisa que fallo es contradictorio. */}
           {vistaVisible !== "error" && (
           <div className={styles.stepProgress}>
+            {/* Volver a la izquierda, que es hacia donde lleva; la barra al medio. */}
+            <div className={styles.stepBackSlot}>
+              {pasoAnterior && (
+                <button
+                  type="button"
+                  className={styles.stepBack}
+                  onClick={() => setRequested(pasoAnterior)}
+                >
+                  ← Volver
+                </button>
+              )}
+            </div>
+
+            <div className={styles.stepProgressCenter}>
             <ol className={styles.stepSegments}>
               {VISUALIZER_STEPS.map((s, i) => {
                 const hecho = i < indiceVisible;
@@ -211,16 +237,9 @@ export default function FloorVisualizerSection() {
             <span className={styles.stepCounter}>
               Paso {indiceVisible + 1} de {VISUALIZER_STEPS.length} · {VISUALIZER_STEPS[indiceVisible].label}
             </span>
+            </div>
 
-            {pasoAnterior && (
-              <button
-                type="button"
-                className={styles.stepBack}
-                onClick={() => setRequested(pasoAnterior)}
-              >
-                ← Volver
-              </button>
-            )}
+            <div className={styles.stepBackSlot} aria-hidden="true" />
           </div>
           )}
 
@@ -379,24 +398,49 @@ export default function FloorVisualizerSection() {
               </div>
             ) : (
               <>
-                <CompareSlider
-                  className={styles.resultSlider}
-                  style={{ aspectRatio: aspect }}
-                  before={{ src: previewUrl, alt: "Tu ambiente antes", label: "Antes" }}
-                  after={{ src: resultUrl, alt: `Tu ambiente con ${elegido?.label}`, label: elegido?.label ?? "Después" }}
-                />
-                <p className={styles.resultHint}>Arrastrá la barra para comparar.</p>
+                <div className={styles.resultStage} style={{ aspectRatio: aspect }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={previewUrl} alt="Tu ambiente antes" className={styles.resultImg} />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={resultUrl}
+                    alt={`Tu ambiente con ${elegido?.label}`}
+                    className={cx(styles.resultImg, styles.resultImgAfter, mostrandoAntes && styles.resultImgOculta)}
+                  />
+                  <span className={styles.resultBadge}>
+                    {mostrandoAntes ? "Antes" : (elegido?.label ?? "Después")}
+                  </span>
+                </div>
+
+                <div className={styles.resultToggle} role="group" aria-label="Comparar antes y después">
+                  <button
+                    type="button"
+                    className={cx(styles.resultToggleBtn, mostrandoAntes && styles.resultToggleBtnOn)}
+                    onClick={() => setMostrandoAntes(true)}
+                    aria-pressed={mostrandoAntes}
+                  >
+                    Antes
+                  </button>
+                  <button
+                    type="button"
+                    className={cx(styles.resultToggleBtn, !mostrandoAntes && styles.resultToggleBtnOn)}
+                    onClick={() => setMostrandoAntes(false)}
+                    aria-pressed={!mostrandoAntes}
+                  >
+                    Después
+                  </button>
+                </div>
 
                 <div className={styles.resultActions}>
-                  <button type="button" className={styles.visualizerGhostBtn} onClick={() => setRequested("material")}>
-                    Probar otro material
-                  </button>
-                  <button type="button" className={styles.visualizerPrimaryBtn} onClick={descargar}>
-                    Descargar
-                  </button>
                   <ExternalLink href={whatsappHref} className={styles.visualizerWhatsapp}>
                     Pedir presupuesto
                   </ExternalLink>
+                  <button type="button" className={styles.visualizerGhostBtn} onClick={descargar}>
+                    Descargar
+                  </button>
+                  <button type="button" className={styles.resultQuietBtn} onClick={() => setRequested("material")}>
+                    Probar otro material
+                  </button>
                 </div>
 
                 <p className={styles.resultDisclaimer}>
