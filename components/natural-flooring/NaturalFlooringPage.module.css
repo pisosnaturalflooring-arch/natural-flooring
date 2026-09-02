@@ -2391,8 +2391,9 @@ a.contactRow:hover {
 .visualizerLead {
   max-width: 640px;
   margin: 1rem 0 2.5rem;
-  color: var(--muted);
-  font-size: 1rem;
+  /* --muted esta calibrado para fondo crema y sobre el sage queda lavado. */
+  color: rgba(26, 28, 20, 0.78);
+  font-size: 1.1rem;
   line-height: 1.6;
 }
 
@@ -2493,6 +2494,7 @@ a.contactRow:hover {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 250px;
   gap: 1.2rem;
+  min-height: 530px;
   /* stretch, no start: la foto de referencia tiene que llegar igual de abajo
      que la zona de carga, si no la fila queda coja. */
   align-items: stretch;
@@ -2611,102 +2613,7 @@ a.contactRow:hover {
 }
 
 /* Paso 2: la foto elegida y la grilla de materiales */
-.chosenPhoto {
-  order: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  padding: 0.7rem;
-  border: 1px solid rgba(244, 241, 232, 0.12);
-  border-radius: 12px;
-  background: rgba(244, 241, 232, 0.03);
-}
-
-.chosenPhotoImg {
-  flex: 1;
-  width: 100%;
-  min-height: 0;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.materialPicker {
-  order: 1;
-}
-
-.materialPickerTitle {
-  margin-bottom: 0.9rem;
-  font-family: var(--display);
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--cream);
-}
-
-.materialGrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.7rem;
-  padding: 0;
-  list-style: none;
-}
-
 /* El li se estira solo; sin esto la tarjeta no lo acompana y la fila queda despareja. */
-.materialGrid > li {
-  display: flex;
-}
-
-.materialCard {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  overflow: hidden;
-  border: 1px solid rgba(244, 241, 232, 0.12);
-  border-radius: 12px;
-  background: rgba(244, 241, 232, 0.03);
-  color: var(--cream);
-  font-family: var(--body);
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.materialCard:hover {
-  transform: translateY(-2px);
-  border-color: rgba(96, 174, 27, 0.5);
-  background: rgba(244, 241, 232, 0.06);
-}
-
-.materialCard:focus-visible {
-  outline: 2px solid var(--brand-green);
-  outline-offset: 2px;
-}
-
-.materialCardActive {
-  border-color: var(--brand-green);
-  box-shadow: 0 0 14px rgba(96, 174, 27, 0.3);
-}
-
-.materialCardImg {
-  width: 100%;
-  height: 86px;
-  object-fit: cover;
-}
-
-.materialCardLabel {
-  padding: 0.55rem 0.7rem 0;
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.materialCardFamily {
-  margin-top: auto;
-  padding: 0.1rem 0.7rem 0.65rem;
-  font-size: 0.72rem;
-  color: rgba(244, 241, 232, 0.6);
-}
-
 /* Paso 3: el resultado */
 .resultSlider {
   width: 100%;
@@ -2716,6 +2623,146 @@ a.contactRow:hover {
   margin: 0 auto;
 }
 
+/* Alto compartido: sin esto la tarjeta salta de tamano al cambiar de paso.
+   Los pasos 1 y 2 se fijan al mismo alto y lo que sobra scrollea adentro; el 3
+   sigue la proporcion de la foto, que no se puede igualar sin recortarla. */
+.stepStage {
+  min-height: 530px;
+}
+
+/* Paso 2: tu ambiente manda, los materiales son una paleta al costado */
+.pickPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 1.1rem;
+  height: 530px;
+}
+
+.pickPhoto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 0;
+  padding: 0.7rem;
+  border: 1px solid rgba(244, 241, 232, 0.12);
+  border-radius: 12px;
+  background: rgba(244, 241, 232, 0.03);
+}
+
+.pickPhotoImg {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.paletteCol {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.paletteTitle {
+  margin-bottom: 0.6rem;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cream);
+}
+
+.palette {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.paletteItem {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.6rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid rgba(244, 241, 232, 0.12);
+  border-radius: 10px;
+  background: rgba(244, 241, 232, 0.03);
+  color: var(--cream);
+  font-family: var(--body);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.paletteItem:hover {
+  border-color: rgba(96, 174, 27, 0.5);
+  background: rgba(244, 241, 232, 0.06);
+}
+
+.paletteItem:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
+}
+
+.paletteItemActive {
+  border-color: var(--brand-green);
+  box-shadow: 0 0 12px rgba(96, 174, 27, 0.28);
+}
+
+.paletteSwatch {
+  grid-row: span 2;
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.paletteName {
+  font-size: 0.83rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.paletteFamily {
+  font-size: 0.68rem;
+  line-height: 1.15;
+  color: rgba(244, 241, 232, 0.55);
+}
+
+.pickFooter {
+  grid-column: 1 / -1;
+}
+
+.generateBtn {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--brand-green);
+  color: #fff;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.18s ease;
+}
+
+.generateBtn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.generateBtn:disabled {
+  background: rgba(244, 241, 232, 0.08);
+  color: rgba(244, 241, 232, 0.42);
+  cursor: default;
+}
+
 .resultPanel {
   display: flex;
   flex-direction: column;
@@ -2723,14 +2770,61 @@ a.contactRow:hover {
 }
 
 .resultLoading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+  max-height: 70vh;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 12px;
+  background: rgba(244, 241, 232, 0.03);
+}
+
+.resultLoadingPhoto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.42) saturate(0.7);
+}
+
+/* Barrido de luz sobre la foto mientras el modelo trabaja. */
+.resultSweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(96, 174, 27, 0.28) 50%,
+    transparent 65%
+  );
+  background-size: 260% 100%;
+  animation: resultSweepMove 2.1s linear infinite;
+}
+
+@keyframes resultSweepMove {
+  from {
+    background-position: 160% 0;
+  }
+  to {
+    background-position: -60% 0;
+  }
+}
+
+.resultLoadingCopy {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  min-height: 320px;
-  border-radius: 16px;
-  background: rgba(244, 241, 232, 0.05);
+  gap: 0.55rem;
+  padding: 1.4rem 1.6rem;
+  border-radius: 12px;
+  background: rgba(26, 28, 20, 0.72);
+  backdrop-filter: blur(3px);
   text-align: center;
 }
 
@@ -2773,35 +2867,7 @@ a.contactRow:hover {
     grid-template-columns: 1fr;
   }
 
-  .chosenPhoto {
-    order: 0;
-  }
-
-  .materialGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* Promo de captura: pastilla fija + modal editorial */
-.promoPill {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  z-index: 300;
-  display: flex;
-  align-items: baseline;
-  gap: 0.25rem;
-  padding: 0.65rem 1.05rem;
-  border: none;
-  border-radius: 999px;
-  background: var(--brand-green);
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 10px 28px rgba(26, 28, 20, 0.28);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.promoPill:hover {
+  .promoPill:hover {
   transform: translateY(-2px);
   box-shadow: 0 14px 34px rgba(26, 28, 20, 0.34);
 }

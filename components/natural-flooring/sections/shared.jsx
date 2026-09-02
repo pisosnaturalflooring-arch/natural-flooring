@@ -48,7 +48,10 @@ export function SectionHead({ label, title, linkHref, linkLabel, inverse, side }
   return (
     <div className={styles.sectionHead}>
       <Reveal>
-        <p className={cx(styles.sectionLabel, inverse && styles.sectionLabelInverse)}>{label}</p>
+        {/* Sin label no se renderiza el parrafo: dejaba un hueco con su margen. */}
+        {label ? (
+          <p className={cx(styles.sectionLabel, inverse && styles.sectionLabelInverse)}>{label}</p>
+        ) : null}
         <h2 className={cx(styles.sectionTitle, inverse && styles.sectionTitleInverse)}>{title}</h2>
       </Reveal>
 

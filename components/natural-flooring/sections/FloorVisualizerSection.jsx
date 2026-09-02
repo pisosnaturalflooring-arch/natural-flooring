@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
 import { MIN_IMAGE_SIDE, isBigEnough } from "../../../lib/visualizerInput.mjs";
@@ -25,6 +26,8 @@ export default function FloorVisualizerSection() {
   const [dragging, setDragging] = useState(false);
 
   const objectUrlRef = useRef("");
+  const pasoPrevioRef = useRef(0);
+  const reduceMotion = useReducedMotion();
 
   const estado = { hasPhoto: Boolean(file), status, requested };
   const paso = currentStep(estado);
@@ -40,6 +43,15 @@ export default function FloorVisualizerSection() {
     },
     []
   );
+
+  // La direccion no es decorativa: avanzar entra desde la derecha y volver
+  // desde la izquierda, asi el movimiento dice hacia donde va el visitante.
+  const direccion = indicePaso >= pasoPrevioRef.current ? 1 : -1;
+  useEffect(() => {
+    pasoPrevioRef.current = indicePaso;
+  }, [indicePaso]);
+
+
 
   const selectFile = useCallback((f) => {
     const url = URL.createObjectURL(f);
@@ -82,16 +94,15 @@ export default function FloorVisualizerSection() {
     if (f) selectFile(f);
   }
 
-  async function generar(materialId) {
-    if (!file) return;
-    setMaterial(materialId);
+  async function generar() {
+    if (!file || !material) return;
     setStatus("loading");
     setErrorMsg("");
     setRequested(null);
     try {
       const fd = new FormData();
       fd.append("image", file);
-      fd.append("material", materialId);
+      fd.append("material", material);
       fd.append("size", sizeHint);
       const res = await fetch("/api/visualizer", { method: "POST", body: fd });
       const data = await res.json();
@@ -138,7 +149,7 @@ export default function FloorVisualizerSection() {
   return (
     <section id="visualizador" className={styles.visualizer}>
       <div className={styles.visualizerInner}>
-        <SectionHead label="Probador con inteligencia artificial" title="PROBÁ EL PISO EN TU AMBIENTE" />
+        <SectionHead title="PROBÁ EL PISO EN TU AMBIENTE" />
         <p className={styles.visualizerLead}>
           Subí una foto de tu ambiente y elegí un material: la inteligencia artificial reemplaza el
           piso conservando la luz, las sombras y la perspectiva reales.
@@ -180,6 +191,23 @@ export default function FloorVisualizerSection() {
             )}
           </div>
 
+          {/*
+            El contenido entra desde el lado hacia el que se avanza, y el cambio
+            de `key` lo remonta al instante.
+
+            Deliberadamente sin AnimatePresence ni animacion de salida: ese modo
+            condiciona el montado del paso nuevo a que termine la salida del
+            anterior, asi que cualquier animacion que se trabe deja al visitante
+            mirando el paso viejo. El alto fijo de .stepStage ya evita el salto
+            que la salida buscaba disimular.
+          */}
+          <div className={styles.stepStage}>
+              <motion.div
+                key={paso}
+                initial={{ opacity: 0, x: reduceMotion ? 0 : direccion * 36 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: reduceMotion ? 0.12 : 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
         {paso === "foto" && (
           <div className={styles.stepPanel}>
             <label
@@ -248,41 +276,60 @@ export default function FloorVisualizerSection() {
         )}
 
         {paso === "material" && (
-          <div className={styles.stepPanel}>
-            <div className={styles.chosenPhoto}>
+          <div className={styles.pickPanel}>
+            <div className={styles.pickPhoto}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={previewUrl} alt="Tu ambiente" className={styles.chosenPhotoImg} />
+              <img src={previewUrl} alt="Tu ambiente" className={styles.pickPhotoImg} />
               <button type="button" className={styles.visualizerChip} onClick={reset}>
                 Cambiar foto
               </button>
             </div>
 
-            <div className={styles.materialPicker}>
-              <p className={styles.materialPickerTitle}>Elegí un material para probar</p>
-              {status === "error" && (
-                <p className={styles.visualizerError} role="alert">
-                  {errorMsg}
-                </p>
-              )}
-              <ul className={styles.materialGrid}>
+            <div className={styles.paletteCol}>
+              <p className={styles.paletteTitle}>Elegí un material</p>
+              <ul className={styles.palette}>
                 {materialLibrary.map((m) => (
                   <li key={m.id}>
                     <button
                       type="button"
                       className={
                         m.id === material
-                          ? `${styles.materialCard} ${styles.materialCardActive}`
-                          : styles.materialCard
+                          ? `${styles.paletteItem} ${styles.paletteItemActive}`
+                          : styles.paletteItem
                       }
-                      onClick={() => generar(m.id)}
+                      onClick={() => setMaterial(m.id)}
+                      aria-pressed={m.id === material}
                     >
-                      <Image src={m.image} alt={m.imageAlt} width={190} height={130} className={styles.materialCardImg} />
-                      <span className={styles.materialCardLabel}>{m.label}</span>
-                      <span className={styles.materialCardFamily}>{m.family}</span>
+                      <Image
+                        src={m.image}
+                        alt=""
+                        width={38}
+                        height={38}
+                        className={styles.paletteSwatch}
+                        loading="eager"
+                      />
+                      <span className={styles.paletteName}>{m.label}</span>
+                      <span className={styles.paletteFamily}>{m.family}</span>
                     </button>
                   </li>
                 ))}
               </ul>
+            </div>
+
+            <div className={styles.pickFooter}>
+              {status === "error" && (
+                <p className={styles.visualizerError} role="alert">
+                  {errorMsg}
+                </p>
+              )}
+              <button
+                type="button"
+                className={styles.generateBtn}
+                onClick={generar}
+                disabled={!material}
+              >
+                {elegido ? `Generar con ${elegido.label}` : "Elegí un material para continuar"}
+              </button>
             </div>
           </div>
         )}
@@ -290,12 +337,19 @@ export default function FloorVisualizerSection() {
         {paso === "resultado" && (
           <div className={styles.resultPanel}>
             {status === "loading" ? (
-              <div className={styles.resultLoading}>
-                <span className={styles.visualizerSpinner} />
-                <p className={styles.resultLoadingText}>
-                  Generando tu piso en {elegido?.label ?? "el material elegido"}…
-                </p>
-                <p className={styles.resultLoadingHint}>Puede tardar hasta un minuto.</p>
+              /* Con la foto puesta, no una caja vacia: la espera se ancla en lo
+                 que esta por pasar en vez de en un spinner. */
+              <div className={styles.resultLoading} style={{ aspectRatio: aspect }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={previewUrl} alt="" className={styles.resultLoadingPhoto} />
+                <span className={styles.resultSweep} aria-hidden="true" />
+                <div className={styles.resultLoadingCopy}>
+                  <span className={styles.visualizerSpinner} />
+                  <p className={styles.resultLoadingText}>
+                    Poniendo {elegido?.label ?? "el material"} en tu ambiente…
+                  </p>
+                  <p className={styles.resultLoadingHint}>Puede tardar hasta un minuto.</p>
+                </div>
               </div>
             ) : (
               <>
@@ -327,6 +381,8 @@ export default function FloorVisualizerSection() {
             )}
           </div>
           )}
+              </motion.div>
+          </div>
         </div>
       </div>
     </section>
