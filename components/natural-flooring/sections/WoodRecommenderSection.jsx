@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import WoodWipe from "./WoodWipe";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -226,37 +227,7 @@ export default function WoodRecommenderSection() {
             {/* Static Premium Dark Background */}
             <div className={styles.advisorBackdropAbstract} />
 
-            {/* Thematic Wood Shutter Horizontal Wipe Transition Overlay - Moved here to cover full viewport */}
-            <AnimatePresence>
-              {isWiping && (
-                <div className={styles.woodWipeOverlayHorizontal}>
-                  <motion.div
-                    className={cx(styles.woodWipePanelHorizontal, styles.panelPine)}
-                    initial={{ x: wipeDirection === 'forward' ? "100%" : "-100%" }}
-                    animate={{ x: wipeDirection === 'forward' ? ["100%", "0%", "-100%"] : ["-100%", "0%", "100%"] }}
-                    transition={{ duration: 0.75, times: [0, 0.45, 1], ease: "easeInOut" }}
-                  />
-                  <motion.div
-                    className={cx(styles.woodWipePanelHorizontal, styles.panelOak)}
-                    initial={{ x: wipeDirection === 'forward' ? "100%" : "-100%" }}
-                    animate={{ x: wipeDirection === 'forward' ? ["100%", "0%", "-100%"] : ["-100%", "0%", "100%"] }}
-                    transition={{ duration: 0.75, delay: 0.05, times: [0, 0.45, 1], ease: "easeInOut" }}
-                  />
-                  <motion.div
-                    className={cx(styles.woodWipePanelHorizontal, styles.panelWalnut)}
-                    initial={{ x: wipeDirection === 'forward' ? "100%" : "-100%" }}
-                    animate={{ x: wipeDirection === 'forward' ? ["100%", "0%", "-100%"] : ["-100%", "0%", "100%"] }}
-                    transition={{ duration: 0.75, delay: 0.1, times: [0, 0.45, 1], ease: "easeInOut" }}
-                  />
-                  <motion.div
-                    className={cx(styles.woodWipePanelHorizontal, styles.panelWenge)}
-                    initial={{ x: wipeDirection === 'forward' ? "100%" : "-100%" }}
-                    animate={{ x: wipeDirection === 'forward' ? ["100%", "0%", "-100%"] : ["-100%", "0%", "100%"] }}
-                    transition={{ duration: 0.75, delay: 0.15, times: [0, 0.45, 1], ease: "easeInOut" }}
-                  />
-                </div>
-              )}
-            </AnimatePresence>
+            <WoodWipe activo={isWiping} direccion={wipeDirection} />
 
             <div className={styles.advisorStage3D}>
               <AnimatePresence mode="wait" initial={false}>

@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
 import { MIN_IMAGE_SIDE, isBigEnough } from "../../../lib/visualizerInput.mjs";
@@ -9,6 +8,7 @@ import { ERROR_CODES, describeError } from "../../../lib/visualizerErrors.mjs";
 import { materialLibrary } from "../recommender/recommendationEngine.mjs";
 import { VISUALIZER_STEPS, currentStep, isStepReachable } from "../visualizerSteps.mjs";
 import CompareSlider from "./CompareSlider";
+import WoodWipe, { useWoodWipe } from "./WoodWipe";
 import { SectionHead, ExternalLink } from "./shared";
 
 const SAMPLE_IMAGE = "/images/euca-rostrata-dormitorio.jpg";
@@ -29,15 +29,12 @@ export default function FloorVisualizerSection() {
 
   const objectUrlRef = useRef("");
   const pasoPrevioRef = useRef(0);
-  const reduceMotion = useReducedMotion();
+  const { activo: barriendo, direccion: dirBarrido, barrer } = useWoodWipe();
 
   const estado = { hasPhoto: Boolean(file), status, requested };
   const paso = currentStep(estado);
   const elegido = materialLibrary.find((m) => m.id === material);
   const indicePaso = VISUALIZER_STEPS.findIndex((s) => s.id === paso);
-  const pasoAnterior = VISUALIZER_STEPS.slice(0, indicePaso)
-    .reverse()
-    .find((s) => isStepReachable(s.id, estado))?.id;
 
   useEffect(
     () => () => {
@@ -46,12 +43,33 @@ export default function FloorVisualizerSection() {
     []
   );
 
-  // La direccion no es decorativa: avanzar entra desde la derecha y volver
-  // desde la izquierda, asi el movimiento dice hacia donde va el visitante.
-  const direccion = indicePaso >= pasoPrevioRef.current ? 1 : -1;
+  /**
+   * Lo que se ve va un paso atras de lo que el estado dice, a proposito: el
+   * cambio ocurre en el medio del barrido, cuando los tablones tapan todo.
+   */
+  const vista = fallo ? "error" : paso;
+  const [vistaVisible, setVistaVisible] = useState(vista);
+
   useEffect(() => {
+    if (vista === vistaVisible) return;
+    // Un error siempre "avanza"; entre pasos manda el orden del stepper.
+    const haciaAdelante =
+      vista === "error" || vistaVisible === "error"
+        ? vista === "error"
+        : indicePaso >= pasoPrevioRef.current;
     pasoPrevioRef.current = indicePaso;
-  }, [indicePaso]);
+    barrer(haciaAdelante ? "forward" : "backward", () => setVistaVisible(vista));
+  }, [vista, vistaVisible, indicePaso, barrer]);
+
+  // El progreso acompana a lo que se ve, no al estado: si se adelanta, el
+  // contador salta antes de que los tablones tapen y se nota el truco.
+  const indiceVisible = Math.max(
+    0,
+    VISUALIZER_STEPS.findIndex((s) => s.id === vistaVisible)
+  );
+  const pasoAnterior = VISUALIZER_STEPS.slice(0, indiceVisible)
+    .reverse()
+    .find((s) => isStepReachable(s.id, estado))?.id;
 
 
 
@@ -164,26 +182,17 @@ export default function FloorVisualizerSection() {
           piso conservando la luz, las sombras y la perspectiva reales.
         </p>
 
-        {/* Se mueve la tarjeta completa, fondo y sombra incluidos: antes se
-            deslizaba solo el contenido dentro de un marco quieto y se leia como
-            una parte suelta, no como un cambio de paso.
+        <div className={styles.visualizerPanel}>
+          <WoodWipe activo={barriendo} direccion={dirBarrido} />
 
-            La key la remonta al instante. Sin AnimatePresence a proposito: ese
-            modo condiciona el montado del paso nuevo a que termine la salida del
-            anterior, y una animacion trabada deja al visitante mirando el paso
-            viejo con el contador nuevo — lo vi pasar. */}
-        <motion.div
-          key={paso}
-          className={styles.visualizerPanel}
-          initial={{ opacity: 0, x: reduceMotion ? 0 : direccion * 44 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: reduceMotion ? 0.12 : 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+          {/* Con un error no hay progreso que mostrar: decir "estas en el paso
+              2" mientras se avisa que fallo es contradictorio. */}
+          {vistaVisible !== "error" && (
           <div className={styles.stepProgress}>
             <ol className={styles.stepSegments}>
               {VISUALIZER_STEPS.map((s, i) => {
-                const hecho = i < indicePaso;
-                const activo = i === indicePaso;
+                const hecho = i < indiceVisible;
+                const activo = i === indiceVisible;
                 return (
                   <li
                     key={s.id}
@@ -200,7 +209,7 @@ export default function FloorVisualizerSection() {
             </ol>
 
             <span className={styles.stepCounter}>
-              Paso {indicePaso + 1} de {VISUALIZER_STEPS.length} · {VISUALIZER_STEPS[indicePaso].label}
+              Paso {indiceVisible + 1} de {VISUALIZER_STEPS.length} · {VISUALIZER_STEPS[indiceVisible].label}
             </span>
 
             {pasoAnterior && (
@@ -213,10 +222,11 @@ export default function FloorVisualizerSection() {
               </button>
             )}
           </div>
+          )}
 
           {/* Alto compartido, para que la tarjeta no cambie de tamano entre pasos. */}
           <div className={styles.stepStage}>
-        {paso === "foto" && (
+        {vistaVisible === "foto" && (
           <div className={styles.stepPanel}>
             <label
               className={dragging ? `${styles.dropZone} ${styles.dropZoneOver}` : styles.dropZone}
@@ -283,7 +293,7 @@ export default function FloorVisualizerSection() {
           </div>
         )}
 
-        {paso === "material" && fallo && (
+        {vistaVisible === "error" && (
           <ErrorPanel
             fallo={fallo}
             whatsappHref={whatsappHref}
@@ -295,7 +305,7 @@ export default function FloorVisualizerSection() {
           />
         )}
 
-        {paso === "material" && !fallo && (
+        {vistaVisible === "material" && (
           <div className={styles.pickPanel}>
             <div className={styles.pickPhoto}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -350,7 +360,7 @@ export default function FloorVisualizerSection() {
           </div>
         )}
 
-        {paso === "resultado" && (
+        {vistaVisible === "resultado" && (
           <div className={styles.resultPanel}>
             {status === "loading" ? (
               /* Con la foto puesta, no una caja vacia: la espera se ancla en lo
@@ -398,7 +408,7 @@ export default function FloorVisualizerSection() {
           </div>
           )}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

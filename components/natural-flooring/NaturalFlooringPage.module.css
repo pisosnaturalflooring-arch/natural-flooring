@@ -2320,6 +2320,9 @@ a.contactRow:hover {
 /* La tarjeta del asesor, con los mismos tokens. 980 en vez de 820 porque el
    comparador del paso 3 necesita el ancho. */
 .visualizerPanel {
+  /* El barrido se posiciona contra esta tarjeta y se recorta a su radio. */
+  position: relative;
+  overflow: hidden;
   width: 100%;
   max-width: 980px;
   margin: 0 auto;
