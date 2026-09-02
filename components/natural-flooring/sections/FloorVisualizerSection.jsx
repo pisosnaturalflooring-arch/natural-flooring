@@ -29,6 +29,10 @@ export default function FloorVisualizerSection() {
   const estado = { hasPhoto: Boolean(file), status, requested };
   const paso = currentStep(estado);
   const elegido = materialLibrary.find((m) => m.id === material);
+  const indicePaso = VISUALIZER_STEPS.findIndex((s) => s.id === paso);
+  const pasoAnterior = VISUALIZER_STEPS.slice(0, indicePaso)
+    .reverse()
+    .find((s) => isStepReachable(s.id, estado))?.id;
 
   useEffect(
     () => () => {
@@ -134,32 +138,47 @@ export default function FloorVisualizerSection() {
   return (
     <section id="visualizador" className={styles.visualizer}>
       <div className={styles.visualizerInner}>
-        <SectionHead label="Probador con inteligencia artificial" title="PROBÁ EL PISO EN TU AMBIENTE" inverse />
+        <SectionHead label="Probador con inteligencia artificial" title="PROBÁ EL PISO EN TU AMBIENTE" />
         <p className={styles.visualizerLead}>
           Subí una foto de tu ambiente y elegí un material: la inteligencia artificial reemplaza el
           piso conservando la luz, las sombras y la perspectiva reales.
         </p>
 
-        <ol className={styles.stepBar}>
-          {VISUALIZER_STEPS.map((s, i) => {
-            const habilitado = isStepReachable(s.id, estado);
-            const activo = s.id === paso;
-            return (
-              <li key={s.id} className={styles.stepItem}>
-                <button
-                  type="button"
-                  className={activo ? `${styles.stepBtn} ${styles.stepBtnActive}` : styles.stepBtn}
-                  onClick={() => setRequested(s.id)}
-                  disabled={!habilitado}
-                  aria-current={activo ? "step" : undefined}
-                >
-                  <span className={styles.stepNum}>{i + 1}</span>
-                  <span className={styles.stepLabel}>{s.label}</span>
-                </button>
-              </li>
-            );
-          })}
-        </ol>
+        <div className={styles.visualizerPanel}>
+          <div className={styles.stepProgress}>
+            <ol className={styles.stepSegments}>
+              {VISUALIZER_STEPS.map((s, i) => {
+                const hecho = i < indicePaso;
+                const activo = i === indicePaso;
+                return (
+                  <li
+                    key={s.id}
+                    className={[
+                      styles.stepSegment,
+                      hecho && styles.stepSegmentDone,
+                      activo && styles.stepSegmentActive,
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  />
+                );
+              })}
+            </ol>
+
+            <span className={styles.stepCounter}>
+              Paso {indicePaso + 1} de {VISUALIZER_STEPS.length} · {VISUALIZER_STEPS[indicePaso].label}
+            </span>
+
+            {pasoAnterior && (
+              <button
+                type="button"
+                className={styles.stepBack}
+                onClick={() => setRequested(pasoAnterior)}
+              >
+                ← Volver
+              </button>
+            )}
+          </div>
 
         {paso === "foto" && (
           <div className={styles.stepPanel}>
@@ -307,7 +326,8 @@ export default function FloorVisualizerSection() {
               </>
             )}
           </div>
-        )}
+          )}
+        </div>
       </div>
     </section>
   );
