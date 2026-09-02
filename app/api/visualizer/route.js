@@ -1,4 +1,9 @@
 import { createFloorCheck } from "../../../lib/floorCheck.mjs";
+import {
+  ERROR_CODES,
+  SEVERIDAD_INTERNA,
+  mapOpenAiFailure,
+} from "../../../lib/visualizerErrors.mjs";
 import { clientIp, createRateLimiter } from "../../../lib/rateLimit.mjs";
 import { buildPrompt, validateVisualizerInput } from "../../../lib/visualizerInput.mjs";
 
@@ -8,21 +13,24 @@ export const maxDuration = 60; // tope del plan Hobby de Vercel
 // Cada generacion cuesta plata, asi que el limite es mas duro que en subscribe.
 const limiter = createRateLimiter({ limit: 3, windowMs: 10 * 60 * 1000 });
 
-const GENERIC_ERROR = "No pudimos generar la vista. Probá de nuevo en un momento.";
+/** El cuerpo lleva el codigo: el cliente decide que mostrar y que accion ofrecer. */
+function falla(code, status, extra = {}) {
+  if (SEVERIDAD_INTERNA[code]) console.error("[visualizer] ATENCION:", SEVERIDAD_INTERNA[code]);
+  return Response.json({ code, ...extra }, { status });
+}
 
 export async function POST(request) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     // El detalle va al log: al visitante no se le cuenta como esta configurado el server.
-    console.error("[visualizer] Falta OPENAI_API_KEY en el entorno.");
-    return Response.json({ error: "El visualizador no está disponible por ahora." }, { status: 503 });
+    return falla(ERROR_CODES.NO_CONFIGURADO, 503);
   }
 
   let form;
   try {
     form = await request.formData();
   } catch {
-    return Response.json({ error: "No pudimos leer la imagen enviada." }, { status: 400 });
+    return falla(ERROR_CODES.FOTO_INVALIDA, 400);
   }
 
   const validation = validateVisualizerInput({
@@ -31,7 +39,8 @@ export async function POST(request) {
     size: form.get("size"),
   });
   if (!validation.ok) {
-    return Response.json({ error: validation.error }, { status: 400 });
+    // Este si lleva texto propio: dice exactamente que tiene de malo la foto.
+    return falla(ERROR_CODES.FOTO_INVALIDA, 400, { error: validation.error });
   }
   const { image, material, size } = validation.value;
 
@@ -40,7 +49,7 @@ export async function POST(request) {
   const { allowed, retryAfterSeconds } = limiter.check(clientIp(request));
   if (!allowed) {
     return Response.json(
-      { error: "Alcanzaste el límite de pruebas. Esperá unos minutos o escribinos por WhatsApp." },
+      { code: ERROR_CODES.DEMASIADOS_INTENTOS, retryAfterSeconds },
       { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
     );
   }
@@ -56,13 +65,7 @@ export async function POST(request) {
 
   if (!chequeo.allowed) {
     console.warn("[visualizer] Foto rechazada:", chequeo.motivo);
-    return Response.json(
-      {
-        error:
-          "No encontramos un piso en esa foto. Sacala de pie, mostrando el suelo del ambiente que querés renovar.",
-      },
-      { status: 422 }
-    );
+    return falla(ERROR_CODES.SIN_PISO, 422);
   }
   if (chequeo.skipped) {
     console.warn("[visualizer] Chequeo de foto omitido:", chequeo.skipped);
@@ -87,20 +90,21 @@ export async function POST(request) {
     const data = await res.json();
 
     if (!res.ok) {
-      // El error de OpenAI trae la clave enmascarada y datos de la cuenta: no se reenvia.
+      // El error de OpenAI trae la clave enmascarada y datos de la cuenta: no se
+      // reenvia. Solo viaja el codigo con el que el cliente arma su mensaje.
       console.error("[visualizer] OpenAI respondió", res.status, data?.error?.message);
-      return Response.json({ error: GENERIC_ERROR }, { status: 502 });
+      return falla(mapOpenAiFailure(res.status, data), 502);
     }
 
     const b64 = data?.data?.[0]?.b64_json;
     if (!b64) {
       console.error("[visualizer] OpenAI no devolvió imagen:", JSON.stringify(data).slice(0, 500));
-      return Response.json({ error: GENERIC_ERROR }, { status: 502 });
+      return falla(ERROR_CODES.SERVICIO_CAIDO, 502);
     }
 
     return Response.json({ image: `data:image/png;base64,${b64}` });
   } catch (e) {
     console.error("[visualizer] Error inesperado:", e);
-    return Response.json({ error: GENERIC_ERROR }, { status: 500 });
+    return falla(ERROR_CODES.DESCONOCIDO, 500);
   }
 }

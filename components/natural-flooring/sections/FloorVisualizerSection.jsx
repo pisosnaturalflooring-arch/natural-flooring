@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
 import { MIN_IMAGE_SIDE, isBigEnough } from "../../../lib/visualizerInput.mjs";
+import { ERROR_CODES, describeError } from "../../../lib/visualizerErrors.mjs";
 import { materialLibrary } from "../recommender/recommendationEngine.mjs";
 import { VISUALIZER_STEPS, currentStep, isStepReachable } from "../visualizerSteps.mjs";
 import CompareSlider from "./CompareSlider";
@@ -22,6 +23,7 @@ export default function FloorVisualizerSection() {
   const [status, setStatus] = useState("idle"); // idle | loading | done | error
   const [resultUrl, setResultUrl] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [fallo, setFallo] = useState(null); // { code, retryAfterSeconds, error }
   const [requested, setRequested] = useState(null);
   const [dragging, setDragging] = useState(false);
 
@@ -98,6 +100,7 @@ export default function FloorVisualizerSection() {
     if (!file || !material) return;
     setStatus("loading");
     setErrorMsg("");
+    setFallo(null);
     setRequested(null);
     try {
       const fd = new FormData();
@@ -106,11 +109,16 @@ export default function FloorVisualizerSection() {
       fd.append("size", sizeHint);
       const res = await fetch("/api/visualizer", { method: "POST", body: fd });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "No pudimos generar la vista.");
+      if (!res.ok) {
+        setFallo({ code: data.code ?? ERROR_CODES.DESCONOCIDO, ...data });
+        setStatus("error");
+        return;
+      }
       setResultUrl(data.image);
       setStatus("done");
-    } catch (e) {
-      setErrorMsg(e.message || "No pudimos generar la vista.");
+    } catch {
+      // Se cayo la red antes de llegar al servidor.
+      setFallo({ code: ERROR_CODES.SERVICIO_CAIDO });
       setStatus("error");
     }
   }
@@ -124,6 +132,7 @@ export default function FloorVisualizerSection() {
     setMaterial("");
     setStatus("idle");
     setErrorMsg("");
+    setFallo(null);
     setRequested(null);
   }
 
@@ -155,7 +164,21 @@ export default function FloorVisualizerSection() {
           piso conservando la luz, las sombras y la perspectiva reales.
         </p>
 
-        <div className={styles.visualizerPanel}>
+        {/* Se mueve la tarjeta completa, fondo y sombra incluidos: antes se
+            deslizaba solo el contenido dentro de un marco quieto y se leia como
+            una parte suelta, no como un cambio de paso.
+
+            La key la remonta al instante. Sin AnimatePresence a proposito: ese
+            modo condiciona el montado del paso nuevo a que termine la salida del
+            anterior, y una animacion trabada deja al visitante mirando el paso
+            viejo con el contador nuevo — lo vi pasar. */}
+        <motion.div
+          key={paso}
+          className={styles.visualizerPanel}
+          initial={{ opacity: 0, x: reduceMotion ? 0 : direccion * 44 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: reduceMotion ? 0.12 : 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
           <div className={styles.stepProgress}>
             <ol className={styles.stepSegments}>
               {VISUALIZER_STEPS.map((s, i) => {
@@ -191,23 +214,8 @@ export default function FloorVisualizerSection() {
             )}
           </div>
 
-          {/*
-            El contenido entra desde el lado hacia el que se avanza, y el cambio
-            de `key` lo remonta al instante.
-
-            Deliberadamente sin AnimatePresence ni animacion de salida: ese modo
-            condiciona el montado del paso nuevo a que termine la salida del
-            anterior, asi que cualquier animacion que se trabe deja al visitante
-            mirando el paso viejo. El alto fijo de .stepStage ya evita el salto
-            que la salida buscaba disimular.
-          */}
+          {/* Alto compartido, para que la tarjeta no cambie de tamano entre pasos. */}
           <div className={styles.stepStage}>
-              <motion.div
-                key={paso}
-                initial={{ opacity: 0, x: reduceMotion ? 0 : direccion * 36 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: reduceMotion ? 0.12 : 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
-              >
         {paso === "foto" && (
           <div className={styles.stepPanel}>
             <label
@@ -275,7 +283,19 @@ export default function FloorVisualizerSection() {
           </div>
         )}
 
-        {paso === "material" && (
+        {paso === "material" && fallo && (
+          <ErrorPanel
+            fallo={fallo}
+            whatsappHref={whatsappHref}
+            onCambiarFoto={reset}
+            onReintentar={() => {
+              setFallo(null);
+              setStatus("idle");
+            }}
+          />
+        )}
+
+        {paso === "material" && !fallo && (
           <div className={styles.pickPanel}>
             <div className={styles.pickPhoto}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -303,9 +323,10 @@ export default function FloorVisualizerSection() {
                       <Image
                         src={m.image}
                         alt=""
-                        width={38}
-                        height={38}
+                        width={96}
+                        height={64}
                         className={styles.paletteSwatch}
+                        style={{ objectPosition: m.swatchPosition }}
                         loading="eager"
                       />
                       <span className={styles.paletteName}>{m.label}</span>
@@ -317,11 +338,6 @@ export default function FloorVisualizerSection() {
             </div>
 
             <div className={styles.pickFooter}>
-              {status === "error" && (
-                <p className={styles.visualizerError} role="alert">
-                  {errorMsg}
-                </p>
-              )}
               <button
                 type="button"
                 className={styles.generateBtn}
@@ -381,10 +397,58 @@ export default function FloorVisualizerSection() {
             )}
           </div>
           )}
-              </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
+  );
+}
+
+/**
+ * El error ocupa el paso entero.
+ *
+ * Antes era una linea roja de 12px al pie: se perdia entre el resto y no
+ * decia que hacer. Cada codigo trae su titulo, su explicacion y la accion que
+ * corresponde — cambiar la foto no sirve si el servicio esta caido.
+ */
+function ErrorPanel({ fallo, whatsappHref, onCambiarFoto, onReintentar }) {
+  const { titulo, detalle, accion } = describeError(fallo.code, fallo);
+
+  return (
+    <div className={styles.errorPanel} role="alert">
+      <span className={styles.errorIcon} aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7.5v5.5M12 16.4v.1" />
+        </svg>
+      </span>
+
+      <h3 className={styles.errorTitle}>{titulo}</h3>
+      {/* El texto propio de la validacion es mas preciso que el generico. */}
+      <p className={styles.errorDetail}>{fallo.error || detalle}</p>
+
+      <div className={styles.errorActions}>
+        {accion === "cambiar-foto" && (
+          <button type="button" className={styles.visualizerPrimaryBtn} onClick={onCambiarFoto}>
+            Probar con otra foto
+          </button>
+        )}
+        {accion === "reintentar" && (
+          <button type="button" className={styles.visualizerPrimaryBtn} onClick={onReintentar}>
+            Reintentar
+          </button>
+        )}
+        {/* Cuando la salida es WhatsApp igual tiene que haber vuelta al flujo:
+            sin esto el visitante queda encerrado en la pantalla de error. */}
+        {(accion === "esperar" || accion === "whatsapp") && (
+          <button type="button" className={styles.visualizerGhostBtn} onClick={onReintentar}>
+            Volver a los materiales
+          </button>
+        )}
+        <ExternalLink href={whatsappHref} className={styles.errorWhatsapp}>
+          Consultar por WhatsApp
+        </ExternalLink>
+      </div>
+    </div>
   );
 }
