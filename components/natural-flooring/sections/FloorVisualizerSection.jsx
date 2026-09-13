@@ -8,12 +8,12 @@ import { ERROR_CODES, describeError } from "../../../lib/visualizerErrors.mjs";
 import { materialLibrary } from "../recommender/recommendationEngine.mjs";
 import { VISUALIZER_STEPS, currentStep, isStepReachable } from "../visualizerSteps.mjs";
 import WoodWipe, { useWoodWipe } from "./WoodWipe";
-import { SectionHead, ExternalLink, cx } from "./shared";
+import { ExternalLink, cx } from "./shared";
 
 const SAMPLE_IMAGE = "/images/euca-rostrata-dormitorio.jpg";
 const WHATSAPP_BASE = "https://api.whatsapp.com/send?phone=5491169977725&text=";
 
-export default function FloorVisualizerSection() {
+export default function FloorVisualizerSection({ presetMaterial }) {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [sizeHint, setSizeHint] = useState("auto");
@@ -42,6 +42,14 @@ export default function FloorVisualizerSection() {
     },
     []
   );
+
+  // Material que llega desde el resultado del asesor. Con una generación en
+  // curso no se toca: cambiaría el nombre del material a mitad de la espera.
+  useEffect(() => {
+    if (!presetMaterial || status === "loading") return;
+    setMaterial(presetMaterial.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [presetMaterial]);
 
   /**
    * Lo que se ve va un paso atras de lo que el estado dice, a proposito: el
@@ -186,13 +194,16 @@ export default function FloorVisualizerSection() {
     );
 
   return (
-    <section id="visualizador" className={styles.visualizer}>
+    <div id="visualizador" className={styles.visualizer}>
       <div className={styles.visualizerInner}>
-        <SectionHead title="PROBÁ EL PISO EN TU AMBIENTE" />
-        <p className={styles.visualizerLead}>
-          Subí una foto de tu ambiente y elegí un material: la inteligencia artificial reemplaza el
-          piso conservando la luz, las sombras y la perspectiva reales.
-        </p>
+        <div className={styles.visualizerHead}>
+          <span className={styles.woodShowcaseBannerTag}>Visualizador con IA</span>
+          <h3 className={styles.visualizerTitle}>Probá el piso en tu ambiente</h3>
+          <p className={styles.visualizerLead}>
+            Subí una foto y elegí un material: la inteligencia artificial reemplaza el piso
+            conservando la luz, las sombras y la perspectiva reales.
+          </p>
+        </div>
 
         <div className={styles.visualizerPanel}>
           <WoodWipe activo={barriendo} direccion={dirBarrido} />
@@ -271,6 +282,11 @@ export default function FloorVisualizerSection() {
               </span>
 
               <p className={styles.dropTitle}>Subí una foto de tu ambiente</p>
+              {elegido && (
+                <p className={styles.dropPreset}>
+                  Vas a probar <strong>{elegido.label}</strong>
+                </p>
+              )}
               <p className={styles.dropHint}>Arrastrala acá o elegila desde tu dispositivo</p>
 
               <span className={styles.visualizerPrimaryBtn}>Elegir foto</span>
@@ -454,7 +470,7 @@ export default function FloorVisualizerSection() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

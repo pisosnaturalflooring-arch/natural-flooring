@@ -3,24 +3,16 @@
 import { AnimatePresence, motion } from "framer-motion";
 import WoodWipe from "./WoodWipe";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import styles from "../NaturalFlooringPage.module.css";
 import { links } from "../data";
 import {
   getRecommendation,
   getStepOption,
-  materialLibrary,
   recommenderSteps,
 } from "../recommender/recommendationEngine.mjs";
 import { cx, ExternalLink } from "./shared";
-
-const otherSolutions = [
-  "Zocalos y terminaciones",
-  "Pulido e hidrolaqueado",
-  "Limpieza y mantenimiento",
-  "Asesoramiento en showroom",
-];
 
 function getExposureLabel(material) {
   if (material.exposures.includes("exterior-exposed")) return "Exterior expuesto";
@@ -48,7 +40,7 @@ const cardVariants = {
   exit: { opacity: 0, transition: { duration: 0.15 } },
 };
 
-export default function WoodRecommenderSection() {
+export default function WoodRecommenderSection({ onTryMaterial }) {
   const [answers, setAnswers] = useState({});
   const [stepIndex, setStepIndex] = useState(0);
   const [isTesting, setIsTesting] = useState(false);
@@ -56,41 +48,6 @@ export default function WoodRecommenderSection() {
   // Custom Wood Shutter Horizontal Wipe Transition States
   const [isWiping, setIsWiping] = useState(false);
   const [wipeDirection, setWipeDirection] = useState('forward');
-
-  // Dynamically update petiribi and guatambu photos in the catalog for beautiful close-up detail texture shots
-  const allMaterials = useMemo(() => {
-    return materialLibrary.map((material) => {
-      if (material.id === "petiribi") {
-        return { ...material, image: "/images/detalle-escalera-petiribi.jpg" };
-      }
-      if (material.id === "guatambu") {
-        return { ...material, image: "/images/guatambu-salon-gimnasio.jpg" };
-      }
-      return material;
-    });
-  }, []);
-
-  // Native scroll-snap slider — mirrors the ProjectModal gallery approach
-  const sliderRef = useRef(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const totalSlides = allMaterials.length;
-
-  const handleSliderScroll = useCallback(() => {
-    const el = sliderRef.current;
-    if (!el || el.offsetWidth === 0) return;
-    setSelectedIndex(Math.round(el.scrollLeft / el.offsetWidth));
-  }, []);
-
-  const scrollToSlide = useCallback((idx) => {
-    const el = sliderRef.current;
-    if (!el) return;
-    // clamp index with wrap-around
-    const target = ((idx % totalSlides) + totalSlides) % totalSlides;
-    el.scrollTo({ left: target * el.offsetWidth, behavior: "smooth" });
-  }, [totalSlides]);
-
-  const scrollPrev = useCallback(() => scrollToSlide(selectedIndex - 1), [selectedIndex, scrollToSlide]);
-  const scrollNext = useCallback(() => scrollToSlide(selectedIndex + 1), [selectedIndex, scrollToSlide]);
 
   // Handle body scrolling lock when fullscreen modal is active
   useEffect(() => {
@@ -176,6 +133,14 @@ export default function WoodRecommenderSection() {
     }, 900);
   }
 
+  // Cierra el asesor con el mismo barrido y recién después baja al
+  // visualizador: con el modal abierto el scroll de la página está bloqueado.
+  function tryInVisualizer() {
+    const materialId = recommendation.primary.id;
+    restart();
+    setTimeout(() => onTryMaterial?.(materialId), 450);
+  }
+
   function startTest() {
     setAnswers({});
     setStepIndex(0);
@@ -185,25 +150,19 @@ export default function WoodRecommenderSection() {
 
 
   return (
-    <section id="asesor" className={styles.recommenderSection}>
-      {/* 1. Redesigned Premium Interactive Spotlight Helper Card (Simplified Text, Huge Button) */}
-      <div className={styles.woodShowcaseBannerWrapper}>
-        <div className={styles.woodShowcaseBanner}>
-          <div className={styles.woodShowcaseBannerContent}>
-            <span className={styles.woodShowcaseBannerTag}>Asistente de Selección</span>
-            <h3>¿No sabés qué madera o material te conviene?</h3>
-            <p>
-              Respondé {recommenderSteps.length} preguntas rápidas sobre tu ambiente y descubrí cuál es la especie recomendada para tu piso o deck.
-            </p>
-          </div>
-          <div className={styles.woodShowcaseBannerAction}>
-            <button type="button" className={styles.woodAdvisorButton} onClick={startTest}>
-              <svg viewBox="0 0 24 24" width="20" height="20" style={{ marginRight: "0.85rem", verticalAlign: "middle" }}>
-                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2zm0 8H7v-2h10v2z"/>
-              </svg>
-              Iniciar Asistente Inteligente
-            </button>
-          </div>
+    <div id="asesor" className={styles.recommenderSection}>
+      <div className={styles.woodShowcaseBanner}>
+        <div className={styles.woodShowcaseBannerContent}>
+          <span className={styles.woodShowcaseBannerTag}>Asesor de materiales</span>
+          <h3>¿No sabés qué material te conviene?</h3>
+          <p>
+            Respondé {recommenderSteps.length} preguntas rápidas sobre tu ambiente y te recomendamos el material ideal para tu piso, deck o escalera.
+          </p>
+        </div>
+        <div className={styles.woodShowcaseBannerAction}>
+          <button type="button" className={styles.woodAdvisorButton} onClick={startTest}>
+            Empezar el asesor →
+          </button>
         </div>
       </div>
 
@@ -372,9 +331,14 @@ export default function WoodRecommenderSection() {
                       </div>
 
                       <div className={styles.resultActions3D}>
+                        {onTryMaterial && (
+                          <button type="button" className={styles.resultPrimaryCta3D} onClick={tryInVisualizer}>
+                            Probarlo en mi ambiente
+                          </button>
+                        )}
                         <ExternalLink
                           href={links.whatsappGeneral}
-                          className={styles.resultPrimaryCta3D}
+                          className={onTryMaterial ? styles.resultSecondaryCta3D : styles.resultPrimaryCta3D}
                           ariaLabel="Pedir asesoramiento por WhatsApp"
                         >
                           Quiero asesoramiento
@@ -391,125 +355,6 @@ export default function WoodRecommenderSection() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* 3. Catalog Guide Draggable Slider without filters */}
-      <div id="materiales-asesor" className={styles.materialGuide}>
-        <div className={styles.materialGuideHead}>
-          <p className={styles.recommenderKicker}>Catalogo orientativo</p>
-          <h3>Maderas y opciones para cada proyecto.</h3>
-          <p>Arrastra para explorar y comprender la diferencia entre cada uno de los distintos tipos de madera y materiales.</p>
-        </div>
-
-        {/* Native scroll-snap slider container */}
-        <div className={styles.speciesSliderWrapper}>
-          <div
-            className={styles.speciesSliderViewport}
-            ref={sliderRef}
-            onScroll={handleSliderScroll}
-          >
-            <div className={styles.speciesSliderContainer}>
-              {allMaterials.map((material, index) => (
-                <div className={styles.speciesSlide} key={material.id}>
-                  <div className={styles.speciesCardSplit}>
-                    <div className={styles.speciesCardImage}>
-                      <Image
-                        src={material.image}
-                        alt={material.imageAlt}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 500px"
-                        priority={index === 0}
-                        className={styles.speciesImg}
-                      />
-                      <div className={styles.speciesBadge}>
-                        {material.natural ? "Madera Natural" : "Material Tecnico"}
-                      </div>
-                    </div>
-                    <div className={styles.speciesCardContent}>
-                      <span className={styles.speciesFamily}>{material.family}</span>
-                      <h4>{material.label}</h4>
-                      <p className={styles.speciesImportance}>{material.importance}</p>
-                      <p className={styles.speciesDecision}>
-                        <strong>Cuando elegirlo:</strong> {material.decision}
-                      </p>
-                      <dl className={styles.speciesSpecsGrid}>
-                        <div>
-                          <dt>Conviene para</dt>
-                          <dd>{material.bestUse}</dd>
-                        </div>
-                        <div>
-                          <dt>Rendimiento</dt>
-                          <dd>{material.statValue}</dd>
-                        </div>
-                        <div>
-                          <dt>Mantenimiento</dt>
-                          <dd>{material.maintenance}</dd>
-                        </div>
-                        <div>
-                          <dt>Ambiente ideal</dt>
-                          <dd>{getExposureLabel(material)}</dd>
-                        </div>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Slider control arrows */}
-          {allMaterials.length > 1 && (
-            <>
-              <button
-                type="button"
-                className={cx(styles.sliderArrow, styles.sliderArrowLeft)}
-                onClick={scrollPrev}
-                aria-label="Anterior material"
-              >
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                className={cx(styles.sliderArrow, styles.sliderArrowRight)}
-                onClick={scrollNext}
-                aria-label="Siguiente material"
-              >
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path fill="currentColor" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-                </svg>
-              </button>
-            </>
-          )}
-        </div>
-
-        {/* Slider dots indicators */}
-        {totalSlides > 1 && (
-          <div className={styles.sliderDots}>
-            {allMaterials.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                className={cx(
-                  styles.sliderDot,
-                  idx === selectedIndex && styles.sliderDotActive
-                )}
-                onClick={() => scrollToSlide(idx)}
-                aria-label={`Ir al material ${idx + 1}`}
-              />
-            ))}
-          </div>
-        )}
-
-        <div className={styles.otherSolutions}>
-          <h4>Otras soluciones que tambien hacemos</h4>
-          <div>
-            {otherSolutions.map((solution) => (
-              <span key={solution}>{solution}</span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }

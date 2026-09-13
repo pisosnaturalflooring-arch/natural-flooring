@@ -22,7 +22,7 @@ export default function HeroSection({ hero }) {
         </p>
 
         <div className={cx(styles.heroActions, styles.heroIntro)} style={{ "--delay": "0.4s" }}>
-          <a href="#categorias" className={styles.primaryButton}>
+          <a href="#productos" className={styles.primaryButton}>
             Ver productos
           </a>
           <a href="#proyectos" className={styles.secondaryButton}>

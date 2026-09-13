@@ -7,12 +7,10 @@ import { ExternalLink, cx } from "./shared";
 import { links } from "../data";
 
 const ICONS = {
-  materials: (
+  price: (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="7" width="20" height="4" rx="1" />
-      <rect x="2" y="13" width="20" height="4" rx="1" />
-      <line x1="6" y1="7" x2="6" y2="4" />
-      <line x1="18" y1="7" x2="18" y2="4" />
+      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+      <line x1="7" y1="7" x2="7.01" y2="7" />
     </svg>
   ),
   install: (
@@ -35,8 +33,15 @@ const ICONS = {
 
 export default function WhySection({ why, whyItems }) {
   return (
-    <section className={styles.whySection} id="por-que-elegirnos">
+    <section className={styles.whySection} id="nosotros">
       <div className={styles.whyInner}>
+        <Reveal className={styles.whyHead}>
+          <p className={styles.sectionLabel}>Nosotros</p>
+          <h2 className={cx(styles.sectionTitle, styles.whySectionTitle)}>
+            MÁS QUE PISOS, EL TRABAJO COMPLETO
+          </h2>
+        </Reveal>
+
         <Reveal direction="left" className={styles.whyMediaWrap}>
           <Image
             fill
@@ -51,14 +56,10 @@ export default function WhySection({ why, whyItems }) {
           </div>
         </Reveal>
 
-        <div>
+        <div className={styles.whyBody}>
           <Reveal>
-            <p className={styles.sectionLabelInverse}>Así trabajamos</p>
-            <h2 className={cx(styles.sectionTitleInverse, styles.whySectionTitle)}>
-              CONFIANZA DE
-              <br />
-              {"PRINCIPIO A FIN"}
-            </h2>
+            <p className={styles.whyStatement}>{why.lead}</p>
+            <p className={styles.whyLead}>{why.description}</p>
           </Reveal>
 
           <div className={styles.whyItems}>

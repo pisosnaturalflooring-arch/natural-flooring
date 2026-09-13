@@ -33,7 +33,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://naturalflooring.com
 
 const title = "Natural Flooring — Pisos & Escaleras · San Fernando";
 const description =
-  "Showroom en San Fernando. Pisos de madera, flotantes, vinílicos, decks y escaleras a medida.";
+  "Showrooms en San Fernando y Escobar. Pisos de madera, SPC y MDF, revestimientos, escaleras, decks, pérgolas y muelles.";
 
 export const metadata = {
   // Necesario para que las URLs de Open Graph salgan absolutas: sin esto

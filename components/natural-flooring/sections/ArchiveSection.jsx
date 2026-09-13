@@ -30,7 +30,7 @@ export default function ArchiveSection({
   const hasMore = !showAll && filteredProjects.length > INITIAL_COUNT;
 
   return (
-    <section className={styles.lightSection} id="proyectos">
+    <section className={styles.lightSection} id="archivo">
       <SectionHead
         label="Archivo de trabajos"
         title={

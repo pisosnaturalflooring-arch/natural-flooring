@@ -32,7 +32,7 @@ export default function MaintenanceSection({ maintenanceProducts, whatsappHref }
   return (
     <section className={styles.altSection} id="productos-mantenimiento">
       <SectionHead
-        label="Productos"
+        label="Productos de mantenimiento"
         title={
           <>
             MANTENÉ TU PISO

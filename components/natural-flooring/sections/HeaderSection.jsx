@@ -25,20 +25,19 @@ export default function HeaderSection() {
 
   useEffect(() => {
     const SECTION_NAV_MAP = {
-      "asesor":                  "#asesor",
-      "materiales-asesor":       "#asesor",
-      "categorias":              "#categorias",
-      "por-que-elegirnos":       "#categorias",
-      "proceso":                 "#categorias",
-      "escaleras":               "#categorias",
-      "obras":                   "#proyectos",
-      "antes-despues":           "#proyectos",
-      "comercial":               "#proyectos",
+      "nosotros":                "#nosotros",
+      "garantia":                "#nosotros",
+      "productos":               "#productos",
+      "proceso":                 "#productos",
+      "escaleras":               "#productos",
+      "herramientas":            "#herramientas",
       "proyectos":               "#proyectos",
-      "productos-mantenimiento": "#productos-mantenimiento",
-      "resenas":                 "#productos-mantenimiento",
-      "redes":                   "#contacto",
-      "agenda":                  "#contacto",
+      "antes-despues":           "#proyectos",
+      "archivo":                 "#proyectos",
+      "productos-mantenimiento": "#productos",
+      "resenas":                 "",
+      "redes":                   "",
+      "showrooms":               "#showrooms",
       "contacto":                "#contacto",
     };
 
@@ -87,15 +86,47 @@ export default function HeaderSection() {
       </a>
 
       <nav className={styles.nav}>
-        {navLinks.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            className={cx(styles.navLink, activeSection === link.href && styles.navLinkActive)}
-          >
-            {link.label}
-          </a>
-        ))}
+        {navLinks.map((link) =>
+          link.groups ? (
+            <div key={link.href} className={styles.navItem}>
+              <a
+                href={link.href}
+                aria-haspopup="true"
+                className={cx(styles.navLink, activeSection === link.href && styles.navLinkActive)}
+              >
+                {link.label}
+                <span className={styles.navCaret} aria-hidden="true">▾</span>
+              </a>
+              <div className={styles.navDropdown}>
+                <div className={styles.navDropdownGroups}>
+                  {link.groups.map((group) => (
+                    <div key={group.href}>
+                      <a href={group.href} className={styles.navDropdownHeading}>
+                        {group.label}
+                      </a>
+                      {group.items.map((item) => (
+                        <a key={item.href} href={item.href} className={styles.navDropdownLink}>
+                          {item.label}
+                        </a>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+                <a href={link.extra.href} className={styles.navDropdownExtra}>
+                  {link.extra.label} →
+                </a>
+              </div>
+            </div>
+          ) : (
+            <a
+              key={link.href}
+              href={link.href}
+              className={cx(styles.navLink, activeSection === link.href && styles.navLinkActive)}
+            >
+              {link.label}
+            </a>
+          )
+        )}
       </nav>
 
       <div className={styles.headerIconGroup}>

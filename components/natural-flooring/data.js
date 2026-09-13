@@ -22,20 +22,184 @@ export const links = {
   calendar: "CALENDLY_LINK_AQUI",
 };
 
+// Link de WhatsApp con un mensaje que ya nombra el producto consultado.
+function whatsappAbout(producto) {
+  const text = `Hola! Quiero consultar por ${producto}. ¿Me pueden asesorar?`;
+  return `https://api.whatsapp.com/send?phone=5491169977725&text=${encodeURIComponent(text)}`;
+}
+
+/**
+ * Catálogo de productos, en el orden que pidió el cliente. Las imágenes son
+ * provisorias: el cliente las va a elegir más adelante.
+ */
+export const productGroups = [
+  {
+    id: "pisos",
+    title: "Pisos",
+    description: "Madera maciza, pre-finish, SPC y MDF para interior, y decks para exterior.",
+    items: [
+      {
+        id: "pisos-madera-maciza",
+        navLabel: "Madera maciza",
+        tag: "Interior",
+        title: "Pisos de madera maciza",
+        description: "La calidez y la nobleza de la madera natural. Se pueden pulir y renovar a lo largo de los años.",
+        image: "/images/euca-rostrata-dormitorio.jpg",
+        alt: "Dormitorio con piso de eucalipto rostrata",
+      },
+      {
+        // TODO(cliente): descripción de pre-finish, la dejó "a completar".
+        id: "pisos-pre-finish",
+        navLabel: "Pre-finish",
+        tag: "Interior",
+        title: "Pisos pre-finish",
+        description: "Madera que llega con la terminación aplicada de fábrica, lista para instalar.",
+        image: "/images/roble-eslabonia-1.jpg",
+        alt: "Living con piso de roble en espiga",
+      },
+      {
+        id: "pisos-spc",
+        navLabel: "SPC",
+        tag: "Interior",
+        title: "Pisos SPC",
+        description: "Piso rígido resistente al agua y al tránsito. Ideal para cocinas, baños y locales.",
+        image: "/images/boutique-spc-roble-europeo.jpg",
+        alt: "Piso SPC roble europeo instalado en boutique",
+      },
+      {
+        id: "pisos-mdf",
+        navLabel: "MDF",
+        tag: "Interior",
+        title: "Pisos MDF",
+        description: "Piso flotante con aspecto de madera, de instalación rápida y excelente precio.",
+        image: "/images/roble-caoba-1.jpg",
+        alt: "Habitación con piso flotante roble caoba",
+      },
+      {
+        id: "pisos-deck-madera",
+        navLabel: "Deck de madera maciza",
+        tag: "Exterior",
+        title: "Deck de madera maciza",
+        description: "Lapacho y maderas duras para galerías, piletas y terrazas.",
+        image: "/images/deck-museo-2.jpg",
+        alt: "Deck de lapacho alrededor de una piscina",
+      },
+      {
+        // TODO(cliente): anotó "información", falta que mande el texto.
+        id: "pisos-deck-wpc",
+        navLabel: "Deck de WPC",
+        tag: "Exterior",
+        title: "Deck de WPC",
+        description: "Compuesto de madera y polímero: no se pudre, no astilla y casi no requiere mantenimiento.",
+        image: "/images/deck-wpc-patio-pileta.jpg",
+        alt: "Deck WPC en patio con pileta",
+      },
+    ],
+  },
+  {
+    id: "revestimientos",
+    title: "Revestimientos",
+    description: "Paredes y fachadas en madera maciza o WPC, para interior y exterior.",
+    items: [
+      {
+        id: "revestimientos-madera-maciza",
+        navLabel: "Madera maciza",
+        tag: "Interior y exterior",
+        title: "Revestimiento de madera maciza",
+        description: "Paredes y techos en madera natural que suman textura y calidez a cualquier ambiente.",
+        image: "/images/revestimiento-pared-madera.jpeg",
+        alt: "Pared revestida en madera",
+      },
+      {
+        id: "revestimientos-wpc",
+        navLabel: "WPC (siding)",
+        tag: "Interior y exterior · Siding",
+        title: "Revestimiento WPC",
+        description: "Siding de WPC para fachadas y paredes: resiste la intemperie sin pintar ni tratar.",
+        image: "/images/deck-wpc-detalle.jpg",
+        alt: "Detalle de tablas de WPC",
+      },
+    ],
+  },
+  {
+    id: "escaleras",
+    title: "Escaleras",
+    description: "Revestimos escaleras en madera maciza o SPC, sin demolición.",
+    items: [
+      {
+        id: "escaleras-madera-maciza",
+        navLabel: "Madera maciza",
+        tag: "Madera maciza",
+        title: "Escaleras de madera maciza",
+        description: "Peldaños y contrahuellas en madera maciza, con terminación hidrolaqueada.",
+        image: "/images/escalera-lapacho-3.jpg",
+        alt: "Escalera revestida en lapacho",
+      },
+      {
+        id: "escaleras-spc",
+        navLabel: "Piso SPC",
+        tag: "SPC",
+        title: "Escaleras en piso SPC",
+        description: "Una renovación rápida y resistente sobre la escalera existente.",
+        image: "/images/escalera-vinilica.jpg",
+        alt: "Escalera revestida en piso SPC",
+      },
+    ],
+  },
+  {
+    id: "exterior",
+    title: "Exterior",
+    description: "Pérgolas y muelles a medida para disfrutar del aire libre.",
+    items: [
+      {
+        id: "exterior-pergolas",
+        navLabel: "Pérgolas",
+        tag: "A medida",
+        title: "Pérgolas",
+        description: "Estructuras de madera para dar sombra y definir espacios en patios y terrazas.",
+        image: "/images/deck-lapacho-terraza.jpg",
+        alt: "Terraza con deck de lapacho",
+      },
+      {
+        id: "exterior-muelles",
+        navLabel: "Muelles",
+        tag: "A medida",
+        title: "Muelles",
+        description: "Muelles y embarcaderos en maderas preparadas para el agua y la intemperie.",
+        image: "/images/deck-lapacho-jacuzzi.jpg",
+        alt: "Deck de lapacho junto al agua",
+      },
+    ],
+  },
+].map((group) => ({
+  ...group,
+  items: group.items.map((item) => ({ ...item, href: whatsappAbout(item.title) })),
+}));
+
 export const navLinks = [
-  { label: "Nosotros", href: "#categorias" },
-  { label: "Asesor", href: "#asesor" },
+  { label: "Nosotros", href: "#nosotros" },
+  {
+    label: "Productos",
+    href: "#productos",
+    groups: productGroups.map((group) => ({
+      label: group.title,
+      href: `#productos-${group.id}`,
+      items: group.items.map((item) => ({ label: item.navLabel, href: `#${item.id}` })),
+    })),
+    extra: { label: "Productos de mantenimiento", href: "#productos-mantenimiento" },
+  },
+  { label: "Asesor", href: "#herramientas" },
   { label: "Proyectos", href: "#proyectos" },
-  { label: "Productos", href: "#productos-mantenimiento" },
+  { label: "Showrooms", href: "#showrooms" },
   { label: "Contacto", href: "#contacto" },
 ];
 
 export const hero = {
-  eyebrow: "Showroom · San Fernando",
+  eyebrow: "Showrooms · San Fernando y Escobar",
   titleLead: "TRANSFORMÁ",
   titleAccent: "PISO.",
   description:
-    "Madera, flotantes, vinílicos y decks exteriores. Visitá nuestro showroom en San Fernando o pedí asesoramiento sin cargo.",
+    "Pisos, revestimientos, escaleras y exteriores. Visitá nuestros showrooms en San Fernando y Escobar o pedí asesoramiento sin cargo.",
   image: "/images/hero-deck-pileta.jpg",
   imageAlt: "Deck gris con reposeras junto a la pileta frente al río",
   imageTag: "Stock disponible · Entrega inmediata",
@@ -53,37 +217,6 @@ export const species = [
   "Haya",
   "WPC Importado",
   "Dryback LVT",
-];
-
-export const categories = [
-  {
-    tag: "Madera",
-    title: "MADERA NATURAL",
-    image: "/images/euca-rostrata-dormitorio.jpg",
-    alt: "Dormitorio con piso de eucalipto rostrata — luz natural",
-    href: "#contacto",
-  },
-  {
-    tag: "Vinílico",
-    title: "PISO VINÍLICO",
-    image: "/images/boutique-spc-roble-europeo.jpg",
-    alt: "Piso SPC roble europeo instalado en boutique — vestidor con revestimiento claro",
-    href: "#contacto",
-  },
-  {
-    tag: "Exterior",
-    title: "DECK WPC",
-    image: "/images/deck-wpc-patio-pileta.jpg",
-    alt: "Deck WPC en patio con pileta — pasarela, tarima y banco del mismo compuesto",
-    href: "#contacto",
-  },
-  {
-    tag: "Madera",
-    title: "ESCALERAS",
-    image: "/images/escalera-lapacho-3.jpg",
-    alt: "Escalera revestida en lapacho — detalle de peldaños y contrahuellas",
-    href: "#escaleras",
-  },
 ];
 
 export const featuredProjects = [
@@ -168,34 +301,68 @@ export const featuredProjects = [
 export const why = {
   image: "/images/pinotea-brillante.jpg",
   imageAlt: "Piso de pinotea con terminación brillante",
-  badgeValue: "200+",
-  badgeLabel: "obras realizadas",
+  badgeValue: "15+",
+  badgeLabel: "años en el rubro",
+  lead: "Somos Natural Flooring: más de 15 años y más de 200 obras en pisos, revestimientos y escaleras.",
+  description:
+    "Además de tener los mejores precios en productos, con nuestros servicios nos encargamos de la parte complementaria, la que hace que todo quede como lo imaginaste desde un principio.",
 };
+
+export const projectsIntro =
+  "Cada obra junta dos cosas que no se pueden separar: buenos productos y un buen servicio. Un material de primera mal instalado no dura, y una gran instalación no salva un material pobre. Por eso elegimos lo que vendemos y lo instalamos nosotros, de la medición a la última terminación.";
+
+// TODO(cliente): el alcance y los plazos de la garantía los tiene que definir él
+// (lo anotó "a rellenar"). Por ahora solo se dice lo que el sitio ya decía.
+export const warranty = {
+  title: "GARANTÍA DE OBRA",
+  description:
+    "Todos nuestros trabajos tienen garantía. Tu inversión queda protegida de principio a fin, y ante cualquier duda o ajuste después de la obra, estamos disponibles.",
+};
+
+export const showrooms = [
+  {
+    name: "San Fernando",
+    address: "3 de Febrero 234, San Fernando",
+    hours: "Lun–Vie 9 a 18 · Sáb 9 a 13",
+    href: links.maps,
+    image: "/images/showroom-frente.jpg",
+    alt: "Frente del showroom de Natural Flooring en San Fernando",
+  },
+  {
+    // TODO: dirección exacta, horario y link de Maps del showroom de Escobar.
+    name: "Escobar",
+    address: "Matheu, Escobar",
+    hours: null,
+    href: "https://maps.google.com/?q=Matheu+Escobar+Buenos+Aires",
+    image: "/images/piso-de-madera-natural.jpg",
+    alt: "Piso de madera natural",
+  },
+];
 
 export const whyItems = [
   {
-    iconKey: "consult",
-    title: "Asesoramiento sin cargo",
+    iconKey: "price",
+    title: "Los mejores precios",
     description:
-      "Antes de tomar cualquier decisión, te asesoramos. Te ayudamos a elegir el material ideal para tu espacio y presupuesto, sin compromiso.",
+      "Pisos, revestimientos y escaleras a los mejores precios, con stock para entrega inmediata.",
   },
   {
-    iconKey: "warranty",
-    title: "Garantía de obra",
+    iconKey: "consult",
+    title: "Te asesoramos desde el principio",
     description:
-      "Todos nuestros trabajos tienen garantía. Tu inversión protegida de principio a fin.",
+      "Te ayudamos a elegir el material ideal para tu espacio y tu presupuesto, sin cargo.",
   },
   {
     iconKey: "install",
-    title: "Instalación profesional",
+    title: "Nos encargamos del resto",
     description:
-      "Especialistas en madera, vinílico, SPC y WPC. Trabajo prolijo con terminaciones que duran.",
+      "Medición, instalación y terminaciones: la parte complementaria corre por nuestra cuenta.",
   },
   {
-    iconKey: "materials",
-    title: "Showroom en San Fernando",
+    iconKey: "warranty",
+    title: "Queda como lo imaginaste",
     description:
-      "Vení a ver y tocar los materiales antes de decidir. Stock disponible con entrega inmediata.",
+      "Instalación profesional, terminaciones prolijas y garantía de obra en cada trabajo.",
   },
 ];
 
@@ -684,7 +851,7 @@ export const chatbotFaq = {
     {
       id: "zonas",
       q: "¿En qué zonas trabajan?",
-      a: "Nuestro showroom está en San Fernando (3 de Febrero 234) y trabajamos en toda Zona Norte y GBA. Para obras más grandes también llegamos a CABA y alrededores.",
+      a: "Tenemos showrooms en San Fernando (3 de Febrero 234) y en Escobar, y trabajamos en toda Zona Norte y GBA. Para obras más grandes también llegamos a CABA y alrededores.",
     },
     {
       id: "plazos",
@@ -704,12 +871,12 @@ export const chatbotFaq = {
     {
       id: "productos",
       q: "¿Venden productos de mantenimiento?",
-      a: "Sí, tenemos stock de Kekol, Varathane y Vermeister con entrega inmediata. En la sección Productos está el catálogo completo para pedirlos por WhatsApp.",
+      a: "Sí, tenemos stock de Kekol, Varathane y Vermeister con entrega inmediata. En Productos de mantenimiento está el catálogo completo para pedirlos por WhatsApp.",
     },
     {
       id: "showroom",
       q: "¿Dónde están y en qué horario?",
-      a: "Showroom: 3 de Febrero 234, San Fernando. Lunes a viernes de 9 a 18 y sábados de 9 a 13. Vení a ver y tocar los materiales en persona.",
+      a: "Showroom San Fernando: 3 de Febrero 234, lunes a viernes de 9 a 18 y sábados de 9 a 13. También tenemos showroom en Escobar: en la sección Showrooms están los datos. Vení a ver y tocar los materiales en persona.",
     },
     {
       id: "escaleras",
@@ -750,9 +917,7 @@ export const footerLinks = navLinks;
 
 export const footer = {
   description:
-    "Showroom en San Fernando. Pisos de madera, flotantes, vinílicos y decks. Presupuesto sin cargo y garantía de obra.",
-  addressLine1: "3 de Febrero 234",
-  addressLine2: "San Fernando, Buenos Aires",
+    "Showrooms en San Fernando y Escobar. Pisos, revestimientos, escaleras y exteriores. Presupuesto sin cargo y garantía de obra.",
   hoursWeek: "Lun–Vie 9 a 18",
   hoursSaturday: "Sáb 9 a 13",
   ctaText: "Respondemos en menos de 24hs. Sin compromiso.",

@@ -47,15 +47,14 @@ describe("hoja de estilos", () => {
    * Huecos que ya existian antes de este guardia. Se listan en vez de
    * ignorarlos para que el test proteja contra los nuevos desde hoy:
    *  - SectionHeading.jsx es un componente muerto, no lo importa nadie.
-   *  - resultImage y recommenderKicker si se usan en el asesor y les falta
-   *    la regla: son dos defectos visuales chicos, pendientes aparte.
+   *  - resultImage si se usa en el asesor y le falta la regla: es un defecto
+   *    visual chico, pendiente aparte.
    */
   const CONOCIDOS = new Set([
     "sectionHeading",
     "sectionHeadingInverse",
     "revealUp",
     "resultImage",
-    "recommenderKicker",
   ]);
 
   it("define una regla base para cada clase que usan los componentes", () => {

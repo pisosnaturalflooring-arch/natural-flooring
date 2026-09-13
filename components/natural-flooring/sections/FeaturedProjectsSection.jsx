@@ -5,11 +5,11 @@ import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { SectionHead, cx } from "./shared";
 
-export default function FeaturedProjectsSection({ featuredProjects, onProjectOpen }) {
+export default function FeaturedProjectsSection({ featuredProjects, intro, onProjectOpen }) {
   return (
-    <section className={styles.altSection} id="obras">
+    <section className={styles.altSection} id="proyectos">
       <SectionHead
-        label="Portfolio"
+        label="Proyectos"
         title={
           <>
             OBRAS
@@ -20,6 +20,10 @@ export default function FeaturedProjectsSection({ featuredProjects, onProjectOpe
         linkHref="#archivo"
         linkLabel="Ver todos →"
       />
+
+      <Reveal>
+        <p className={styles.projectsIntro}>{intro}</p>
+      </Reveal>
 
       <div className={styles.obrasGrid}>
         {featuredProjects.map((project, index) => (

@@ -6,7 +6,6 @@ import {
   archiveFilters,
   archiveProjects,
   beforeAfter,
-  categories,
   chatbotFaq,
   contactItems,
   featuredProjects,
@@ -17,31 +16,36 @@ import {
   links,
   maintenanceProducts,
   processSteps,
+  productGroups,
+  projectsIntro,
   reviewsPrimary,
   reviewsSecondary,
+  showrooms,
   staircase,
+  warranty,
   why,
   whyItems,
 } from "./data";
 import ArchiveSection from "./sections/ArchiveSection";
 import BeforeAfterSection from "./sections/BeforeAfterSection";
-import CategoriesSection from "./sections/CategoriesSection";
 import ChatbotWidget from "./sections/ChatbotWidget";
 import ContactSection from "./sections/ContactSection";
 import FeaturedProjectsSection from "./sections/FeaturedProjectsSection";
-import FloorVisualizerSection from "./sections/FloorVisualizerSection";
 import FooterSection from "./sections/FooterSection";
 import HeaderSection from "./sections/HeaderSection";
 import HeroSection from "./sections/HeroSection";
 import MaintenanceSection from "./sections/MaintenanceSection";
 import NewsletterPopup from "./sections/NewsletterPopup";
 import ProcessSection from "./sections/ProcessSection";
+import ProductsSection from "./sections/ProductsSection";
 import ProjectModal from "./sections/ProjectModal";
 import ReviewsSection from "./sections/ReviewsSection";
+import ShowroomsSection from "./sections/ShowroomsSection";
 import SocialSection from "./sections/SocialSection";
 import StaircaseSection from "./sections/StaircaseSection";
+import ToolsSection from "./sections/ToolsSection";
+import WarrantySection from "./sections/WarrantySection";
 import WhySection from "./sections/WhySection";
-import WoodRecommenderSection from "./sections/WoodRecommenderSection";
 
 export default function NaturalFlooringPage() {
   const [activeCategory, setActiveCategory] = useState("todos");
@@ -69,11 +73,12 @@ export default function NaturalFlooringPage() {
       {/* 1. What you do */}
       <HeroSection hero={hero} />
 
-      {/* 2. What you offer */}
-      <CategoriesSection categories={categories} />
-
-      {/* 3. Why choose us */}
+      {/* 2. Nosotros: quiénes somos y por qué elegirnos */}
       <WhySection why={why} whyItems={whyItems} />
+      <WarrantySection warranty={warranty} whatsappHref={links.whatsappGeneral} />
+
+      {/* 3. Productos: catálogo por familia */}
+      <ProductsSection productGroups={productGroups} />
 
       {/* 4. How easy it is to start */}
       <ProcessSection processSteps={processSteps} whatsappHref={links.whatsappGeneral} />
@@ -81,20 +86,17 @@ export default function NaturalFlooringPage() {
       {/* 5. Specific services */}
       <StaircaseSection staircase={staircase} whatsappHref={links.whatsappStairs} />
 
-      {/* 6. Guided material recommendation */}
-      <WoodRecommenderSection />
+      {/* 6. Asesor + visualizador: elegir el material y probarlo */}
+      <ToolsSection />
 
-      {/* 6b. Interactive floor visualizer */}
-      <FloorVisualizerSection />
-
-      {/* 6. Projects — curated first, then full archive */}
+      {/* 7. Proyectos — curated first, then full archive */}
       <FeaturedProjectsSection
         featuredProjects={featuredProjects}
+        intro={projectsIntro}
         onProjectOpen={setSelectedProject}
       />
       <BeforeAfterSection beforeAfter={beforeAfter} whatsappHref={links.whatsappGeneral} />
 
-      {/* 8. Deep dive into all projects */}
       <ArchiveSection
         activeCategory={activeCategory}
         archiveFilters={archiveFilters}
@@ -103,13 +105,13 @@ export default function NaturalFlooringPage() {
         onProjectOpen={setSelectedProject}
       />
 
-      {/* 9. Products */}
+      {/* 8. Maintenance products */}
       <MaintenanceSection
         maintenanceProducts={maintenanceProducts}
         whatsappHref={links.whatsappMaintenanceHelp}
       />
 
-      {/* 10. Social proof */}
+      {/* 9. Social proof */}
       <ReviewsSection
         mapsHref={links.maps}
         mapsAllReviewsHref={links.mapsAllReviews}
@@ -117,8 +119,11 @@ export default function NaturalFlooringPage() {
         reviewsSecondary={reviewsSecondary}
       />
 
-      {/* 11. Content */}
+      {/* 10. Content */}
       <SocialSection instagramPosts={instagramPosts} instagramHref={links.instagram} />
+
+      {/* 11. Showrooms */}
+      <ShowroomsSection showrooms={showrooms} />
 
       {/* 12. Action */}
       <ContactSection contactItems={contactItems} whatsappHref={links.whatsappGeneral} />
@@ -126,6 +131,7 @@ export default function NaturalFlooringPage() {
       <FooterSection
         footer={footer}
         footerLinks={footerLinks}
+        showrooms={showrooms}
         instagramHref={links.instagram}
         whatsappHref={links.whatsappGeneral}
       />

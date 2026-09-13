@@ -6,7 +6,7 @@ import { links } from "../data";
 import { NaturalFlooringMark } from "./BrandLogo";
 import { ClockIcon, EmailIcon, ExternalLink, InstagramIcon, MapPinIcon, MercadoLibreIcon, PhoneIcon, WhatsAppIcon } from "./shared";
 
-export default function FooterSection({ footer, footerLinks, instagramHref, whatsappHref }) {
+export default function FooterSection({ footer, footerLinks, showrooms, instagramHref, whatsappHref }) {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
@@ -48,13 +48,15 @@ export default function FooterSection({ footer, footerLinks, instagramHref, what
         <Reveal direction="up" delay={0.16}>
           <div className={styles.footerHeading}>Contacto</div>
           <div className={styles.footerMetaList}>
-            <div className={styles.footerMetaRow}>
-              <MapPinIcon />
-              <div>
-                <div>{footer.addressLine1}</div>
-                <div>{footer.addressLine2}</div>
+            {showrooms.map((showroom) => (
+              <div key={showroom.name} className={styles.footerMetaRow}>
+                <MapPinIcon />
+                <div>
+                  <div>Showroom {showroom.name}</div>
+                  <div>{showroom.address}</div>
+                </div>
               </div>
-            </div>
+            ))}
             <div className={styles.footerMetaRow}>
               <PhoneIcon />
               <ExternalLink href={links.phone} className={styles.footerMetaLink}>
