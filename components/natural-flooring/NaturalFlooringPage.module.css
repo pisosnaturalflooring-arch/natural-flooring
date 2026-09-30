@@ -3099,6 +3099,58 @@ a.contactRow:hover {
 
 .pickFooter {
   grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 0.9rem;
+}
+
+.pickPhone {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.pickPhoneLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cream);
+}
+
+.pickPhoneInput {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(244, 241, 232, 0.22);
+  border-radius: 10px;
+  background: rgba(244, 241, 232, 0.06);
+  color: var(--cream);
+  font-family: var(--body);
+  font-size: 1rem;
+}
+
+.pickPhoneInput::placeholder {
+  color: rgba(244, 241, 232, 0.38);
+}
+
+.pickPhoneInput:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 1px;
+}
+
+.pickPhoneInput[aria-invalid="true"] {
+  border-color: #e0785c;
+}
+
+.pickPhoneHint {
+  grid-column: 1 / -1;
+  min-height: 1.1em;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(244, 241, 232, 0.55);
+}
+
+.pickPhoneHintError {
+  color: #f08a6c;
 }
 
 .generateBtn {
@@ -3316,6 +3368,15 @@ a.contactRow:hover {
   .pickPanel {
     height: auto;
     min-height: 530px;
+  }
+
+  .pickFooter {
+    grid-template-columns: 1fr;
+  }
+
+  /* En una columna el aviso va pegado al campo, no debajo del boton. */
+  .pickFooter .generateBtn {
+    order: 1;
   }
 
   .palette {

@@ -1,4 +1,8 @@
+import { materialLibrary } from "../../../components/natural-flooring/recommender/recommendationEngine.mjs";
 import { createFloorCheck } from "../../../lib/floorCheck.mjs";
+import { createLeadNotifier } from "../../../lib/leadNotifier.mjs";
+import { normalizePhone } from "../../../lib/leadValidation.mjs";
+import { getLeadsStore } from "../../../lib/leadsStore.mjs";
 import {
   ERROR_CODES,
   SEVERIDAD_INTERNA,
@@ -44,6 +48,9 @@ export async function POST(request) {
   }
   const { image, material, size } = validation.value;
 
+  const phone = normalizePhone(form.get("phone"));
+  if (!phone) return falla(ERROR_CODES.TELEFONO_INVALIDO, 400);
+
   // El limite se consume recien aca: un pedido invalido no gasta plata, asi que
   // equivocarse de archivo no puede dejar a nadie bloqueado diez minutos.
   const { allowed, retryAfterSeconds } = limiter.check(clientIp(request));
@@ -53,6 +60,10 @@ export async function POST(request) {
       { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
     );
   }
+
+  // El telefono se guarda antes de generar: si despues algo falla (una foto
+  // sin piso, OpenAI sin credito) el contacto ya esta a salvo.
+  await guardarLead(phone);
 
   // Antes de gastar la generacion cara, un modelo chico confirma que la foto
   // muestre un piso. Falla abierto: ver lib/floorCheck.mjs.
@@ -70,6 +81,9 @@ export async function POST(request) {
   if (chequeo.skipped) {
     console.warn("[visualizer] Chequeo de foto omitido:", chequeo.skipped);
   }
+
+  const avisar = (resultBase64) =>
+    avisarLead({ phone, material, original: bytes, originalType: image.type, resultBase64 });
 
   try {
     const oaForm = new FormData();
@@ -93,18 +107,62 @@ export async function POST(request) {
       // El error de OpenAI trae la clave enmascarada y datos de la cuenta: no se
       // reenvia. Solo viaja el codigo con el que el cliente arma su mensaje.
       console.error("[visualizer] OpenAI respondió", res.status, data?.error?.message);
+      await avisar();
       return falla(mapOpenAiFailure(res.status, data), 502);
     }
 
     const b64 = data?.data?.[0]?.b64_json;
     if (!b64) {
       console.error("[visualizer] OpenAI no devolvió imagen:", JSON.stringify(data).slice(0, 500));
+      await avisar();
       return falla(ERROR_CODES.SERVICIO_CAIDO, 502);
     }
 
+    await avisar(b64);
     return Response.json({ image: `data:image/png;base64,${b64}` });
   } catch (e) {
     console.error("[visualizer] Error inesperado:", e);
+    await avisar();
     return falla(ERROR_CODES.DESCONOCIDO, 500);
   }
+}
+
+/** Nunca corta la generacion: sin base, el mail sigue llevando el telefono. */
+async function guardarLead(phone) {
+  try {
+    const store = await getLeadsStore();
+    if (!store) {
+      console.error("[visualizer] Falta TURSO_DATABASE_URL. Lead no guardado:", phone);
+      return;
+    }
+    await store.insertLead({ phone, source: "visualizador" });
+  } catch (e) {
+    console.error("[visualizer] Error guardando el lead:", phone, e);
+  }
+}
+
+/** El mail lleva la foto original y, si se pudo generar, el resultado. */
+async function avisarLead({ phone, material, original, originalType, resultBase64 }) {
+  const extension = originalType === "image/png" ? "png" : originalType === "image/webp" ? "webp" : "jpg";
+  const attachments = [
+    { filename: `ambiente-original.${extension}`, content: original.toString("base64"), content_type: originalType },
+  ];
+  if (resultBase64) {
+    attachments.push({ filename: "ambiente-con-piso-nuevo.png", content: resultBase64, content_type: "image/png" });
+  }
+
+  const notify = createLeadNotifier({
+    apiKey: process.env.RESEND_API_KEY,
+    to: process.env.LEADS_NOTIFY_EMAIL,
+    from: process.env.LEADS_FROM_EMAIL,
+  });
+  const notified = await notify({
+    phone,
+    source: "visualizador",
+    createdAt: new Date().toISOString(),
+    material: materialLibrary.find((m) => m.id === material)?.label,
+    generated: Boolean(resultBase64),
+    attachments,
+  });
+  if (!notified.sent) console.warn("[visualizer] Lead sin aviso por mail:", notified.reason);
 }

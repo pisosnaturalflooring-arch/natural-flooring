@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
 import { MIN_IMAGE_SIDE, isBigEnough } from "../../../lib/visualizerInput.mjs";
 import { ERROR_CODES, describeError } from "../../../lib/visualizerErrors.mjs";
+import { normalizePhone, sanitizePhoneInput } from "../../../lib/leadValidation.mjs";
 import { materialLibrary } from "../recommender/recommendationEngine.mjs";
 import { VISUALIZER_STEPS, currentStep, isStepReachable } from "../visualizerSteps.mjs";
 import WoodWipe, { useWoodWipe } from "./WoodWipe";
@@ -12,6 +13,28 @@ import { ExternalLink, cx } from "./shared";
 
 const SAMPLE_IMAGE = "/images/euca-rostrata-dormitorio.jpg";
 const WHATSAPP_BASE = "https://api.whatsapp.com/send?phone=5491169977725&text=";
+
+// Vercel corta los pedidos de mas de 4,5 MB y una foto de celular los pasa
+// seguido. OpenAI devuelve a lo sumo 1536 px, asi que 2048 no pierde nada.
+const LADO_MAXIMO = 2048;
+const PESO_SIN_TOCAR = 3 * 1024 * 1024;
+
+function achicar(img, f) {
+  const escala = Math.min(1, LADO_MAXIMO / Math.max(img.naturalWidth, img.naturalHeight));
+  if (escala === 1 && f.size <= PESO_SIN_TOCAR) return Promise.resolve(f);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(img.naturalWidth * escala);
+  canvas.height = Math.round(img.naturalHeight * escala);
+  canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+  return new Promise((resolve) => {
+    canvas.toBlob(
+      (blob) => resolve(blob ? new File([blob], f.name.replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" }) : f),
+      "image/jpeg",
+      0.88
+    );
+  });
+}
 
 export default function FloorVisualizerSection({ presetMaterial }) {
   const [file, setFile] = useState(null);
@@ -26,6 +49,8 @@ export default function FloorVisualizerSection({ presetMaterial }) {
   const [requested, setRequested] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [mostrandoAntes, setMostrandoAntes] = useState(false);
+  const [telefono, setTelefono] = useState("");
+  const [telefonoError, setTelefonoError] = useState("");
 
   const objectUrlRef = useRef("");
   const pasoPrevioRef = useRef(0);
@@ -97,7 +122,7 @@ export default function FloorVisualizerSection({ presetMaterial }) {
     const url = URL.createObjectURL(f);
     const img = new window.Image();
 
-    img.onload = () => {
+    img.onload = async () => {
       if (!isBigEnough(img.naturalWidth, img.naturalHeight)) {
         URL.revokeObjectURL(url);
         setErrorMsg(
@@ -108,7 +133,7 @@ export default function FloorVisualizerSection({ presetMaterial }) {
 
       if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
       objectUrlRef.current = url;
-      setFile(f);
+      setFile(await achicar(img, f));
       setPreviewUrl(url);
       setResultUrl("");
       setStatus("idle");
@@ -136,6 +161,11 @@ export default function FloorVisualizerSection({ presetMaterial }) {
 
   async function generar() {
     if (!file || !material) return;
+    if (!normalizePhone(telefono)) {
+      setTelefonoError("Ingresá tu celular con código de área.");
+      return;
+    }
+    setTelefonoError("");
     setStatus("loading");
     setErrorMsg("");
     setFallo(null);
@@ -145,6 +175,7 @@ export default function FloorVisualizerSection({ presetMaterial }) {
       fd.append("image", file);
       fd.append("material", material);
       fd.append("size", sizeHint);
+      fd.append("phone", telefono);
       const res = await fetch("/api/visualizer", { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) {
@@ -383,6 +414,23 @@ export default function FloorVisualizerSection({ presetMaterial }) {
             </div>
 
             <div className={styles.pickFooter}>
+              <label className={styles.pickPhone}>
+                <span className={styles.pickPhoneLabel}>Tu celular</span>
+                <input
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="Ej. 11 2345-6789"
+                  className={styles.pickPhoneInput}
+                  value={telefono}
+                  aria-invalid={Boolean(telefonoError)}
+                  aria-describedby="visualizador-telefono-ayuda"
+                  onChange={(e) => {
+                    setTelefono(sanitizePhoneInput(e.target.value));
+                    setTelefonoError("");
+                  }}
+                />
+              </label>
               <button
                 type="button"
                 className={styles.generateBtn}
@@ -391,6 +439,13 @@ export default function FloorVisualizerSection({ presetMaterial }) {
               >
                 {elegido ? `Generar con ${elegido.label}` : "Elegí un material para continuar"}
               </button>
+              <span
+                id="visualizador-telefono-ayuda"
+                className={cx(styles.pickPhoneHint, telefonoError && styles.pickPhoneHintError)}
+                role={telefonoError ? "alert" : undefined}
+              >
+                {telefonoError || "Te escribimos para saber si te gustó y ayudarte a elegir."}
+              </span>
             </div>
           </div>
         )}
