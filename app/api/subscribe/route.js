@@ -1,3 +1,4 @@
+import { citriqsDesdeEntorno } from "../../../lib/citriqs.mjs";
 import { createLeadNotifier } from "../../../lib/leadNotifier.mjs";
 import { normalizePhone, normalizeSource } from "../../../lib/leadValidation.mjs";
 import { getLeadsStore } from "../../../lib/leadsStore.mjs";
@@ -48,6 +49,9 @@ export async function POST(request) {
       { status: 503 }
     );
   }
+
+  const enviada = await citriqsDesdeEntorno().enviarConsulta({ id: crypto.randomUUID(), telefono: phone, origen: "formulario" });
+  if (!enviada.ok) console.warn("[subscribe] Consulta sin llegar a Citriqs:", enviada.motivo);
 
   // El lead ya esta a salvo: si el mail falla solo queda en el log.
   const notify = createLeadNotifier({

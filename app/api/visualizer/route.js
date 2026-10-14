@@ -1,4 +1,5 @@
 import { materialLibrary } from "../../../components/natural-flooring/recommender/recommendationEngine.mjs";
+import { citriqsDesdeEntorno } from "../../../lib/citriqs.mjs";
 import { createFloorCheck } from "../../../lib/floorCheck.mjs";
 import { createLeadNotifier } from "../../../lib/leadNotifier.mjs";
 import { normalizePhone } from "../../../lib/leadValidation.mjs";
@@ -50,6 +51,8 @@ export async function POST(request) {
 
   const phone = normalizePhone(form.get("phone"));
   if (!phone) return falla(ERROR_CODES.TELEFONO_INVALIDO, 400);
+  // Un id por pedido: si Citriqs recibe la consulta dos veces, no la duplica.
+  const consultaId = crypto.randomUUID();
 
   // El limite se consume recien aca: un pedido invalido no gasta plata, asi que
   // equivocarse de archivo no puede dejar a nadie bloqueado diez minutos.
@@ -83,7 +86,7 @@ export async function POST(request) {
   }
 
   const avisar = (resultBase64) =>
-    avisarLead({ phone, material, original: bytes, originalType: image.type, resultBase64 });
+    avisarLead({ consultaId, phone, material, original: bytes, originalType: image.type, resultBase64 });
 
   try {
     const oaForm = new FormData();
@@ -142,7 +145,18 @@ async function guardarLead(phone) {
 }
 
 /** El mail lleva la foto original y, si se pudo generar, el resultado. */
-async function avisarLead({ phone, material, original, originalType, resultBase64 }) {
+async function avisarLead({ consultaId, phone, material, original, originalType, resultBase64 }) {
+  // Primero a Citriqs; el mail de abajo sale igual, como respaldo mientras dure el piloto.
+  const enviada = await citriqsDesdeEntorno().enviarConsulta({
+    id: consultaId,
+    telefono: phone,
+    origen: "visualizador",
+    material,
+    fotoOriginal: { bytes: original, type: originalType },
+    fotoResultado: resultBase64 ? { base64: resultBase64, type: "image/png" } : null,
+  });
+  if (!enviada.ok) console.warn("[visualizer] Consulta sin llegar a Citriqs:", enviada.motivo);
+
   const extension = originalType === "image/png" ? "png" : originalType === "image/webp" ? "webp" : "jpg";
   const attachments = [
     { filename: `ambiente-original.${extension}`, content: original.toString("base64"), content_type: originalType },
