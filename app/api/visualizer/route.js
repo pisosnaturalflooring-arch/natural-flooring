@@ -146,8 +146,9 @@ async function guardarLead(phone) {
 
 /** El mail lleva la foto original y, si se pudo generar, el resultado. */
 async function avisarLead({ consultaId, phone, material, original, originalType, resultBase64 }) {
-  // Primero a Citriqs; el mail de abajo sale igual, como respaldo mientras dure el piloto.
-  const enviada = await citriqsDesdeEntorno().enviarConsulta({
+  // A Citriqs en paralelo con el mail (que sigue como respaldo mientras dure el piloto):
+  // ninguno espera al otro, y el visualizador tiene 60 s en total.
+  const aCitriqs = citriqsDesdeEntorno().enviarConsulta({
     id: consultaId,
     telefono: phone,
     origen: "visualizador",
@@ -155,7 +156,6 @@ async function avisarLead({ consultaId, phone, material, original, originalType,
     fotoOriginal: { bytes: original, type: originalType },
     fotoResultado: resultBase64 ? { base64: resultBase64, type: "image/png" } : null,
   });
-  if (!enviada.ok) console.warn("[visualizer] Consulta sin llegar a Citriqs:", enviada.motivo);
 
   const extension = originalType === "image/png" ? "png" : originalType === "image/webp" ? "webp" : "jpg";
   const attachments = [
@@ -179,4 +179,6 @@ async function avisarLead({ consultaId, phone, material, original, originalType,
     attachments,
   });
   if (!notified.sent) console.warn("[visualizer] Lead sin aviso por mail:", notified.reason);
+  const enviada = await aCitriqs;
+  if (!enviada.ok) console.warn("[visualizer] Consulta sin llegar a Citriqs:", enviada.motivo);
 }
