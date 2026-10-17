@@ -28,6 +28,7 @@ export default function HeaderSection() {
       "nosotros":                "#nosotros",
       "garantia":                "#nosotros",
       "productos":               "#productos",
+      "adentro-afuera":          "#productos",
       "proceso":                 "#productos",
       "escaleras":               "#productos",
       "herramientas":            "#herramientas",

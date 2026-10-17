@@ -31,9 +31,7 @@ export default function BookingSection() {
         <Reveal className={styles.bookingContent}>
           <p className={styles.sectionLabelInverse}>Sin costo · Sin compromiso</p>
           <h2 className={styles.bookingTitle}>
-            VISITÁ EL
-            <br />
-            SHOWROOM
+            VISITÁ EL SHOWROOM
           </h2>
           <p className={styles.bookingText}>
             Más de 200 muestras disponibles. Venimos a medir a tu casa o te esperamos en el local —

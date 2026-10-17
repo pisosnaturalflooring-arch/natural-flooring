@@ -13,9 +13,7 @@ export default function BeforeAfterSection({ beforeAfter, whatsappHref }) {
         <Reveal>
           <p className={styles.sectionLabelInverse}>Transformación real</p>
           <h2 className={styles.sectionTitleInverse}>
-            ANTES &
-            <br />
-            DESPUÉS
+            ANTES & DESPUÉS
           </h2>
         </Reveal>
         <Reveal delay={0.12} className={styles.materialInfo}>

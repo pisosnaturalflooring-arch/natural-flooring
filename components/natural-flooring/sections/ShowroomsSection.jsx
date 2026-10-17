@@ -12,9 +12,7 @@ export default function ShowroomsSection({ showrooms }) {
         label="Showrooms"
         title={
           <>
-            VENÍ A VER
-            <br />
-            LOS MATERIALES
+            VENÍ A VER LOS MATERIALES
           </>
         }
       />

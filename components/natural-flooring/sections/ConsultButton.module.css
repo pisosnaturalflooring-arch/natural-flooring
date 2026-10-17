@@ -1,0 +1,28 @@
+/* Mismo lenguaje que .primaryButton del sitio: verde de marca, mayúsculas espaciadas. */
+.button[href] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  align-self: flex-start;
+  padding: 0.95rem 1.6rem;
+  border-radius: 2px;
+  background: var(--brand-green);
+  color: var(--brand-white);
+  font-family: var(--body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.button[href]:hover {
+  background: var(--brand-olive);
+  transform: translateY(-1px);
+}
+
+.button[href]:focus-visible {
+  outline: 2px solid var(--olive-dark);
+  outline-offset: 3px;
+}

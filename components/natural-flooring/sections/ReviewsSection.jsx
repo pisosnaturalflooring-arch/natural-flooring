@@ -11,9 +11,7 @@ export default function ReviewsSection({ mapsHref, mapsAllReviewsHref, reviewsPr
         label="Lo que dicen nuestros clientes"
         title={
           <>
-            +15 AÑOS
-            <br />
-            DE CONFIANZA
+            +15 AÑOS DE CONFIANZA
           </>
         }
         linkHref={mapsHref}

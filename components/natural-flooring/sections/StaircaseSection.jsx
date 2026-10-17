@@ -22,9 +22,7 @@ export default function StaircaseSection({ staircase, whatsappHref }) {
         <Reveal direction="right">
           <p className={styles.sectionLabel}>Especialidad</p>
           <h2 className={styles.sectionTitle}>
-            RENOVÁ TU
-            <br />
-            ESCALERA
+            RENOVÁ TU ESCALERA
           </h2>
           <p className={styles.staircaseDescription}>{staircase.description}</p>
         </Reveal>

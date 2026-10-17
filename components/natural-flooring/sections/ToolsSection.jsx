@@ -29,9 +29,7 @@ export default function ToolsSection() {
           label="Antes de decidir"
           title={
             <>
-              ELEGÍ Y PROBÁ
-              <br />
-              TU PISO
+              ELEGÍ Y PROBÁ TU PISO
             </>
           }
           side={

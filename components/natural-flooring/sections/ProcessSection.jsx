@@ -12,9 +12,7 @@ export default function ProcessSection({ processSteps, whatsappHref }) {
         <Reveal className={styles.processLeft}>
           <p className={styles.sectionLabelInverse}>Simple y transparente</p>
           <h2 className={cx(styles.sectionTitleInverse, styles.processHeading)}>
-            CÓMO
-            <br />
-            TRABAJAMOS
+            CÓMO TRABAJAMOS
           </h2>
           <ExternalLink
             href={whatsappHref}

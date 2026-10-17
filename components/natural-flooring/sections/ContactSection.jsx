@@ -33,9 +33,7 @@ export default function ContactSection({ contactItems, whatsappHref }) {
         <Reveal className={styles.contactHead}>
           <p className={styles.sectionLabelInverse}>Contacto</p>
           <h2 className={styles.sectionTitleInverse}>
-            HABLEMOS DE
-            <br />
-            TU PROYECTO
+            HABLEMOS DE TU PROYECTO
           </h2>
           <p className={styles.contactIntro}>
             Venís al showroom o te visitamos en casa — asesoramiento y presupuesto sin cargo.

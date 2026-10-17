@@ -25,7 +25,9 @@
   background: var(--cream);
   color: var(--warm-black);
   font-family: var(--body);
-  overflow-x: hidden;
+  /* clip y no hidden: hidden convierte a .page en contenedor de scroll y
+     rompe los position: sticky de las escenas fijas. */
+  overflow-x: clip;
 }
 
 .page *,
@@ -36,6 +38,23 @@
 
 .page a {
   color: inherit;
+}
+
+/*
+ * Texto corrido justificado en todo el sitio, con guionado en español para
+ * que las columnas angostas no queden con huecos. Especificidad cero a
+ * propósito: cualquier regla que alinee algo explícitamente sigue ganando.
+ */
+:where(.page) :where(p, li) {
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  hyphenate-limit-chars: 8 3 3;
+}
+
+/* Bloques que centran su texto por herencia: ahí se respeta el centrado. */
+:where(.page) :where(.socialFooter, .reviewScoreCard, .dropZone, .resultLoadingCopy, .toolsBridge, .errorPanel, .processOverlay, .materialInfo, .whyBadge, .chatbotCta, .modalThumbLabel) :where(p, li) {
+  text-align: inherit;
 }
 
 .header {
@@ -379,7 +398,7 @@
 }
 
 .heroDescription {
-  max-width: 420px;
+  max-width: 560px;
   margin: 0 0 2.5rem;
   font-size: 0.95rem;
   line-height: 1.75;
@@ -802,7 +821,7 @@
 }
 
 .projectsIntro {
-  max-width: 640px;
+  max-width: 1180px;
   margin: -1.5rem 0 2.5rem;
   font-size: 0.95rem;
   line-height: 1.75;
@@ -1102,7 +1121,7 @@
 }
 
 .whyLead {
-  max-width: 620px;
+  max-width: none;
   margin: 0;
   font-size: 1rem;
   line-height: 1.75;
@@ -1191,16 +1210,15 @@
 
 .processInner {
   display: grid;
-  grid-template-columns: 2fr 3fr;
-  gap: 6rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 4rem;
   align-items: start;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .processLeft {
-  position: sticky;
-  top: 88px;
+  align-self: start;
 }
 
 .processHeading {
@@ -1316,7 +1334,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4rem 3.5rem;
+  padding: 4rem 3rem;
   background: var(--cream);
 }
 
@@ -1775,7 +1793,7 @@
 }
 
 .maintenanceAside {
-  max-width: 320px;
+  max-width: 440px;
   margin: 0;
   font-size: 0.88rem;
   line-height: 1.75;
@@ -2722,7 +2740,7 @@ a.contactRow:hover {
 }
 
 .visualizerLead {
-  max-width: 640px;
+  max-width: none;
   margin: 0;
   /* --muted esta calibrado para fondo crema y sobre el sage queda lavado. */
   color: rgba(26, 28, 20, 0.78);
@@ -5416,7 +5434,7 @@ a.contactRow:hover {
 }
 
 .toolsIntro {
-  max-width: 380px;
+  max-width: 480px;
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.7;

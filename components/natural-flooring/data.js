@@ -1,3 +1,4 @@
+import { species } from "./catalog";
 import { recommenderSteps } from "./recommender/recommendationEngine.mjs";
 
 // La cantidad de preguntas del asesor sale del propio motor: si se agrega o
@@ -22,170 +23,18 @@ export const links = {
   calendar: "CALENDLY_LINK_AQUI",
 };
 
-// Link de WhatsApp con un mensaje que ya nombra el producto consultado.
-function whatsappAbout(producto) {
-  const text = `Hola! Quiero consultar por ${producto}. ¿Me pueden asesorar?`;
-  return `https://api.whatsapp.com/send?phone=5491169977725&text=${encodeURIComponent(text)}`;
-}
-
-/**
- * Catálogo de productos, en el orden que pidió el cliente. Las imágenes son
- * provisorias: el cliente las va a elegir más adelante.
- */
-export const productGroups = [
-  {
-    id: "pisos",
-    title: "Pisos",
-    description: "Madera maciza, pre-finish, SPC y MDF para interior, y decks para exterior.",
-    items: [
-      {
-        id: "pisos-madera-maciza",
-        navLabel: "Madera maciza",
-        tag: "Interior",
-        title: "Pisos de madera maciza",
-        description: "La calidez y la nobleza de la madera natural. Se pueden pulir y renovar a lo largo de los años.",
-        image: "/images/euca-rostrata-dormitorio.jpg",
-        alt: "Dormitorio con piso de eucalipto rostrata",
-      },
-      {
-        // TODO(cliente): descripción de pre-finish, la dejó "a completar".
-        id: "pisos-pre-finish",
-        navLabel: "Pre-finish",
-        tag: "Interior",
-        title: "Pisos pre-finish",
-        description: "Madera que llega con la terminación aplicada de fábrica, lista para instalar.",
-        image: "/images/roble-eslabonia-1.jpg",
-        alt: "Living con piso de roble en espiga",
-      },
-      {
-        id: "pisos-spc",
-        navLabel: "SPC",
-        tag: "Interior",
-        title: "Pisos SPC",
-        description: "Piso rígido resistente al agua y al tránsito. Ideal para cocinas, baños y locales.",
-        image: "/images/boutique-spc-roble-europeo.jpg",
-        alt: "Piso SPC roble europeo instalado en boutique",
-      },
-      {
-        id: "pisos-mdf",
-        navLabel: "MDF",
-        tag: "Interior",
-        title: "Pisos MDF",
-        description: "Piso flotante con aspecto de madera, de instalación rápida y excelente precio.",
-        image: "/images/roble-caoba-1.jpg",
-        alt: "Habitación con piso flotante roble caoba",
-      },
-      {
-        id: "pisos-deck-madera",
-        navLabel: "Deck de madera maciza",
-        tag: "Exterior",
-        title: "Deck de madera maciza",
-        description: "Lapacho y maderas duras para galerías, piletas y terrazas.",
-        image: "/images/deck-museo-2.jpg",
-        alt: "Deck de lapacho alrededor de una piscina",
-      },
-      {
-        // TODO(cliente): anotó "información", falta que mande el texto.
-        id: "pisos-deck-wpc",
-        navLabel: "Deck de WPC",
-        tag: "Exterior",
-        title: "Deck de WPC",
-        description: "Compuesto de madera y polímero: no se pudre, no astilla y casi no requiere mantenimiento.",
-        image: "/images/deck-wpc-patio-pileta.jpg",
-        alt: "Deck WPC en patio con pileta",
-      },
-    ],
-  },
-  {
-    id: "revestimientos",
-    title: "Revestimientos",
-    description: "Paredes y fachadas en madera maciza o WPC, para interior y exterior.",
-    items: [
-      {
-        id: "revestimientos-madera-maciza",
-        navLabel: "Madera maciza",
-        tag: "Interior y exterior",
-        title: "Revestimiento de madera maciza",
-        description: "Paredes y techos en madera natural que suman textura y calidez a cualquier ambiente.",
-        image: "/images/revestimiento-pared-madera.jpeg",
-        alt: "Pared revestida en madera",
-      },
-      {
-        id: "revestimientos-wpc",
-        navLabel: "WPC (siding)",
-        tag: "Interior y exterior · Siding",
-        title: "Revestimiento WPC",
-        description: "Siding de WPC para fachadas y paredes: resiste la intemperie sin pintar ni tratar.",
-        image: "/images/deck-wpc-detalle.jpg",
-        alt: "Detalle de tablas de WPC",
-      },
-    ],
-  },
-  {
-    id: "escaleras",
-    title: "Escaleras",
-    description: "Revestimos escaleras en madera maciza o SPC, sin demolición.",
-    items: [
-      {
-        id: "escaleras-madera-maciza",
-        navLabel: "Madera maciza",
-        tag: "Madera maciza",
-        title: "Escaleras de madera maciza",
-        description: "Peldaños y contrahuellas en madera maciza, con terminación hidrolaqueada.",
-        image: "/images/escalera-lapacho-3.jpg",
-        alt: "Escalera revestida en lapacho",
-      },
-      {
-        id: "escaleras-spc",
-        navLabel: "Piso SPC",
-        tag: "SPC",
-        title: "Escaleras en piso SPC",
-        description: "Una renovación rápida y resistente sobre la escalera existente.",
-        image: "/images/escalera-vinilica.jpg",
-        alt: "Escalera revestida en piso SPC",
-      },
-    ],
-  },
-  {
-    id: "exterior",
-    title: "Exterior",
-    description: "Pérgolas y muelles a medida para disfrutar del aire libre.",
-    items: [
-      {
-        id: "exterior-pergolas",
-        navLabel: "Pérgolas",
-        tag: "A medida",
-        title: "Pérgolas",
-        description: "Estructuras de madera para dar sombra y definir espacios en patios y terrazas.",
-        image: "/images/deck-lapacho-terraza.jpg",
-        alt: "Terraza con deck de lapacho",
-      },
-      {
-        id: "exterior-muelles",
-        navLabel: "Muelles",
-        tag: "A medida",
-        title: "Muelles",
-        description: "Muelles y embarcaderos en maderas preparadas para el agua y la intemperie.",
-        image: "/images/deck-lapacho-jacuzzi.jpg",
-        alt: "Deck de lapacho junto al agua",
-      },
-    ],
-  },
-].map((group) => ({
-  ...group,
-  items: group.items.map((item) => ({ ...item, href: whatsappAbout(item.title) })),
-}));
-
 export const navLinks = [
   { label: "Nosotros", href: "#nosotros" },
   {
     label: "Productos",
     href: "#productos",
-    groups: productGroups.map((group) => ({
-      label: group.title,
-      href: `#productos-${group.id}`,
-      items: group.items.map((item) => ({ label: item.navLabel, href: `#${item.id}` })),
-    })),
+    groups: [
+      {
+        label: "Maderas",
+        href: "#productos",
+        items: species.map((item) => ({ label: item.name, href: `#madera-${item.id}` })),
+      },
+    ],
     extra: { label: "Productos de mantenimiento", href: "#productos-mantenimiento" },
   },
   { label: "Asesor", href: "#herramientas" },
@@ -209,15 +58,6 @@ export const hero = {
     { value: "GRATIS", label: "Consulta inicial" },
   ],
 };
-
-export const species = [
-  "Lapacho",
-  "Viraro",
-  "Roble Blanco",
-  "Haya",
-  "WPC Importado",
-  "Dryback LVT",
-];
 
 export const featuredProjects = [
   {

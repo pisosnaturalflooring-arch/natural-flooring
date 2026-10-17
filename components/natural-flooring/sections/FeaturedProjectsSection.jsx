@@ -12,9 +12,7 @@ export default function FeaturedProjectsSection({ featuredProjects, intro, onPro
         label="Proyectos"
         title={
           <>
-            OBRAS
-            <br />
-            REALIZADAS
+            OBRAS REALIZADAS
           </>
         }
         linkHref="#archivo"

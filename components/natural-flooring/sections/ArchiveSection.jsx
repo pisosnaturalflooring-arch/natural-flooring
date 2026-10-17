@@ -35,9 +35,7 @@ export default function ArchiveSection({
         label="Archivo de trabajos"
         title={
           <>
-            TODOS NUESTROS
-            <br />
-            PROYECTOS
+            TODOS NUESTROS PROYECTOS
           </>
         }
         side={

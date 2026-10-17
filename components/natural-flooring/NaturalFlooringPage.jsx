@@ -16,7 +16,6 @@ import {
   links,
   maintenanceProducts,
   processSteps,
-  productGroups,
   projectsIntro,
   reviewsPrimary,
   reviewsSecondary,
@@ -26,6 +25,7 @@ import {
   why,
   whyItems,
 } from "./data";
+import { insideOut, practicalOptions, species, speciesOnRequest } from "./catalog";
 import ArchiveSection from "./sections/ArchiveSection";
 import BeforeAfterSection from "./sections/BeforeAfterSection";
 import ChatbotWidget from "./sections/ChatbotWidget";
@@ -34,14 +34,15 @@ import FeaturedProjectsSection from "./sections/FeaturedProjectsSection";
 import FooterSection from "./sections/FooterSection";
 import HeaderSection from "./sections/HeaderSection";
 import HeroSection from "./sections/HeroSection";
+import InsideOutSection from "./sections/InsideOutSection";
 import MaintenanceSection from "./sections/MaintenanceSection";
 import NewsletterPopup from "./sections/NewsletterPopup";
 import ProcessSection from "./sections/ProcessSection";
-import ProductsSection from "./sections/ProductsSection";
 import ProjectModal from "./sections/ProjectModal";
 import ReviewsSection from "./sections/ReviewsSection";
 import ShowroomsSection from "./sections/ShowroomsSection";
 import SocialSection from "./sections/SocialSection";
+import SpeciesWallSection from "./sections/SpeciesWallSection";
 import StaircaseSection from "./sections/StaircaseSection";
 import ToolsSection from "./sections/ToolsSection";
 import WarrantySection from "./sections/WarrantySection";
@@ -77,8 +78,9 @@ export default function NaturalFlooringPage() {
       <WhySection why={why} whyItems={whyItems} />
       <WarrantySection warranty={warranty} whatsappHref={links.whatsappGeneral} />
 
-      {/* 3. Productos: catálogo por familia */}
-      <ProductsSection productGroups={productGroups} />
+      {/* 3. Productos: las maderas una por una y el lapacho de adentro hacia afuera. */}
+      <SpeciesWallSection species={species} onRequest={speciesOnRequest} practical={practicalOptions} />
+      <InsideOutSection insideOut={insideOut} />
 
       {/* 4. How easy it is to start */}
       <ProcessSection processSteps={processSteps} whatsappHref={links.whatsappGeneral} />

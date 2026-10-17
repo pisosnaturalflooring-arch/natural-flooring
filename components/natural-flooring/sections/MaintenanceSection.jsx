@@ -35,9 +35,7 @@ export default function MaintenanceSection({ maintenanceProducts, whatsappHref }
         label="Productos de mantenimiento"
         title={
           <>
-            MANTENÉ TU PISO
-            <br />
-            COMO EL PRIMER DÍA
+            MANTENÉ TU PISO COMO EL PRIMER DÍA
           </>
         }
         side={
