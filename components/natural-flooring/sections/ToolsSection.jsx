@@ -5,7 +5,7 @@ import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import FloorVisualizerSection from "./FloorVisualizerSection";
 import WoodRecommenderSection from "./WoodRecommenderSection";
-import { SectionHead } from "./shared";
+import { SectionHead } from "./SectionHead";
 
 /**
  * El asesor y el visualizador son dos pasos de la misma decisión: primero qué

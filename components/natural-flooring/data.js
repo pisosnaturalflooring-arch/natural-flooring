@@ -1,46 +1,30 @@
-import { species } from "./catalog";
+import { links } from "./links";
+import { productCategories } from "./productsCatalog";
 import { recommenderSteps } from "./recommender/recommendationEngine.mjs";
 
 // La cantidad de preguntas del asesor sale del propio motor: si se agrega o
 // saca un paso, los textos que la mencionan se actualizan solos.
 const totalPreguntas = recommenderSteps.length;
 
-export const links = {
-  mlStore: "https://listado.mercadolibre.com.ar/pagina/naturalflooringanddeck/",
-  whatsappGeneral:
-    'https://api.whatsapp.com/send?phone=5491169977725&text=%22%C2%A1Hola!%20Estoy%20interesado%2Fa%20en%20sus%20pisos%20de%20madera%20y%20productos%20de%20instalaci%C3%B3n.%20%C2%BFMe%20pueden%20contar%20m%C3%A1s%20al%20respecto%3F%20Gracias',
-  whatsappStairs:
-    'https://api.whatsapp.com/send?phone=5491169977725&text=%22%C2%A1Hola!%20Estoy%20interesado%2Fa%20en%20sus%20pisos%20de%20madera%20y%20productos%20de%20instalaci%C3%B3n.%20%C2%BFMe%20pueden%20contar%20m%C3%A1s%20al%20respecto%3F%20Gracias',
-  whatsappCommercial:
-    'https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Tengo%20un%20local%20comercial%20y%20me%20interesa%20renovar%20el%20piso.%20%C2%BFPueden%20asesorarme?',
-  whatsappMaintenanceHelp:
-    'https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Necesito%20ayuda%20para%20saber%20qu%C3%A9%20producto%20de%20mantenimiento%20necesito%20para%20mi%20piso.',
-  instagram: "https://www.instagram.com/naturalfloorings/",
-  maps: "https://maps.google.com/?q=Natural+Flooring+3+de+Febrero+234+San+Fernando",
-  mapsAllReviews: "https://maps.google.com/?q=Natural+Flooring+San+Fernando",
-  email: "mailto:pisosnaturalflooring@gmail.com",
-  phone: "tel:+5491169977725",
-  calendar: "CALENDLY_LINK_AQUI",
-};
+export { links };
 
+// Con "/" adelante para que también funcionen desde /productos.
 export const navLinks = [
-  { label: "Nosotros", href: "#nosotros" },
+  { label: "Nosotros", href: "/#nosotros" },
   {
     label: "Productos",
-    href: "#productos",
-    groups: [
-      {
-        label: "Maderas",
-        href: "#productos",
-        items: species.map((item) => ({ label: item.name, href: `#madera-${item.id}` })),
-      },
-    ],
-    extra: { label: "Productos de mantenimiento", href: "#productos-mantenimiento" },
+    href: "/productos",
+    groups: productCategories.map((category) => ({
+      label: category.title,
+      href: `/productos/${category.id}`,
+      items: category.items.map((item) => ({ label: item.navLabel ?? item.title, href: `/productos/${category.id}?tipo=${item.id.slice(category.id.length + 1)}` })),
+    })),
+    extra: { label: "Ver todos los productos", href: "/productos" },
   },
-  { label: "Asesor", href: "#herramientas" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Showrooms", href: "#showrooms" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Asesor", href: "/#herramientas" },
+  { label: "Proyectos", href: "/#proyectos" },
+  { label: "Showrooms", href: "/#showrooms" },
+  { label: "Contacto", href: "/#contacto" },
 ];
 
 export const hero = {
@@ -49,8 +33,20 @@ export const hero = {
   titleAccent: "PISO.",
   description:
     "Pisos, revestimientos, escaleras y exteriores. Visitá nuestros showrooms en San Fernando y Escobar o pedí asesoramiento sin cargo.",
-  image: "/images/hero-deck-pileta.jpg",
-  imageAlt: "Deck gris con reposeras junto a la pileta frente al río",
+  // Una de estas fotos sale al azar en cada visita (lo pidió el cliente).
+  images: [
+    { src: "/images/hero-deck-pileta.jpg", alt: "Deck gris con reposeras junto a la pileta frente al río" },
+    { src: "/images/maderas/lapacho-piso.jpg", alt: "Comedor con piso de lapacho" },
+    { src: "/images/maderas/guatambu-piso.jpg", alt: "Salón con piso de guatambú recién hidrolaqueado" },
+    { src: "/images/maderas/viraro-escalera.jpg", alt: "Escalera de viraró con baranda de hierro" },
+    { src: "/images/maderas/lapacho-deck.jpg", alt: "Deck de lapacho junto a la pileta" },
+    { src: "/images/escalera-lapacho-3.jpg", alt: "Escalera revestida en lapacho" },
+    { src: "/images/maderas/rostrata-parquet.jpg", alt: "Parquet de eucalipto rostrata en espiga" },
+  ],
+  ctaLabel: "Pedí asesoramiento gratis",
+  ctaHref:
+    "https://api.whatsapp.com/send?phone=5491169977725&text=" +
+    encodeURIComponent("Hola! Quiero asesoramiento para elegir mi piso. ¿Me pueden ayudar?"),
   imageTag: "Stock disponible · Entrega inmediata",
   stats: [
     { value: "200+", label: "Obras realizadas" },
@@ -139,8 +135,8 @@ export const featuredProjects = [
 ];
 
 export const why = {
-  image: "/images/pinotea-brillante.jpg",
-  imageAlt: "Piso de pinotea con terminación brillante",
+  image: "/images/living-eucalipto-blanco.jpg",
+  imageAlt: "Living con piso de eucalipto blanco",
   badgeValue: "15+",
   badgeLabel: "años en el rubro",
   lead: "Somos Natural Flooring: más de 15 años y más de 200 obras en pisos, revestimientos y escaleras.",
@@ -163,7 +159,7 @@ export const showrooms = [
   {
     name: "San Fernando",
     address: "3 de Febrero 234, San Fernando",
-    hours: "Lun–Vie 9 a 18 · Sáb 9 a 13",
+    hours: "Lun–Vie 9 a 13 y 14 a 17 · Sáb 9 a 13",
     href: links.maps,
     image: "/images/showroom-frente.jpg",
     alt: "Frente del showroom de Natural Flooring en San Fernando",
@@ -671,7 +667,7 @@ export const contactItems = [
   {
     kind: "hours",
     label: "Horario de atención",
-    value: "Lun–Vie 9 a 18 · Sáb 9 a 13",
+    value: "Lun–Vie 9 a 13 y 14 a 17 · Sáb 9 a 13",
   },
 ];
 
@@ -716,7 +712,7 @@ export const chatbotFaq = {
     {
       id: "showroom",
       q: "¿Dónde están y en qué horario?",
-      a: "Showroom San Fernando: 3 de Febrero 234, lunes a viernes de 9 a 18 y sábados de 9 a 13. También tenemos showroom en Escobar: en la sección Showrooms están los datos. Vení a ver y tocar los materiales en persona.",
+      a: "Showroom San Fernando: 3 de Febrero 234, lunes a viernes de 9 a 13 y de 14 a 17, y sábados de 9 a 13. También tenemos showroom en Escobar: en la sección Showrooms están los datos. Vení a ver y tocar los materiales en persona.",
     },
     {
       id: "escaleras",
@@ -758,9 +754,9 @@ export const footerLinks = navLinks;
 export const footer = {
   description:
     "Showrooms en San Fernando y Escobar. Pisos, revestimientos, escaleras y exteriores. Presupuesto sin cargo y garantía de obra.",
-  hoursWeek: "Lun–Vie 9 a 18",
+  hoursWeek: "Lun–Vie 9 a 13 y 14 a 17",
   hoursSaturday: "Sáb 9 a 13",
-  ctaText: "Respondemos en menos de 24hs. Sin compromiso.",
+  ctaText: "Respondemos de manera instantánea. Sin compromiso.",
   copyright: "© 2026 Natural Flooring — Todos los derechos reservados",
   bottomAddress: "3 de Febrero 234, San Fernando, Buenos Aires",
 };

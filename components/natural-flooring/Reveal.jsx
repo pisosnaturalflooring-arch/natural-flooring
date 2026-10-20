@@ -1,26 +1,50 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import styles from "./Reveal.module.css";
 
-const VARIANTS = {
-  up:    { hidden: { opacity: 0, y: 22 },        visible: { opacity: 1, y: 0 } },
-  left:  { hidden: { opacity: 0, x: -28 },       visible: { opacity: 1, x: 0 } },
-  right: { hidden: { opacity: 0, x: 28 },        visible: { opacity: 1, x: 0 } },
-  scale: { hidden: { opacity: 0, scale: 0.94 },  visible: { opacity: 1, scale: 1 } },
-  fade:  { hidden: { opacity: 0 },               visible: { opacity: 1 } },
-};
+/**
+ * Aparición al entrar en pantalla, con IntersectionObserver y una transición
+ * CSS. Antes usaba framer-motion: eso metía ~40 KB de JS en la carga inicial
+ * de la home solo para hacer un fade.
+ */
+export function Reveal({
+  as: Tag = "div",
+  direction = "up",
+  delay = 0,
+  duration = 0.7,
+  once = true,
+  className,
+  style,
+  children,
+  ...props
+}) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
 
-const EASE = [0.25, 0.46, 0.45, 0.94];
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          if (once) observer.disconnect();
+        } else if (!once) {
+          setVisible(false);
+        }
+      },
+      { rootMargin: "0px 0px -60px 0px" }
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [once]);
 
-export function Reveal({ as = "div", direction = "up", delay = 0, duration = 0.8, once = true, children, ...props }) {
-  const Tag = motion[as];
   return (
     <Tag
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: "0px 0px -60px 0px" }}
-      transition={{ type: "spring", stiffness: 70, damping: 15, delay }}
-      variants={VARIANTS[direction]}
+      ref={ref}
+      className={[styles.reveal, styles[direction], visible && styles.visible, className].filter(Boolean).join(" ")}
+      style={{ ...style, "--reveal-delay": `${delay}s`, "--reveal-duration": `${duration}s` }}
       {...props}
     >
       {children}

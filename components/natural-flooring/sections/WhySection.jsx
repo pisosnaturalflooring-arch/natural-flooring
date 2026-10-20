@@ -1,10 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { ExternalLink, cx } from "./shared";
-import { links } from "../data";
+import { links } from "../links";
 
 const ICONS = {
   price: (

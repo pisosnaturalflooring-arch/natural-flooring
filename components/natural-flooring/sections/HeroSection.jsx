@@ -1,10 +1,12 @@
 import Image from "next/image";
 import styles from "../NaturalFlooringPage.module.css";
-import { cx } from "./shared";
+import { ExternalLink, WhatsAppIcon, cx } from "./shared";
 
-export default function HeroSection({ hero }) {
+export default function HeroSection({ hero, imageIndex = 0 }) {
+  const image = hero.images[imageIndex % hero.images.length];
+
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} id="inicio">
       <div className={styles.heroLeft}>
         <div className={cx(styles.eyebrow, styles.heroIntro)} style={{ "--delay": "0.06s" }}>
           <span className={styles.eyebrowLine} />
@@ -21,12 +23,14 @@ export default function HeroSection({ hero }) {
           {hero.description}
         </p>
 
-        <div className={cx(styles.heroActions, styles.heroIntro)} style={{ "--delay": "0.4s" }}>
-          <a href="#productos" className={styles.primaryButton}>
+        {/* El header esconde su botón de contacto mientras estos se ven. */}
+        <div id="hero-cta" className={cx(styles.heroActions, styles.heroIntro)} style={{ "--delay": "0.4s" }}>
+          <ExternalLink href={hero.ctaHref} className={styles.primaryButton}>
+            <WhatsAppIcon />
+            {hero.ctaLabel}
+          </ExternalLink>
+          <a href="/productos" className={styles.secondaryButton}>
             Ver productos
-          </a>
-          <a href="#proyectos" className={styles.secondaryButton}>
-            Ver obras
           </a>
         </div>
 
@@ -43,11 +47,13 @@ export default function HeroSection({ hero }) {
       <div className={styles.heroRight}>
         <Image
             fill
-            src={hero.image}
-            alt={hero.imageAlt}
+            src={image.src}
+            alt={image.alt}
             className={styles.heroImage}
-            sizes="45vw"
-            priority
+            sizes="(max-width: 768px) 100vw, 45vw"
+            preload
+            fetchPriority="high"
+            quality={60}
           />
         <div className={styles.heroTag}>{hero.imageTag}</div>
       </div>

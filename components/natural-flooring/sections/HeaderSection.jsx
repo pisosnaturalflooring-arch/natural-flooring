@@ -1,45 +1,65 @@
 "use client";
 
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useEffect, useState } from "react";
-import styles from "../NaturalFlooringPage.module.css";
-import { links, navLinks } from "../data";
+import styles from "../SiteChrome.module.css";
+import { links } from "../links";
 import { NaturalFlooringMark } from "./BrandLogo";
 import { ExternalLink, cx } from "./shared";
 
-export default function HeaderSection() {
-  const { scrollY } = useScroll();
+/** `navLinks` llega del servidor: así el catálogo que arma el menú no viaja en el JS del header. */
+export default function HeaderSection({ navLinks }) {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  // El botón de contacto aparece recién cuando los del hero dejan de verse.
+  // En páginas sin hero (por ejemplo /productos) se muestra siempre.
+  const [showCta, setShowCta] = useState(false);
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious();
-    if (latest > 100 && latest > previous) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
-    setScrolled(latest > 24);
-  });
+  // Se esconde al bajar y vuelve al subir. Un solo listener de scroll, con
+  // rAF; React descarta los setState que no cambian el valor.
+  useEffect(() => {
+    let previous = window.scrollY;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const latest = window.scrollY;
+      setHidden(latest > 100 && latest > previous);
+      setScrolled(latest > 24);
+      previous = latest;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
 
   useEffect(() => {
+    if (window.location.pathname.startsWith("/productos")) {
+      setActiveSection("/productos");
+      return undefined;
+    }
+
     const SECTION_NAV_MAP = {
-      "nosotros":                "#nosotros",
-      "garantia":                "#nosotros",
-      "productos":               "#productos",
-      "adentro-afuera":          "#productos",
-      "proceso":                 "#productos",
-      "escaleras":               "#productos",
-      "herramientas":            "#herramientas",
-      "proyectos":               "#proyectos",
-      "antes-despues":           "#proyectos",
-      "archivo":                 "#proyectos",
-      "productos-mantenimiento": "#productos",
+      "nosotros":                "/#nosotros",
+      "garantia":                "/#nosotros",
+      "productos":               "/productos",
+      "adentro-afuera":          "/productos",
+      "proceso":                 "/productos",
+      "escaleras":               "/productos",
+      "herramientas":            "/#herramientas",
+      "proyectos":               "/#proyectos",
+      "antes-despues":           "/#proyectos",
+      "archivo":                 "/#proyectos",
+      "productos-mantenimiento": "/productos",
       "resenas":                 "",
       "redes":                   "",
-      "showrooms":               "#showrooms",
-      "contacto":                "#contacto",
+      "showrooms":               "/#showrooms",
+      "contacto":                "/#contacto",
     };
 
     let rafId;
@@ -68,17 +88,23 @@ export default function HeaderSection() {
     };
   }, []);
 
+  useEffect(() => {
+    const heroCta = document.getElementById("hero-cta");
+    if (!heroCta) {
+      setShowCta(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowCta(!entry.isIntersecting),
+      { rootMargin: "-76px 0px 0px 0px" }
+    );
+    observer.observe(heroCta);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <motion.header
-      variants={{
-        visible: { y: 0 },
-        hidden: { y: "-100%" },
-      }}
-      animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={cx(styles.header, scrolled && styles.headerScrolled)}
-    >
-      <a href="#" className={styles.logo}>
+    <header className={cx(styles.header, scrolled && styles.headerScrolled, hidden && styles.headerHidden)}>
+      <a href="/" className={styles.logo}>
         <NaturalFlooringMark size={48} />
         <span className={styles.logoText}>
           <span className={styles.logoTop}>Natural Flooring</span>
@@ -110,6 +136,9 @@ export default function HeaderSection() {
                           {item.label}
                         </a>
                       ))}
+                      <a href={group.href} className={styles.navDropdownAll}>
+                        Ver todos <span aria-hidden="true">→</span>
+                      </a>
                     </div>
                   ))}
                 </div>
@@ -130,11 +159,11 @@ export default function HeaderSection() {
         )}
       </nav>
 
-      <div className={styles.headerIconGroup}>
+      <div className={cx(styles.headerIconGroup, !showCta && styles.headerCtaHidden)} inert={!showCta}>
         <ExternalLink href={links.whatsappGeneral} className={styles.navCta} ariaLabel="Consultanos por WhatsApp">
           Consultanos
         </ExternalLink>
       </div>
-    </motion.header>
+    </header>
   );
 }

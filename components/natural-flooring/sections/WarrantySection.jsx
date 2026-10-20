@@ -1,5 +1,3 @@
-"use client";
-
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
 import { ExternalLink } from "./shared";

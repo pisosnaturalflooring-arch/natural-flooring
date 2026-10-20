@@ -233,6 +233,12 @@
   display: none;
 }
 
+/* Base fuera del media query: next/image exige un padre posicionado aunque esté oculto. */
+.mobilePhoto,
+.mobilePlank {
+  position: relative;
+}
+
 @media (max-height: 760px) and (min-width: 900px) {
   .description {
     font-size: 1.05rem;

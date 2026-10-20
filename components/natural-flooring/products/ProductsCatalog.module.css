@@ -1,0 +1,552 @@
+/* Catálogo /productos. Mismo lenguaje que la home: crema, verde oliva, líneas finas, sin chips. */
+
+.catalog {
+  background: var(--cream);
+  color: var(--warm-black);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.imageContain {
+  object-fit: contain;
+  padding: 1rem;
+}
+
+/* Arriba: título, pestañas de categoría (son URLs) y filtro por tipo. */
+.top {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 136px clamp(1.25rem, 4vw, 3rem) 1.5rem;
+}
+
+.pageTitle {
+  margin: 0 0 0.9rem;
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  font-weight: 700;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--olive-dark);
+}
+
+.pageIntro {
+  max-width: 46rem;
+  margin: 0 0 2rem;
+  font-family: var(--body);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.count {
+  margin: 0 0 1rem;
+  line-height: 1.2;
+  font-family: var(--body);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* Columna de navegación + contenido */
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+}
+
+.content {
+  min-width: 0;
+}
+
+/* Al lado de la columna entran 3 fichas por fila. */
+.content .grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.filterToggle {
+  display: none;
+}
+
+/* Desktop: la columna acompaña el scroll para cambiar de tipo sin volver arriba. */
+.sidebar {
+  position: sticky;
+  top: 96px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.sideNav,
+.sideNavOpen {
+  display: block;
+}
+
+.sideLabel {
+  margin: 0 0 0.6rem;
+  font-family: var(--secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--olive-mid);
+}
+
+.sideList,
+.sideTypes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sideList {
+  border-top: 1px solid rgba(26, 28, 20, 0.12);
+}
+
+.sideList > li {
+  border-bottom: 1px solid rgba(26, 28, 20, 0.12);
+}
+
+/* Filas de categoría y de tipo: nombre a la izquierda, cantidad a la derecha. */
+.sideCategory,
+.sideCategoryActive,
+.sideType,
+.sideTypeActive {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  border: 0;
+  background: none;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.sideCategory,
+.sideCategoryActive {
+  padding: 0.75rem 0.5rem;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sideCategory:hover {
+  color: var(--olive-dark);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.sideCategoryActive {
+  color: var(--olive-dark);
+}
+
+.sideTypes {
+  margin: 0 0 0.6rem;
+}
+
+.sideType,
+.sideTypeActive {
+  padding: 0.4rem 0.5rem 0.4rem 0.9rem;
+  border-left: 3px solid transparent;
+  font-family: var(--body);
+  font-size: 0.97rem;
+  color: var(--muted);
+}
+
+.sideType:hover {
+  color: var(--warm-black);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.sideTypeActive {
+  border-left-color: var(--brand-green);
+  background: rgba(255, 255, 255, 0.6);
+  font-weight: 700;
+  color: var(--olive-dark);
+}
+
+.sideCount {
+  font-family: var(--body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+
+.body {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem clamp(1.25rem, 4vw, 3rem) 0;
+}
+
+/* Grilla de fichas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2.25rem 1.25rem;
+  /* Sin estirar: una ficha de texto al lado de una con foto no queda como un recuadro alto y vacío. */
+  align-items: start;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: left;
+}
+
+.cardPhoto,
+.cardPhotoPackshot {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  margin-bottom: 0.8rem;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.cardPhoto {
+  background: var(--cream-dark);
+}
+
+.cardPhoto .image {
+  transition: transform 0.4s ease;
+}
+
+.card:hover .cardPhoto .image {
+  transform: scale(1.04);
+}
+
+.cardPhotoPackshot {
+  background: #fff;
+}
+
+.cardLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cardLink:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--brand-green);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* Ficha sin foto: texto en un recuadro con línea fina. */
+.cardText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1.25rem 1.1rem 1.1rem;
+  border: 1px solid rgba(26, 28, 20, 0.16);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.35);
+  text-align: left;
+}
+
+.cardTextName {
+  margin: 0 0 0.35rem;
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 1.8vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--olive-dark);
+}
+
+.cardName {
+  margin: 0 0 0.15rem;
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--warm-black);
+}
+
+.cardUnit {
+  margin: 0 0 0.3rem;
+  font-family: var(--body);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--olive-mid);
+  text-align: left;
+}
+
+.cardDetail {
+  margin: 0 0 0.8rem;
+  font-family: var(--body);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--muted);
+  text-align: left;
+  hyphens: manual;
+}
+
+.cardAction {
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+/* Bloque del tipo elegido en el filtro */
+.typeIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-bottom: 2.75rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(26, 28, 20, 0.12);
+}
+
+.typeIntroNoPhoto {
+  max-width: 52rem;
+  margin-bottom: 2.75rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(26, 28, 20, 0.12);
+}
+
+.typeText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.typeTitle {
+  margin: 0 0 0.6rem;
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--warm-black);
+}
+
+.typeDescription {
+  margin: 0 0 1rem;
+  font-family: var(--body);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.specs {
+  align-self: stretch;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(26, 28, 20, 0.12);
+}
+
+.specs li {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(26, 28, 20, 0.12);
+  font-family: var(--body);
+  font-size: 0.98rem;
+  text-align: left;
+  hyphens: manual;
+}
+
+.extra {
+  margin: 0 0 1rem;
+  font-family: var(--body);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.typeActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.detailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.3rem;
+  border: 1.5px solid var(--olive-dark);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive-dark);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.detailLink:hover {
+  background: var(--olive-dark);
+  color: var(--cream);
+}
+
+.typePhoto,
+.typePhotoPackshot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.typePhoto {
+  background: var(--cream-dark);
+}
+
+.typePhotoPackshot {
+  background: #fff;
+}
+
+/* /productos: un grupo por categoría */
+.group {
+  padding: 2.5rem 0 1rem;
+  border-top: 1px solid rgba(26, 28, 20, 0.16);
+}
+
+.group:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.groupHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.groupTitle {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--olive-dark);
+}
+
+.groupLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  border: 1.5px solid var(--olive-dark);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive-dark);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.groupLink:hover {
+  background: var(--olive-dark);
+  color: var(--cream);
+}
+
+/* Cierre */
+.closing {
+  margin-top: 2rem;
+  padding: 3rem 0 5rem;
+  border-top: 1px solid rgba(26, 28, 20, 0.16);
+}
+
+.closingTitle {
+  margin: 0 0 0.75rem;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: var(--olive-dark);
+}
+
+.closingText {
+  max-width: 40rem;
+  margin: 0 0 1.5rem;
+  font-family: var(--body);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 1099px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 899px) {
+  .top {
+    padding-top: 108px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .filterToggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1.5px solid var(--olive-dark);
+    border-radius: 2px;
+    background: none;
+    font-family: var(--body);
+    font-size: 1rem;
+    color: var(--olive-dark);
+    cursor: pointer;
+  }
+
+  .sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .sideNav {
+    display: none;
+  }
+
+  .sideNavOpen {
+    display: block;
+    margin-top: 0.5rem;
+  }
+
+  .content .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .typeIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .typePhoto,
+  .typePhotoPackshot {
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 599px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 0.85rem;
+  }
+
+
+  .cardTextName {
+    font-size: 1.25rem;
+  }
+}

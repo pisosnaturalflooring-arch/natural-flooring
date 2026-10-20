@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
 import styles from "../NaturalFlooringPage.module.css";
-import { links } from "../data";
+import { links } from "../links";
 import {
   getRecommendation,
   getStepOption,
@@ -275,7 +275,7 @@ export default function WoodRecommenderSection({ onTryMaterial }) {
                         alt={recommendation.primary.imageAlt}
                         fill
                         sizes="(max-width: 768px) 100vw, 500px"
-                        priority
+                        loading="eager"
                         className={styles.resultImage}
                       />
                       <div className={styles.resultImageOverlay3D}>

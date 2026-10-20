@@ -1,9 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
-import { ClockIcon, ExternalLink, MapPinIcon, SectionHead } from "./shared";
+import { ClockIcon, ExternalLink, MapPinIcon } from "./shared";
+import { SectionHead } from "./SectionHead";
 
 export default function ShowroomsSection({ showrooms }) {
   return (

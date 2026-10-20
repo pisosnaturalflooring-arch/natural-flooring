@@ -1,0 +1,263 @@
+/* Selector de colores/especies: panel del elegido + tira de miniaturas. */
+
+.image {
+  object-fit: cover;
+}
+
+.imageContain {
+  object-fit: contain;
+  padding: 0.75rem;
+}
+
+.viewer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Panel */
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(1.25rem, 3.5vw, 3rem);
+  align-items: start;
+  animation: panelIn 0.3s ease both;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.panelPhoto,
+.panelPhotoPackshot,
+.panelNoPhoto {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.panelPhoto {
+  background: var(--cream-dark);
+}
+
+.panelPhotoPackshot {
+  background: #fff;
+}
+
+.panelNoPhoto {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(26, 28, 20, 0.14);
+  background: var(--cream-dark);
+}
+
+.panelNoPhotoName {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--olive-dark);
+}
+
+.panelNoPhotoNote {
+  font-family: var(--body);
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.panelText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.panelName {
+  margin: 0 0 0.5rem;
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--warm-black);
+}
+
+.panelAbout {
+  margin: 0 0 0.9rem;
+  font-family: var(--body);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.panelActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+}
+
+.panelLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.85rem 1.2rem;
+  border: 1.5px solid var(--olive-dark);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive-dark);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.panelLink:hover {
+  background: var(--olive-dark);
+  color: var(--cream);
+}
+
+/* Ficha de datos */
+.facts {
+  align-self: stretch;
+  margin: 0 0 1rem;
+  border-top: 1px solid rgba(26, 28, 20, 0.14);
+}
+
+.factRow {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(26, 28, 20, 0.14);
+  font-family: var(--body);
+  font-size: 0.98rem;
+}
+
+.factRow dt {
+  color: var(--muted);
+}
+
+.factRow dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--warm-black);
+}
+
+/* Tira de miniaturas */
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 0.75rem;
+}
+
+.swatch,
+.swatchActive {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 88px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.swatchPhoto,
+.swatchPhotoPackshot,
+.swatchText {
+  position: relative;
+  display: block;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: 4px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color 0.15s ease;
+}
+
+.swatchPhoto {
+  background: var(--cream-dark);
+}
+
+.swatchPhotoPackshot {
+  background: #fff;
+}
+
+.swatchText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(26, 28, 20, 0.16);
+  background: var(--cream-dark);
+  color: rgba(31, 58, 35, 0.45);
+}
+
+.swatch:hover .swatchPhoto,
+.swatch:hover .swatchPhotoPackshot,
+.swatch:hover .swatchText {
+  outline-color: rgba(31, 58, 35, 0.35);
+}
+
+.swatchActive .swatchPhoto,
+.swatchActive .swatchPhotoPackshot,
+.swatchActive .swatchText {
+  outline-color: var(--brand-green);
+}
+
+.swatchName {
+  font-family: var(--body);
+  font-size: 0.82rem;
+  line-height: 1.25;
+  color: var(--muted);
+}
+
+.swatchActive .swatchName {
+  font-weight: 700;
+  color: var(--olive-dark);
+}
+
+@media (max-width: 899px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+
+  .swatches {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+  }
+
+  .swatch,
+  .swatchActive {
+    flex: none;
+    width: 76px;
+  }
+
+  .swatchPhoto,
+  .swatchPhotoPackshot,
+  .swatchText {
+    width: 76px;
+    height: 76px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
+}

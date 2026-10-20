@@ -4,8 +4,9 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
-import { ExternalLink, SectionHead, cx } from "./shared";
-import { links } from "../data";
+import { ExternalLink, cx } from "./shared";
+import { SectionHead } from "./SectionHead";
+import { links } from "../links";
 
 export default function MaintenanceSection({ maintenanceProducts, whatsappHref }) {
   const carouselRef = useRef(null);

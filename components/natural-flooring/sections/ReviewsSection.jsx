@@ -1,8 +1,7 @@
-"use client";
-
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
-import { ExternalLink, SectionHead } from "./shared";
+import { ExternalLink } from "./shared";
+import { SectionHead } from "./SectionHead";
 
 export default function ReviewsSection({ mapsHref, mapsAllReviewsHref, reviewsPrimary, reviewsSecondary }) {
   return (

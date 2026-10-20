@@ -168,8 +168,8 @@ export const insideOut = {
   href: whatsappAbout("lapacho"),
 };
 
-/** Para quien no busca madera maciza: una línea al pie de "Las maderas". */
+/** Línea al pie de "Las maderas" que lleva al catálogo completo. */
 export const practicalOptions = {
-  text: "¿Buscás algo más práctico? Pisos SPC, flotantes de melamina y pre-finish",
-  href: whatsappAbout("pisos SPC, flotantes de melamina o pre-finish"),
+  text: "Ver todos los productos: SPC, MDF, pre-finish, revestimientos e insumos",
+  href: "/productos",
 };

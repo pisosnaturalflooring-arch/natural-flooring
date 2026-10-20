@@ -14,7 +14,10 @@ import { fileURLToPath } from "node:url";
  */
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..");
-const css = readFileSync(join(raiz, "NaturalFlooringPage.module.css"), "utf8");
+
+// La home y la base compartida (header, footer, logo, .page) van en hojas
+// separadas desde que /productos dejó de cargar los estilos de la home.
+const HOJAS = ["NaturalFlooringPage.module.css", "SiteChrome.module.css"];
 
 function archivosJsx(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entrada) => {
@@ -24,7 +27,10 @@ function archivosJsx(dir) {
   });
 }
 
-describe("hoja de estilos", () => {
+for (const hoja of HOJAS) {
+describe(`hoja de estilos ${hoja}`, () => {
+  const css = readFileSync(join(raiz, hoja), "utf8");
+
   it("tiene las llaves balanceadas", () => {
     const abren = (css.match(/\{/g) ?? []).length;
     const cierran = (css.match(/\}/g) ?? []).length;
@@ -66,7 +72,7 @@ describe("hoja de estilos", () => {
     const faltantes = new Set();
     for (const archivo of archivosJsx(raiz)) {
       const fuente = readFileSync(archivo, "utf8");
-      if (!fuente.includes("NaturalFlooringPage.module.css")) continue;
+      if (!fuente.includes(hoja)) continue;
       for (const uso of fuente.matchAll(/styles\.([A-Za-z0-9_]+)/g)) {
         if (!definidas.has(uso[1]) && !CONOCIDOS.has(uso[1])) {
           faltantes.add(`${uso[1]} (${archivo.split("/").pop()})`);
@@ -77,3 +83,4 @@ describe("hoja de estilos", () => {
     assert.deepEqual([...faltantes], [], "clases usadas sin regla en el modulo");
   });
 });
+}

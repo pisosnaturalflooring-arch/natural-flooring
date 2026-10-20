@@ -1,9 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
-import { ExternalLink, InstagramIcon, SectionHead } from "./shared";
+import { ExternalLink, InstagramIcon } from "./shared";
+import { SectionHead } from "./SectionHead";
 
 function ReelIcon() {
   return (

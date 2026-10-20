@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
+import { useScrollProgress } from "../useScrollProgress";
 import styles from "./SpeciesWall.module.css";
 import ConsultButton from "./ConsultButton";
-import { ExternalLink, cx } from "./shared";
+import { cx } from "./shared";
 
 // ["Piso", "Escalera", "Deck"] → "Sirve para piso, escalera y deck"
 function usesSentence(uses) {
@@ -30,9 +30,9 @@ function Footnote({ onRequest, practical }) {
   return (
     <p className={styles.footnote}>
       {onRequest}{" "}
-      <ExternalLink href={practical.href} className={styles.footnoteLink}>
+      <a href={practical.href} className={styles.footnoteLink}>
         {practical.text} <span aria-hidden="true">→</span>
-      </ExternalLink>
+      </a>
     </p>
   );
 }
@@ -52,13 +52,8 @@ export default function SpeciesWallSection({ species, onRequest, practical }) {
   const [picked, setPicked] = useState(0);
   const last = species.length - 1;
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    const t = Math.min(Math.max(progress, 0), 1) * last;
+  useScrollProgress(sectionRef, (progress) => {
+    const t = progress * last;
     sceneRef.current?.style.setProperty("--t", t.toFixed(3));
     const index = Math.round(t);
     setActive((current) => (current === index ? current : index));
@@ -110,7 +105,7 @@ export default function SpeciesWallSection({ species, onRequest, practical }) {
                 aria-label={`Ver ${item.name}`}
                 aria-pressed={index === active}
               >
-                <Image src={item.tabla} alt="" fill sizes="96px" loading="eager" className={styles.plankImage} />
+                <Image src={item.tabla} alt="" fill sizes="96px" className={styles.plankImage} />
                 <span className={styles.plankName}>{item.name}</span>
               </button>
             ))}

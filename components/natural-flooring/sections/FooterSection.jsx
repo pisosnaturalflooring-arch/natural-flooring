@@ -1,8 +1,6 @@
-"use client";
-
 import { Reveal } from "../Reveal";
-import styles from "../NaturalFlooringPage.module.css";
-import { links } from "../data";
+import styles from "../SiteChrome.module.css";
+import { links } from "../links";
 import { NaturalFlooringMark } from "./BrandLogo";
 import { ClockIcon, EmailIcon, ExternalLink, InstagramIcon, MapPinIcon, MercadoLibreIcon, PhoneIcon, WhatsAppIcon } from "./shared";
 

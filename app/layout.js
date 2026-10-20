@@ -20,11 +20,13 @@ const arimo = Arimo({
   display: "swap",
 });
 
+// Solo se usa en etiquetas chicas: no se precarga, así no compite con la foto del hero.
 const leagueSpartan = League_Spartan({
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600"],
   subsets: ["latin"],
   variable: "--font-secondary",
   display: "swap",
+  preload: false,
 });
 
 // Dominio final del sitio. Se puede pisar por entorno (Vercel/Cloudflare)

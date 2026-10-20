@@ -50,16 +50,18 @@ export async function POST(request) {
     );
   }
 
-  const enviada = await citriqsDesdeEntorno().enviarConsulta({ id: crypto.randomUUID(), telefono: phone, origen: "formulario" });
-  if (!enviada.ok) console.warn("[subscribe] Consulta sin llegar a Citriqs:", enviada.motivo);
-
-  // El lead ya esta a salvo: si el mail falla solo queda en el log.
+  // El lead ya esta a salvo. Citriqs y el mail no dependen uno del otro: van
+  // en paralelo para no sumar las dos latencias. Si fallan, solo queda en el log.
   const notify = createLeadNotifier({
     apiKey: process.env.RESEND_API_KEY,
     to: process.env.LEADS_NOTIFY_EMAIL,
     from: process.env.LEADS_FROM_EMAIL,
   });
-  const notified = await notify({ phone, source, createdAt: new Date().toISOString() });
+  const [enviada, notified] = await Promise.all([
+    citriqsDesdeEntorno().enviarConsulta({ id: crypto.randomUUID(), telefono: phone, origen: "formulario" }),
+    notify({ phone, source, createdAt: new Date().toISOString() }),
+  ]);
+  if (!enviada.ok) console.warn("[subscribe] Consulta sin llegar a Citriqs:", enviada.motivo);
   if (!notified.sent) {
     console.warn("[subscribe] Lead guardado pero sin aviso por mail:", notified.reason);
   }

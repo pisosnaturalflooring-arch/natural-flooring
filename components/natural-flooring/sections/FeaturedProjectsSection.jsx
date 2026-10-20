@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
-import { SectionHead, cx } from "./shared";
+import { cx } from "./shared";
+import { SectionHead } from "./SectionHead";
 
 export default function FeaturedProjectsSection({ featuredProjects, intro, onProjectOpen }) {
   return (

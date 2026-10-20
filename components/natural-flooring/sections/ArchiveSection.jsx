@@ -1,9 +1,9 @@
-import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { Reveal } from "../Reveal";
 import styles from "../NaturalFlooringPage.module.css";
-import { SectionHead, cx } from "./shared";
+import { cx } from "./shared";
+import { SectionHead } from "./SectionHead";
 
 const INITIAL_COUNT = 5;
 
@@ -58,15 +58,8 @@ export default function ArchiveSection({
         }
       />
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeCategory}
-          className={styles.archiveList}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-        >
+      {/* La key remonta la lista al cambiar de filtro y la animación CSS la hace entrar. */}
+      <div key={activeCategory} className={styles.archiveList}>
           {visibleProjects.map((project, index) => (
             <Reveal
               key={`${project.title}-${project.image}`}
@@ -103,8 +96,7 @@ export default function ArchiveSection({
               <span aria-hidden="true" className={styles.archiveRowArrow}>→</span>
             </Reveal>
           ))}
-        </motion.div>
-      </AnimatePresence>
+      </div>
 
       <div className={styles.archiveFooter}>
         {hasMore ? (

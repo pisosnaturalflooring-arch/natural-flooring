@@ -87,7 +87,7 @@ export default function ProjectModal({ project, onClose }) {
                       alt={img.alt || ""}
                       className={styles.modalMainImage}
                       sizes="(max-width: 768px) 90vw, 60vw"
-                      priority={i === 0}
+                      loading={i === 0 ? "eager" : "lazy"}
                       draggable={false}
                     />
                     {img.label && (

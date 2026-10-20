@@ -1,0 +1,320 @@
+/* Detalle de un tipo de producto. Mismo lenguaje que el catálogo. */
+
+.detail {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 116px clamp(1.25rem, 4vw, 3rem) 0;
+  color: var(--warm-black);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.imageContain {
+  object-fit: contain;
+  padding: 1.25rem;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  font-family: var(--body);
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.breadcrumb a {
+  color: var(--olive-dark);
+  text-decoration: underline;
+  text-decoration-color: rgba(31, 58, 35, 0.3);
+  text-underline-offset: 3px;
+}
+
+.breadcrumb a:hover {
+  text-decoration-color: var(--brand-green);
+}
+
+/* Cabecera: texto + foto */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 4.5vw, 4rem);
+  align-items: start;
+  padding-bottom: 3rem;
+}
+
+.heroNoPhoto {
+  max-width: 52rem;
+  padding-bottom: 3rem;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.kicker {
+  margin: 0 0 0.5rem;
+  font-family: var(--secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--olive-mid);
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 4.6vw, 4rem);
+  font-weight: 700;
+  line-height: 0.98;
+  text-transform: uppercase;
+  color: var(--olive-dark);
+}
+
+.description {
+  margin: 0 0 1.25rem;
+  font-family: var(--body);
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+.specs {
+  align-self: stretch;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(26, 28, 20, 0.14);
+}
+
+.specs li {
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(26, 28, 20, 0.14);
+  font-family: var(--body);
+  font-size: 1rem;
+  text-align: left;
+  hyphens: manual;
+}
+
+.photo,
+.photoPackshot {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-height: 72vh;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.photo {
+  background: var(--cream-dark);
+}
+
+.photoPackshot {
+  background: #fff;
+}
+
+/* Secciones */
+.section {
+  padding: 2.75rem 0;
+  border-top: 1px solid rgba(26, 28, 20, 0.16);
+}
+
+.sectionHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  margin: 0 0 1.5rem;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--olive-dark);
+}
+
+.sectionHead .sectionTitle {
+  margin: 0;
+}
+
+.count {
+  font-family: var(--body);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.extras {
+  max-width: 52rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.extras li {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(26, 28, 20, 0.12);
+  font-family: var(--body);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  text-align: left;
+  hyphens: manual;
+}
+
+/* Para que dure: consejos + productos de mantenimiento */
+.care {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.tips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: tip;
+}
+
+.tips li {
+  counter-increment: tip;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(26, 28, 20, 0.12);
+  font-family: var(--body);
+  font-size: 1.02rem;
+  line-height: 1.5;
+  text-align: left;
+  hyphens: manual;
+}
+
+.tips li::before {
+  content: counter(tip, decimal-leading-zero);
+  font-weight: 700;
+  color: var(--brand-olive);
+}
+
+/* La grilla de productos de mantenimiento va en 3 columnas al lado de los consejos. */
+.care > div {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Más en la categoría */
+.others {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1.5rem 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.other {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.otherPhoto,
+.otherPhotoPackshot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.otherPhoto {
+  background: var(--cream-dark);
+}
+
+.otherPhotoPackshot {
+  background: #fff;
+}
+
+.otherName {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--olive-dark);
+}
+
+.other:hover .otherName {
+  text-decoration: underline;
+  text-decoration-color: var(--brand-green);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.allLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.3rem;
+  border: 1.5px solid var(--olive-dark);
+  border-radius: 2px;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive-dark);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.allLink:hover {
+  background: var(--olive-dark);
+  color: var(--cream);
+}
+
+.closing {
+  padding: 3rem 0 5rem;
+  border-top: 1px solid rgba(26, 28, 20, 0.16);
+}
+
+.closingTitle {
+  margin: 0 0 0.75rem;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: var(--olive-dark);
+}
+
+.closingText {
+  max-width: 40rem;
+  margin: 0 0 1.5rem;
+  font-family: var(--body);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 899px) {
+  .detail {
+    padding-top: 96px;
+  }
+
+  .hero,
+  .care {
+    grid-template-columns: 1fr;
+  }
+
+  .photo,
+  .photoPackshot {
+    grid-row: 1;
+    aspect-ratio: 4 / 3;
+  }
+
+  .care > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

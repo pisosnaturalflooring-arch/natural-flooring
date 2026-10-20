@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
+import { useScrollProgress } from "../useScrollProgress";
 import styles from "./InsideOut.module.css";
 import ConsultButton from "./ConsultButton";
 
@@ -17,13 +17,8 @@ export default function InsideOutSection({ insideOut }) {
   const { stages } = insideOut;
   const last = stages.length - 1;
 
-  const { scrollYProgress } = useScroll({
-    target: trackRef,
-    offset: ["start start", "end end"],
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    const t = Math.min(Math.max(progress, 0), 1) * last;
+  useScrollProgress(trackRef, (progress) => {
+    const t = progress * last;
     sceneRef.current?.style.setProperty("--t", t.toFixed(3));
     const index = Math.round(t);
     setActive((current) => (current === index ? current : index));

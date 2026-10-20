@@ -1,283 +1,31 @@
-.page {
-  /* Paleta oficial del manual de marca Natural Flooring */
-  --brand-green: #60ae1b;        /* verde brillante - PRIMARIO (logo, acentos) */
-  --brand-olive: #5d8835;        /* verde oliva - SECUNDARIO */
-  --brand-gray: #545850;         /* gris oscuro neutro */
-  --brand-white: #ffffff;        /* blanco puro */
-  --brand-sage: #b7c9a4;         /* verde pálido / sage */
-
-  /* Tonos derivados para layout (mismo lenguaje pero con más rango) */
-  --olive-dark: #1f3a23;         /* fondo oscuro (derivado del brand-olive) */
-  --olive: #2c4a2e;
-  --olive-mid: var(--brand-olive);
-  --olive-light: #8a9a6a;
-  --olive-pale: var(--brand-sage);
-  --cream: #f4f1e8;              /* mantenemos para superficies cálidas */
-  --cream-dark: #e4dece;
-  --cream-deeper: #d0c8b4;
-  --warm-black: #1a1c14;
-  --muted: #6a6e62;              /* alineado con brand-gray */
-
-  --display: var(--font-display), "Cabin", sans-serif;
-  --body: var(--font-body), "Arimo", "Inter", sans-serif;
-  --secondary: var(--font-secondary), "League Spartan", sans-serif;
-
-  background: var(--cream);
-  color: var(--warm-black);
-  font-family: var(--body);
-  /* clip y no hidden: hidden convierte a .page en contenedor de scroll y
-     rompe los position: sticky de las escenas fijas. */
-  overflow-x: clip;
-}
-
-.page *,
-.page *::before,
-.page *::after {
-  box-sizing: border-box;
-}
-
-.page a {
-  color: inherit;
-}
-
 /*
- * Texto corrido justificado en todo el sitio, con guionado en español para
- * que las columnas angostas no queden con huecos. Especificidad cero a
- * propósito: cualquier regla que alinee algo explícitamente sigue ganando.
+ * Estilos de la home. La base de página (.page: paleta, fuentes, texto
+ * justificado), el header, el footer y el logo están en SiteChrome.module.css,
+ * que comparten la home y /productos.
  */
-:where(.page) :where(p, li) {
-  text-align: justify;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-  hyphenate-limit-chars: 8 3 3;
-}
 
-/* Bloques que centran su texto por herencia: ahí se respeta el centrado. */
-:where(.page) :where(.socialFooter, .reviewScoreCard, .dropZone, .resultLoadingCopy, .toolsBridge, .errorPanel, .processOverlay, .materialInfo, .whyBadge, .chatbotCta, .modalThumbLabel) :where(p, li) {
+/* Bloques que centran su texto: ahí se respeta el centrado aunque el texto
+   corrido del sitio vaya justificado (regla en SiteChrome.module.css). Va al
+   principio para que una regla de clase posterior pueda pisarla. */
+.socialFooter :where(p, li),
+.reviewScoreCard :where(p, li),
+.dropZone :where(p, li),
+.resultLoadingCopy :where(p, li),
+.toolsBridge :where(p, li),
+.errorPanel :where(p, li),
+.processOverlay :where(p, li),
+.materialInfo :where(p, li),
+.whyBadge :where(p, li),
+.chatbotCta :where(p, li),
+.modalThumbLabel :where(p, li) {
   text-align: inherit;
 }
 
-.header {
-  position: fixed;
-  inset: 0 0 auto;
-  z-index: 200;
-  height: 76px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  padding: 0 2.5rem;
-  gap: 1.5rem;
-  background: rgba(37, 46, 24, 0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(200, 212, 168, 0.08);
-  transition: box-shadow 0.35s ease, border-color 0.35s ease;
-}
-
-.headerScrolled {
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
-  border-bottom-color: rgba(200, 212, 168, 0.16);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  line-height: 1;
-  text-decoration: none;
-}
-
-.logoText {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.brandMarkOnDark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border-radius: 50%;
-  padding: 4px;
-  box-sizing: border-box;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.brandMarkBare {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.logoTop {
-  font-family: var(--display);
-  font-size: 1.3rem;
-  letter-spacing: 0.05em;
-  color: var(--cream);
-}
-
-.logoSub {
-  font-size: 0.5rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--olive-pale);
-  opacity: 0.65;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.navLink {
-  position: relative;
-  padding: 0.45rem 0.9rem;
-  font-size: 0.67rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #ffffff !important;
-  transition: color 0.2s ease;
-}
-
-.navLink::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0.9rem;
-  right: 0.9rem;
-  height: 1.5px;
-  background: #f4f1e8;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s ease;
-}
-
-.navLink:hover {
-  color: #f4f1e8 !important;
-}
-
-.navLink:hover::after {
-  transform: scaleX(1);
-}
-
-.navLinkActive {
-  color: #f4f1e8 !important;
-}
-
-.navLinkActive::after {
-  transform: scaleX(1);
-}
-
-/* Solapa de Productos: se abre con hover o con foco de teclado. */
-.navItem {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.navCaret {
-  display: inline-block;
-  margin-left: 0.3rem;
-  font-size: 0.6rem;
-  transition: transform 0.2s ease;
-}
-
-.navItem:hover .navCaret,
-.navItem:focus-within .navCaret {
-  transform: rotate(180deg);
-}
-
-.navDropdown {
-  position: absolute;
-  top: calc(100% + 18px);
-  left: 50%;
-  width: max-content;
-  max-width: calc(100vw - 2rem);
-  padding: 1.5rem 1.75rem 1.25rem;
-  background: rgba(31, 40, 20, 0.98);
-  border: 1px solid rgba(200, 212, 168, 0.14);
-  border-radius: 4px;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
-  opacity: 0;
-  visibility: hidden;
-  transform: translate(-50%, 6px);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-}
-
-/* Puente invisible entre el link y el panel para que el hover no se corte. */
-.navDropdown::before {
-  content: "";
-  position: absolute;
-  inset: -20px 0 auto;
-  height: 20px;
-}
-
-.navItem:hover .navDropdown,
-.navItem:focus-within .navDropdown {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-
-.navDropdownGroups {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(130px, auto));
-  gap: 2rem;
-}
-
-.navDropdownHeading,
-.navDropdownLink,
-.navDropdownExtra {
-  display: block;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: color 0.2s ease;
-}
-
-.navDropdownHeading {
-  margin-bottom: 0.7rem;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--brand-sage) !important;
-}
-
-.navDropdownLink {
-  padding: 0.3rem 0;
-  font-size: 0.8rem;
-  color: rgba(244, 241, 232, 0.78) !important;
-}
-
-.navDropdownHeading:hover,
-.navDropdownLink:hover,
-.navDropdownExtra:hover {
-  color: #ffffff !important;
-}
-
-.navDropdownExtra {
-  margin-top: 1.1rem;
-  padding-top: 0.9rem;
-  border-top: 1px solid rgba(200, 212, 168, 0.12);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--brand-sage) !important;
-}
-
-.navCta,
 .primaryButton,
 .secondaryButton,
 .inlineCtaButton,
 .helpBannerButton,
 .bookingButton,
-.footerCta,
 .whatsappButton {
   display: inline-flex;
   align-items: center;
@@ -289,59 +37,6 @@
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, color 0.2s ease;
 }
 
-.navCta {
-  padding: 0.5rem 1.25rem;
-  background: var(--brand-green);
-  color: var(--brand-white);
-  font-size: 0.73rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.navCta:hover {
-  background: var(--brand-olive);
-  transform: translateY(-1px);
-}
-
-.headerIconGroup {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-.headerIconGroup::before {
-  content: "";
-  width: 1px;
-  height: 1.25rem;
-  background: rgba(255, 255, 255, 0.15);
-  margin-right: 0.5rem;
-}
-
-.headerIconBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.headerIconBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-}
-
-.headerIconBtnWa,
-.headerIconBtnMl {
-  background: var(--olive-mid);
-  color: #fff !important;
-}
-
-.footerCta:hover,
 .inlineCtaButton:hover {
   background: var(--olive-light);
 }
@@ -1185,7 +880,6 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 
-
 .brandIconCircle svg {
   display: block;
 }
@@ -1635,10 +1329,18 @@
   border-color: var(--brand-green);
 }
 
+@keyframes archiveIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
 .archiveList {
   display: flex;
   flex-direction: column;
   border-top: 1px solid rgba(74, 94, 53, 0.15);
+  animation: archiveIn 0.25s ease-out both;
 }
 
 .archiveRow {
@@ -2519,120 +2221,6 @@ a.contactRow:hover {
   height: 100%;
   border: 0;
   display: block;
-}
-
-.footer {
-  padding: 4rem 2.5rem 2rem;
-  background: #0a120a;
-  border-top: 1px solid rgba(200, 212, 168, 0.08);
-}
-
-.footerGrid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
-}
-
-.footerText {
-  max-width: 260px;
-  margin: 1.25rem 0 1.5rem;
-  font-size: 0.82rem;
-  line-height: 1.75;
-  color: var(--cream-dark);
-}
-
-.footerSocials {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.footerSocial {
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 0.5px solid rgba(200, 212, 168, 0.4);
-  border-radius: 2px;
-  color: var(--cream) !important;
-  text-decoration: none;
-  transition: border-color 0.2s ease, color 0.2s ease;
-}
-
-.footerSocial:hover {
-  border-color: var(--olive-pale);
-  color: var(--cream-dark) !important;
-}
-
-.footerHeading {
-  margin-bottom: 1.25rem;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--olive-pale);
-}
-
-.footerLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-.footerLink,
-.footerMetaLink {
-  font-size: 0.82rem;
-  color: var(--cream) !important;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footerLink:hover,
-.footerMetaLink:hover {
-  color: var(--cream-dark) !important;
-}
-
-.footerMetaList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  font-size: 0.8rem;
-  color: var(--cream-dark);
-}
-
-.footerMetaRow {
-  display: flex;
-  gap: 0.65rem;
-  align-items: flex-start;
-}
-
-.footerMetaRow > svg {
-  flex-shrink: 0;
-  margin-top: 2px;
-  color: rgba(200, 212, 168, 0.6);
-}
-
-.footerCta {
-  padding: 0.75rem 1.25rem;
-  background: var(--olive-mid);
-  color: var(--cream);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-}
-
-.footerBottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding-top: 1.75rem;
-  border-top: 1px solid rgba(200, 212, 168, 0.07);
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  color: rgba(244, 241, 232, 0.55); /* raised from 0.18 — was near-invisible */
 }
 
 /* Visualizador de piso interactivo */
@@ -4217,7 +3805,6 @@ a.contactRow:hover {
   animation-delay: var(--delay, 0s);
 }
 
-
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -4237,9 +3824,7 @@ a.contactRow:hover {
 }
 
 @media (max-width: 1200px) {
-  .footerGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  
 
   .processInner {
     grid-template-columns: 1fr;
@@ -4251,63 +3836,9 @@ a.contactRow:hover {
   }
 }
 
-@media (max-width: 1100px) and (min-width: 769px) {
-  .header {
-    height: 76px;
-    padding: 0 1.75rem;
-    gap: 1rem;
-  }
-
-  .logoTop {
-    font-size: 1.15rem;
-  }
-
-  .logoSub {
-    font-size: 0.46rem;
-  }
-
-  .navLink {
-    padding: 0.45rem 0.55rem;
-    font-size: 0.62rem;
-    letter-spacing: 0.06em;
-  }
-
-  .navLink::after {
-    left: 0.55rem;
-    right: 0.55rem;
-  }
-
-  .navCta {
-    padding: 0.45rem 0.95rem;
-    font-size: 0.66rem;
-  }
-
-  .headerIconGroup {
-    gap: 0.4rem;
-    padding-right: 0;
-  }
-
-  .headerIconGroup::before {
-    margin-right: 0.35rem;
-  }
-}
-
 /* Con seis links y la solapa de Productos no entra todo en tablet: se va el
    botón del header (WhatsApp sigue en el chat y en cada sección) y la bajada
    del logo, y nada puede partirse en dos renglones. */
-@media (max-width: 1100px) and (min-width: 769px) {
-  .logoTop,
-  .navLink {
-    white-space: nowrap;
-  }
-}
-
-@media (max-width: 980px) and (min-width: 769px) {
-  .logoSub,
-  .headerIconGroup {
-    display: none;
-  }
-}
 
 @media (max-width: 1024px) {
   .whyInner,
@@ -4439,13 +3970,11 @@ a.contactRow:hover {
 }
 
 @media (max-width: 768px) {
-  .header,
   .lightSection,
   .altSection,
   .beforeAfterSection,
   .socialSection,
-  .processSection,
-  .footer {
+  .processSection {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
@@ -4454,58 +3983,23 @@ a.contactRow:hover {
     grid-template-columns: 1fr;
   }
 
-  .header {
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left: 1rem;
-    padding-right: 1.25rem;
-    height: 64px;
-    gap: 0.75rem;
-  }
+  
 
-  .logo {
-    gap: 0.55rem;
-    min-width: 0;
-  }
+  
 
-  .logo .brandMarkOnDark,
-  .logo .brandMarkBare {
-    width: 40px !important;
-    height: 40px !important;
-  }
+  
 
-  .logoTop {
-    font-size: 1rem;
-    white-space: nowrap;
-  }
+  
 
-  .logoSub {
-    display: none;
-  }
+  
 
-  .navCta {
-    padding: 0.45rem 0.85rem;
-    font-size: 0.62rem;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-  }
+  
 
-  .headerIconGroup {
-    gap: 0.5rem;
-    padding-right: 0;
-  }
+  
 
-  .headerIconGroup::before {
-    display: block;
-    width: 1px;
-    height: 1.1rem;
-    margin-right: 0.5rem;
-    background: rgba(255, 255, 255, 0.15);
-  }
+  
 
-  .nav {
-    display: none;
-  }
+  
 
   .hero {
     grid-template-columns: 1fr;
@@ -4618,9 +4112,7 @@ a.contactRow:hover {
     gap: 0.5rem;
   }
 
-  .footerGrid {
-    grid-template-columns: 1fr;
-  }
+  
 
   .sliderWrap {
     height: 300px;
@@ -5333,7 +4825,6 @@ a.contactRow:hover {
   border-color: rgba(244, 241, 232, 0.4);
 }
 
-
 /* Upgraded Premium Entry CTA Helper Card */
 
 .woodShowcaseBanner {
@@ -5417,7 +4908,6 @@ a.contactRow:hover {
   transform: translateY(-4px);
   box-shadow: 0 18px 40px rgba(96, 174, 27, 0.4);
 }
-
 
 /* ── Asesor + visualizador ── */
 .toolsSection {

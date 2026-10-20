@@ -1,10 +1,8 @@
-"use client";
-
-import styles from "../NaturalFlooringPage.module.css";
+import styles from "../SiteChrome.module.css";
 
 /**
  * Isotipo oficial Natural Flooring extraído del manual de marca.
- * Archivo: /public/logo-natural-flooring.png (RGBA con transparencia real).
+ * Archivo: /public/logo-natural-flooring.webp (128 px, con transparencia; el PNG original de 314 px queda como fuente).
  *
  * Por defecto se envuelve en un disco blanco para garantizar legibilidad
  * sobre fondos oscuros. Pasar `bg={false}` para el isotipo desnudo.
@@ -18,7 +16,7 @@ export function NaturalFlooringMark({
   const img = (
     /* eslint-disable-next-line @next/next/no-img-element */
     <img
-      src="/logo-natural-flooring.png"
+      src="/logo-natural-flooring.webp"
       alt={title}
       width={size}
       height={size}
