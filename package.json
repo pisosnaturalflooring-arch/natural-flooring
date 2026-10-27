@@ -2,11 +2,11 @@
   "name": "naturalfloorings-next",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/prepare-images.mjs && next dev",
     "test": "node --test",
     "check:images": "node scripts/check-images.mjs",
-    "prebuild": "node scripts/check-images.mjs",
-    "build": "next build",
+    "prepare:images": "node scripts/prepare-images.mjs",
+    "build": "node scripts/check-images.mjs && node scripts/prepare-images.mjs && next build",
     "start": "next start"
   },
   "dependencies": {

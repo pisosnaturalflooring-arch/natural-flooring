@@ -1,0 +1,761 @@
+{
+  "/images/antes-escalera-hormigon.jpg": {
+    "id": "8aae1d335bf25e53",
+    "width": 698,
+    "height": 926
+  },
+  "/images/antes-gimnasio-con-piso-deteriorado.jpg": {
+    "id": "a64ef6ce1def6ce5",
+    "width": 924,
+    "height": 1206
+  },
+  "/images/barco-roble-americano-1.jpg": {
+    "id": "7a09f72a86cd9bb6",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/barco-roble-americano-2.jpg": {
+    "id": "26140b66aabc21fc",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/comedor-beccar-roble.jpg": {
+    "id": "42897c1ff84712ce",
+    "width": 1200,
+    "height": 1600
+  },
+  "/images/deck-lapacho-jacuzzi.jpg": {
+    "id": "e5abf7d69c80ea5a",
+    "width": 1600,
+    "height": 720
+  },
+  "/images/deck-lapacho-terraza.jpg": {
+    "id": "f5e1783d043b86e6",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/deck-lapacho-zona-norte.jpg": {
+    "id": "d66c861169fb03c8",
+    "width": 762,
+    "height": 1022
+  },
+  "/images/deck-museo-1.jpg": {
+    "id": "324b57d71f888739",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/deck-museo-2.jpg": {
+    "id": "a27a47afb71ab66b",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/deck-museo-3.jpg": {
+    "id": "e26a744444410972",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/deck-wpc-detalle.jpg": {
+    "id": "260b1ffb1b78ae69",
+    "width": 669,
+    "height": 886
+  },
+  "/images/deck-wpc-patio-pileta.jpg": {
+    "id": "056d2545bd83a0bd",
+    "width": 1092,
+    "height": 1441
+  },
+  "/images/despues-gimnasio-renovado.jpg": {
+    "id": "33a7a57b8763a2c0",
+    "width": 920,
+    "height": 1220
+  },
+  "/images/despues-petiribi-hidrolaqueado.jpg": {
+    "id": "30e0f2cf28beddb1",
+    "width": 697,
+    "height": 928
+  },
+  "/images/detalle-escalera-petiribi.jpg": {
+    "id": "7d49b0e7258497cb",
+    "width": 687,
+    "height": 923
+  },
+  "/images/escalera-belzu.jpg": {
+    "id": "f1b71bfc62576155",
+    "width": 1350,
+    "height": 1800,
+    "hero": true,
+    "preview": "data:image/webp;base64,UklGRkoBAABXRUJQVlA4ID4BAADQBgCdASogACsAPwF2slOrJySiqrgIAWAgCUAVJPCt65kvqbdrBFV4WMoUQPg1xaKX/VgrG18CyaFbmtmpooAA/vN2iXWJ/Gc5+FWvMm9AfFMF8PybVuTOsYHtUpA6OAL3GcJPqQUPfs5aFoRlIdRanl82bwMRhzffIYo35jf2Hl72m5uorEVw2NyQKDIAgHNEFkZlU3p0qPjfJ1rpf/mdQ34VGIfVWxYZwXgpnQiH7qtG0xPhYd/HK5RsWO0qsYydyQWURKI2eUkM3gIP+NqnslRYeySxnxLVOnyRTJKvLna4bEt3XB84F8NzoAL3ddNMNF0FpIwnHamdDSq47USl8Bs4SdH50lny9IFd2AsVHvHEKNokONnRPFfsYJqx0jSnMcJTu/BJrQSpKPS7q/4gQpYGUvlZnuVmb2aQAAA="
+  },
+  "/images/escalera-grandis-1.jpg": {
+    "id": "6e9159b83bd01dae",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/escalera-grandis-2.jpg": {
+    "id": "f3bcf30676650fe0",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/escalera-lapacho-1.jpg": {
+    "id": "16309a1e7f64201b",
+    "width": 1190,
+    "height": 1800
+  },
+  "/images/escalera-lapacho-2.jpg": {
+    "id": "9e5344b6d9c6648e",
+    "width": 1359,
+    "height": 1800
+  },
+  "/images/escalera-lapacho-3.jpg": {
+    "id": "ef9bf555c6bf4719",
+    "width": 1345,
+    "height": 1800,
+    "hero": true,
+    "preview": "data:image/webp;base64,UklGRhgBAABXRUJQVlA4IAwBAADQBwCdASogACsAPwFysVIrJqSipWzJYCAJQBXKAo8eNdNY666ArRRHq3OXidl35kXHx7asFCLyN/YG4d1sLB7jvhdG19NPAAD9/SER1TOX3uwo6B/DupdccDN6KnlBQxnp7qojgb25u67y0UnEeXVzBB3BVXLqtyrr7EUa9M0BJ54nDnBWsdq+1Ym2THAKOnOin8AbCn7AcH6NEF2sTWrX8xH1hzCoisvDAstQJLoE2kznfZ/Ffb9U+CxT2b1FM9fQWqe41U714cEaHlkJBJ9ysYC3yEefj9stSbW67nhJd7/U0pPOYSqlk60f6hN9Z4RlS03owfRyHfimnQH01i/pCYzey8y2IzjLwAAA"
+  },
+  "/images/escalera-lapacho-4.jpg": {
+    "id": "4a0b74441691d449",
+    "width": 1343,
+    "height": 1800
+  },
+  "/images/escalera-lapacho-5.jpg": {
+    "id": "18d9a8eac00c8aa4",
+    "width": 1345,
+    "height": 1800
+  },
+  "/images/escalera-pvc-antes.jpg": {
+    "id": "3d4ba6950ceb0030",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/escalera-pvc-despues-1.jpg": {
+    "id": "173c3a2ecf18c0cd",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/escalera-pvc-despues-2.jpg": {
+    "id": "aca618cbe3d0c3b3",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/escalera-terminada-noche.jpg": {
+    "id": "d18dd7b897149b4d",
+    "width": 512,
+    "height": 921
+  },
+  "/images/escalera-vinilica.jpg": {
+    "id": "abf92ac1bc441b34",
+    "width": 3024,
+    "height": 4032
+  },
+  "/images/escalera-vinilico-comercial.jpg": {
+    "id": "2702a405b119b444",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/euca-rostrata-dormitorio.jpg": {
+    "id": "495c8489121a8b0d",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/gimnasio-sportclub.jpg": {
+    "id": "fc3857b9693b25b1",
+    "width": 984,
+    "height": 1296
+  },
+  "/images/gimnasiomientras.jpeg": {
+    "id": "0ae4cf3bd4637288",
+    "width": 908,
+    "height": 1196
+  },
+  "/images/guatambu-salon-gimnasio.jpg": {
+    "id": "6a16f91f1e531591",
+    "width": 920,
+    "height": 1220
+  },
+  "/images/gym-guatambu-IMG_7570.jpg": {
+    "id": "a250e831d3547993",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/gym-guatambu-IMG_8270.jpg": {
+    "id": "2df921023dfb3676",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/gym-guatambu-IMG_8280.jpg": {
+    "id": "1d8a2b49b2e8ea6d",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/hero-deck.jpg": {
+    "id": "8e80000160e45cae",
+    "width": 1350,
+    "height": 1800,
+    "hero": true,
+    "preview": "data:image/webp;base64,UklGRlwBAABXRUJQVlA4IFABAAAwCACdASogACsAPvVsqE6qpqOiMBqtUVAeiUAQcF9DgilIr4U6WUj0Q6VHuG+oDnT69i3o1CuERM2kEwmjzwSf7C5PTdKDxTtZcAD+6/ldsgwX7RmEbljRjI3yQkBE8OWsXYcpmUU5aBr1WzxLgfR6C+RP1b6OmzS7XTsMWfMsJE2Zy8EOjTw0Pnj9Sbr/MRdZCaa7mlMm2hK8LoeV9rflQmqDHSjgzPvKQsYfuYcCbUSXeM1TzUf2rTb36X9yzep6egZhIbiKn/KZ7Nih+dyV+6xQeJouwcmmFFDfOwfh+BOsAfcrg/YJNergPmSP02AriraEgqMe9RwqGxKkRKZ8/geoQd2YSB2eFVEv0Nc8sbIXcs3D8Xu4RI9DQwfzCFpHx5beE3BAJfrIAR8yybGRB4VHm6nV0J9mFeWgcW0khP38iuMGfQOG0ZN38QQwAAA="
+  },
+  "/images/hero/deck-pileta-desktop.jpg": {
+    "id": "cbae60f106df9e9b",
+    "width": 3840,
+    "height": 2160,
+    "hero": true,
+    "preview": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAADQBACdASogABIAPvVop06qpiMiMAwBUB6JbACxHwnB6c7rGH7ta94DVPHOxP25gAD99429qihNhu+wT9g5XWqmf1uhDU5oKiFioLfvDPeB61yYcavHdN4waFp/DPHV+vteizc0me0CO+lhpVCsZHzs8zoz/Wkw+E1AR+GoEUwLDtkQgo4qCjhZnqauCAhO5alEzOlk+A5YUAAA"
+  },
+  "/images/hero/deck-pileta-mobile.jpg": {
+    "id": "9ba507b980ed6cb0",
+    "width": 1920,
+    "height": 2560,
+    "hero": true,
+    "preview": "data:image/webp;base64,UklGRjgBAABXRUJQVlA4ICwBAABQBgCdASogACsAPu1epE6ppSOiNUgBMB2JbACuT5OEe9qXH3nqfOY0R/8o2s8WwzYf1BXX9RoksUPWgAD3yqdJB7feA02Xa7vVaPMoEPSFP3epx4HstpZLI9R5wkEQGzXzzd5/yh5r5yzZ5dG9n5dFFXVVt2M68geuNcSMNnEXNbU374fS35wt1ZbVW9804yMn1FJciMxVEuDaJG1JoUJBNMaYA9fbrraFRQpqcVxwHBdRYsQchij9Z0N4iyZ/b08+SqK9VoPjFARgM6is35EWDL67uGBc5M1t5UeZO1lL3g+bU9hrdaqhRTHsTtoI+DSsHbXTVsv6igDOEU8AjjIodZlm1EaFwR0n/eYG9Qhyv7DguddyJMXIkd1XVBlz7CwsMeJpkWdXizSAAAA="
+  },
+  "/images/ig/reel-DOO26rGEXPg.jpg": {
+    "id": "11912371fb26ec43",
+    "width": 361,
+    "height": 640
+  },
+  "/images/ig/reel-DW19REahgGH.jpg": {
+    "id": "1091141bc7995aad",
+    "width": 360,
+    "height": 640
+  },
+  "/images/ig/reel-DW9fYIXkZHK.jpg": {
+    "id": "689c0b3091c0117b",
+    "width": 640,
+    "height": 640
+  },
+  "/images/ig/reel-DWkBexCiQtq.jpg": {
+    "id": "020d9f2dffd376ad",
+    "width": 640,
+    "height": 640
+  },
+  "/images/ig/reel-DXxO_kvBxyU.jpg": {
+    "id": "8aea4b86f7af1d73",
+    "width": 360,
+    "height": 640
+  },
+  "/images/ig/reel-DYXzcPmEZpJ.jpg": {
+    "id": "c2a97836de3e7395",
+    "width": 512,
+    "height": 640
+  },
+  "/images/living-eucalipto-blanco.jpg": {
+    "id": "f2092cd336b065b7",
+    "width": 960,
+    "height": 1280
+  },
+  "/images/maderas/blanco-parquet.jpg": {
+    "id": "43829e84a50bc77f",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/blanco-piso.jpg": {
+    "id": "265973aa65624b31",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/grandis-deck.jpg": {
+    "id": "23632e604e643ca2",
+    "width": 1400,
+    "height": 786
+  },
+  "/images/maderas/guatambu-piso.jpg": {
+    "id": "c94275ad8205427e",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/guayubira-deck.jpg": {
+    "id": "69e242a74a1ac2a2",
+    "width": 1143,
+    "height": 1400
+  },
+  "/images/maderas/guayubira-escalera.jpg": {
+    "id": "db49e2c418c0ca7a",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/guayubira-piso-2.jpg": {
+    "id": "db00ce62e4619657",
+    "width": 1053,
+    "height": 1400
+  },
+  "/images/maderas/incienso-escalera-2.jpg": {
+    "id": "74929b571b49be1b",
+    "width": 1126,
+    "height": 1400
+  },
+  "/images/maderas/incienso-escalera.jpg": {
+    "id": "1111c06b5c8d1ee5",
+    "width": 1126,
+    "height": 1400
+  },
+  "/images/maderas/lapacho-deck-2.jpg": {
+    "id": "ae539edafacf755c",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/lapacho-deck.jpg": {
+    "id": "0b160c89ff9231b2",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/lapacho-escalera.jpg": {
+    "id": "42383f9b4eee54d7",
+    "width": 1046,
+    "height": 1400
+  },
+  "/images/maderas/lapacho-piso.jpg": {
+    "id": "1cc0d62c3f836cdf",
+    "width": 1050,
+    "height": 1400,
+    "hero": true,
+    "preview": "data:image/webp;base64,UklGRiABAABXRUJQVlA4IBQBAADwBgCdASogACsAPwFurVArJqQiqqwBYCAJYwC/86ngh+3WmDZfunWRVK9Uli4V+SNvwqogWOiA89PnhOek+uwMAPi1CUorEIcbMuUyPYhmsa4oLZkXvBWlB9oy9WABimYXB5bS87yY1twKp9Rgv8HFkG2zwPdInrJnCip5hECkDhI7XYJ1zLuSp4RSOpLbRrvQ/VHD0stGXw1T65AffgIYRv6hAdi9ROeKrCmOwQV/w4oV3DSkE4+qPrKIuYxXrjI5CHWdc3NxM2vwNQcWgN1ap3iDQUi4YfR++YnfRB/vaVOCoqVUmvDq+DlI4vL/kI187ZLa4FO1qD7CDJ+/u9Ql1ak4RW7NCfM8K7UZUms9fMOAAAA="
+  },
+  "/images/maderas/petiribi-escalera.jpg": {
+    "id": "23c6154e24039ac6",
+    "width": 787,
+    "height": 1400
+  },
+  "/images/maderas/pinotea-piso-2.jpg": {
+    "id": "3cda792f270c5ea5",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/pinotea-piso.jpg": {
+    "id": "e6e6edb077b77544",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/rostrata-parquet.jpg": {
+    "id": "d13bff52e6995a39",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/rostrata-piso.jpg": {
+    "id": "22f49dd30a69102a",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/spc-honey-oak.jpg": {
+    "id": "02709f531a5b3596",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/tabla-blanco.jpg": {
+    "id": "b9e6106dc66c141e",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-grandis.jpg": {
+    "id": "224cbfa073c9cbc3",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-guatambu.jpg": {
+    "id": "1ecf1c67d4db164c",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-guayubira.jpg": {
+    "id": "aaae38ccbb5657af",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-incienso.jpg": {
+    "id": "540e292c7b640928",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-lapacho.jpg": {
+    "id": "e1f100dee84ece8e",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-petiribi.jpg": {
+    "id": "830dc0e21cc0bff5",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-pinotea.jpg": {
+    "id": "a211d7338c116f96",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-rostrata.jpg": {
+    "id": "73f40d5eddd51a48",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-urundel.jpg": {
+    "id": "ed18d40e9024b6de",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/tabla-viraro.jpg": {
+    "id": "9411959b50e1f607",
+    "width": 160,
+    "height": 640
+  },
+  "/images/maderas/urundel-deck.jpg": {
+    "id": "fafb3c7ccf93ac98",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/viraro-escalera.jpg": {
+    "id": "b22a6d52e36dd098",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/viraro-piso.jpg": {
+    "id": "1e3b5d0a29c0f737",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/maderas/zocalo-moldura.jpg": {
+    "id": "547c1d29c4db9f80",
+    "width": 1400,
+    "height": 1400
+  },
+  "/images/parquet-espiga-av25-1.jpg": {
+    "id": "29acf0273552752f",
+    "width": 1350,
+    "height": 1800,
+    "hero": true,
+    "preview": "data:image/webp;base64,UklGRugAAABXRUJQVlA4INwAAADQBgCdASogACsAPuFUpE6opKOiOrzIARAcCWMAzF+uASIe/XGg5oBCqtkwJehEMc+PHl9AFvmzKHHgt7wfJgAA/XjaeChG/nMceUhshMSzPHX6LKZSLNnmEUtaOg5y8Pd3hSDG4z5ZtKkH70IlOPFJD7neAi8eQD4hnaLXxCIGCnx5ljA30e/FKRo0eW3e5fQysUBLPv9DPHz9ad7zK0Y3bgbiFDwTyGB3IxVV0oZkTH0zwe3uUIyqNoYTPQbRPeA++sVdMmood19ZlHPvF3J0mTUbzZ815ZXmAAAA"
+  },
+  "/images/parquet-espiga-av25-2.jpg": {
+    "id": "db0f6d06c9170dbe",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/pinotea-brillante.jpg": {
+    "id": "f6ec2edcd03fcf9f",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/piso-de-madera-natural.jpg": {
+    "id": "5f393929dce5c72e",
+    "width": 700,
+    "height": 926
+  },
+  "/images/productos/ml/brea.jpg": {
+    "id": "0de8d0247fd9d066",
+    "width": 500,
+    "height": 500
+  },
+  "/images/productos/ml/clips-deck-wpc.jpg": {
+    "id": "cdf13eb41b045966",
+    "width": 1199,
+    "height": 662
+  },
+  "/images/productos/ml/cuarta-cana-pvc.jpg": {
+    "id": "79d24455b0cac0d2",
+    "width": 560,
+    "height": 412
+  },
+  "/images/productos/ml/deck-wpc-bicolor.jpg": {
+    "id": "b3165562a436bb50",
+    "width": 789,
+    "height": 1200
+  },
+  "/images/productos/ml/film-200.jpg": {
+    "id": "762bd083e2da7a24",
+    "width": 1024,
+    "height": 909
+  },
+  "/images/productos/ml/kekol-k2024.jpg": {
+    "id": "6a06afc33418970a",
+    "width": 690,
+    "height": 839
+  },
+  "/images/productos/ml/kekol-k300.jpg": {
+    "id": "31ccf1ec8f56274b",
+    "width": 1200,
+    "height": 442
+  },
+  "/images/productos/ml/kekol-k404.jpg": {
+    "id": "42683e2c703cc321",
+    "width": 814,
+    "height": 1199
+  },
+  "/images/productos/ml/kekol-k412.jpg": {
+    "id": "9f10c2657777b66f",
+    "width": 336,
+    "height": 540
+  },
+  "/images/productos/ml/kekol-k645.jpg": {
+    "id": "3f7156d925ab0c4a",
+    "width": 1024,
+    "height": 1024
+  },
+  "/images/productos/ml/kekol-kh60.jpg": {
+    "id": "d16eeee980bb54c0",
+    "width": 554,
+    "height": 855
+  },
+  "/images/productos/ml/kekol-kl73.jpg": {
+    "id": "c8801df57264c3a5",
+    "width": 929,
+    "height": 969
+  },
+  "/images/productos/ml/kekol-ks518.jpg": {
+    "id": "0d8808c307cfd42d",
+    "width": 1024,
+    "height": 1024
+  },
+  "/images/productos/ml/manta-espuma-blanca.jpg": {
+    "id": "f82628f6dfae2f2c",
+    "width": 1200,
+    "height": 769
+  },
+  "/images/productos/ml/manta-negra-spc.jpg": {
+    "id": "b0cb103693a577b2",
+    "width": 1094,
+    "height": 876
+  },
+  "/images/productos/ml/mdf-fresno.jpg": {
+    "id": "51c4a4e2f30be8aa",
+    "width": 500,
+    "height": 500
+  },
+  "/images/productos/ml/mdf-haya.jpg": {
+    "id": "56bb54a4db3cc98e",
+    "width": 500,
+    "height": 500
+  },
+  "/images/productos/ml/mdf-okume.jpg": {
+    "id": "ad974fd6a269d8c1",
+    "width": 500,
+    "height": 500
+  },
+  "/images/productos/ml/mdf-roble-blanco.jpg": {
+    "id": "372cfae14c2db528",
+    "width": 500,
+    "height": 500
+  },
+  "/images/productos/ml/perfil-angulo.jpg": {
+    "id": "ba35d0bb7fe5e9ba",
+    "width": 1200,
+    "height": 824
+  },
+  "/images/productos/ml/perfil-desnivel.jpg": {
+    "id": "1b8d565987944916",
+    "width": 779,
+    "height": 643
+  },
+  "/images/productos/ml/perfil-plano.jpg": {
+    "id": "9a09aff4e110fdff",
+    "width": 983,
+    "height": 1197
+  },
+  "/images/productos/ml/placa-fenolica.jpg": {
+    "id": "f4a4b9ebfebc0834",
+    "width": 610,
+    "height": 1200
+  },
+  "/images/productos/ml/prefinish-lapacho-habano.jpg": {
+    "id": "61309d1c8fae97b7",
+    "width": 900,
+    "height": 1200
+  },
+  "/images/productos/ml/silicona-neutra.jpg": {
+    "id": "fde26179686cc960",
+    "width": 292,
+    "height": 995
+  },
+  "/images/productos/ml/vermeister-idronet.jpg": {
+    "id": "558e25ec69ac3831",
+    "width": 495,
+    "height": 978
+  },
+  "/images/productos/ml/vermeister-repox.jpg": {
+    "id": "b4f7e49a30f41ae5",
+    "width": 480,
+    "height": 334
+  },
+  "/images/productos/ml/vermeister-wpc-life.jpg": {
+    "id": "bea28672da46ca1f",
+    "width": 451,
+    "height": 1200
+  },
+  "/images/productos/ml/zocalo-eucalipto.jpg": {
+    "id": "78218de892bfe26f",
+    "width": 873,
+    "height": 994
+  },
+  "/images/productos/ml/zocalo-foliado.jpg": {
+    "id": "7586f90724d75a7c",
+    "width": 1036,
+    "height": 1062
+  },
+  "/images/productos/ml/zocalo-kiri.jpg": {
+    "id": "445e551db02382f0",
+    "width": 1200,
+    "height": 1125
+  },
+  "/images/productos/ml/zocalo-mdf-moldura.jpg": {
+    "id": "7007405f617385cb",
+    "width": 950,
+    "height": 1194
+  },
+  "/images/productos/ml/zocalo-mdf-recto.jpg": {
+    "id": "010c38673a44a30d",
+    "width": 1024,
+    "height": 1024
+  },
+  "/images/productos/ml/zocalo-pvc-blanco.jpg": {
+    "id": "94fb931d69188949",
+    "width": 1200,
+    "height": 1200
+  },
+  "/images/productos/ml/zocalo-pvc-negro.jpg": {
+    "id": "acfdfe089f54e6f4",
+    "width": 1198,
+    "height": 528
+  },
+  "/images/productos/spc-gris-cemento-2.jpg": {
+    "id": "9db4ec2a63065c09",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/productos/spc-gris-cemento.jpg": {
+    "id": "15b155b021898ba3",
+    "width": 1050,
+    "height": 1400
+  },
+  "/images/products/kekol-k1004.jpg": {
+    "id": "282f3d582bc215f0",
+    "width": 600,
+    "height": 600
+  },
+  "/images/products/kekol-k403.jpg": {
+    "id": "98e0834cb1cf0c25",
+    "width": 600,
+    "height": 600
+  },
+  "/images/products/kekol-k4035.jpg": {
+    "id": "54203e51b325aea6",
+    "width": 1000,
+    "height": 1000
+  },
+  "/images/products/kekol-k4045-official.jpg": {
+    "id": "45c59155656668fb",
+    "width": 600,
+    "height": 600
+  },
+  "/images/products/varathane-official.png": {
+    "id": "ed2f21b5de22ad24",
+    "width": 4000,
+    "height": 4000
+  },
+  "/images/products/vermeister-detergente.webp": {
+    "id": "4758d8c9e22e51b9",
+    "width": 500,
+    "height": 997
+  },
+  "/images/products/vermeister-wpc-cleaner.webp": {
+    "id": "8f8c0d76da5cd766",
+    "width": 189,
+    "height": 500
+  },
+  "/images/pulido-herringbone-antes.jpg": {
+    "id": "04e37072047921f9",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/pulido-herringbone-despues-1.jpg": {
+    "id": "a8e0c6008de22582",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/pulido-herringbone-despues-2.jpg": {
+    "id": "e74177f5ae70ac4c",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/revestimiento-pared-madera.jpeg": {
+    "id": "90cffe08bdb80a62",
+    "width": 800,
+    "height": 544
+  },
+  "/images/roble-caoba-1.jpg": {
+    "id": "5eec61a478874dc9",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/roble-caoba-2.jpg": {
+    "id": "abf6e7bcecbc8460",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/roble-eslabonia-1.jpg": {
+    "id": "19447b6f99aba933",
+    "width": 1012,
+    "height": 1800
+  },
+  "/images/roble-eslabonia-2.jpg": {
+    "id": "925cb0a42100db4d",
+    "width": 1012,
+    "height": 1800
+  },
+  "/images/roble-eslabonia-3.jpg": {
+    "id": "b82d42893cc0dd24",
+    "width": 1012,
+    "height": 1800
+  },
+  "/images/showroom-frente.jpg": {
+    "id": "01fca7ff1bb4df33",
+    "width": 878,
+    "height": 1800
+  },
+  "/images/spc-gris-instalado.jpg": {
+    "id": "1c84de68d571ccf2",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/sportclub-IMG_6895.jpg": {
+    "id": "5e7978659e20a2d6",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/sportclub-IMG_6900.jpg": {
+    "id": "97ab8af51ca1c228",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/sportclub-IMG_6904.jpg": {
+    "id": "065e088dc6e2dbc2",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/sportclub-IMG_6911.jpg": {
+    "id": "23ea4f657511197c",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/sportclub-IMG_6915.jpg": {
+    "id": "11fb453ca525270a",
+    "width": 1350,
+    "height": 1800
+  },
+  "/images/viraro-natural.jpg": {
+    "id": "fe2084779ba95ba6",
+    "width": 1350,
+    "height": 1800
+  },
+  "/logo-natural-flooring.png": {
+    "id": "e6a8a5ca2aa0c7d1",
+    "width": 314,
+    "height": 314
+  },
+  "/logo-natural-flooring.webp": {
+    "id": "4334cab0209ba43d",
+    "width": 128,
+    "height": 128
+  },
+  "/og-image.jpg": {
+    "id": "3d923526612db27d",
+    "width": 1200,
+    "height": 630
+  }
+}

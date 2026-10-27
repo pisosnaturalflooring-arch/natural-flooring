@@ -125,6 +125,16 @@
   object-position: var(--hero-position-desktop, 50% 50%);
 }
 
+/* Embebida en el HTML: se ve la misma escena mientras llega el archivo nítido. */
+.preview {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--hero-preview);
+  background-size: cover;
+  background-position: var(--hero-position-desktop, 50% 50%);
+}
+
 .caption {
   position: absolute;
   z-index: 2;
@@ -383,6 +393,7 @@
   .panoramico .title { font-size: clamp(2.3rem, 8vw, 3.6rem); margin-bottom: 1rem; }
   .panoramico .photograph { min-height: 330px; }
   .image { object-position: var(--hero-position-mobile, 50% 50%); transform: scale(var(--hero-scale-mobile, 1)); transform-origin: center bottom; }
+  .preview { background-image: var(--hero-preview-mobile); background-position: var(--hero-position-mobile, 50% 50%); transform: scale(var(--hero-scale-mobile, 1)); transform-origin: center bottom; }
   .caption { right: 1rem; bottom: 1rem; max-width: calc(100% - 2rem); font-size: 0.7rem; }
   .panoramico .explore { display: none; }
   .inmersivo .photograph::after {

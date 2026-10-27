@@ -12,7 +12,7 @@ import { readdirSync, readFileSync, existsSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
 
 const SOURCE_DIRS = ["components", "app"];
-const SOURCE_EXTS = new Set([".js", ".jsx", ".mjs", ".ts", ".tsx"]);
+const SOURCE_EXTS = new Set([".js", ".jsx", ".mjs", ".ts", ".tsx", ".json"]);
 const REFERENCE = /["'`](\/images\/[^"'`]+)["'`]/g;
 
 function walk(dir) {

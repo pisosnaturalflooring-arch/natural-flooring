@@ -13,15 +13,17 @@ const nextConfig = {
     cssChunking: "graph",
   },
   images: {
-    // AVIF primero (pesa ~20-30% menos que WebP) y WebP para los navegadores que no lo soportan.
-    formats: ["image/avif", "image/webp"],
-    // Las versiones optimizadas se guardan 30 días en vez de 4 horas.
-    minimumCacheTTL: 2592000,
+    // Archivos preparados durante el build: el visitante no espera al optimizador.
+    loader: "custom",
+    loaderFile: "./lib/image-loader.js",
+    deviceSizes: [640, 960, 1440, 1920, 2560, 3840],
+    imageSizes: [48, 96, 192, 320],
     // El hero usa 85 para conservar la textura de la madera; el resto mantiene 75.
     qualities: [60, 75, 85],
   },
   async headers() {
     return [
+      { source: "/_images/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
       { source: "/images/:path*", headers: [{ key: "Cache-Control", value: STATIC_ASSET_CACHE }] },
       { source: "/logo-natural-flooring.webp", headers: [{ key: "Cache-Control", value: STATIC_ASSET_CACHE }] },
       { source: "/og-image.jpg", headers: [{ key: "Cache-Control", value: STATIC_ASSET_CACHE }] },

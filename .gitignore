@@ -1,5 +1,6 @@
 node_modules
 .next
+public/_images/
 out
 .DS_Store
 npm-debug.log*

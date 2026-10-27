@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-// Tiene que coincidir con la cantidad de fotos en hero.images (components/natural-flooring/data.js).
+// Tiene que coincidir con la cantidad de fotos en components/natural-flooring/hero-images.json.
 // El proxy no importa data.js a propósito: corre antes de renderizar y conviene que sea mínimo.
 // Un test verifica que los dos números coincidan.
 export const HERO_IMAGE_COUNT = 6;

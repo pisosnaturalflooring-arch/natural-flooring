@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "../NaturalFlooringPage.module.css";
 import { sanitizePhoneInput } from "../../../lib/leadValidation.mjs";
+import imageManifest from "../../../lib/image-manifest.json";
+import { preparedImageUrl } from "../../../lib/image-presets.mjs";
 import {
   readPromoStatus,
   shouldAutoOpen,
@@ -164,7 +166,7 @@ export default function NewsletterPopup() {
           >
             <div
               className={styles.promoFigure}
-              style={{ backgroundImage: `url(${PROMO_IMAGE})` }}
+              style={{ backgroundImage: `url(${preparedImageUrl(imageManifest[PROMO_IMAGE], { width: 960 })})` }}
               role="img"
               aria-label="Parquet de roble lustrado en un ambiente con luz natural"
             />

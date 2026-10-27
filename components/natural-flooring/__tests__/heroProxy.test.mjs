@@ -14,10 +14,7 @@ const raiz = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 
 describe("fotos del hero y proxy", () => {
   it("el proxy conoce la misma cantidad de fotos que hay en hero.images", () => {
-    const data = readFileSync(join(raiz, "components/natural-flooring/data.js"), "utf8");
-    const inicio = data.indexOf("  images: [", data.indexOf("export const hero = {"));
-    const fin = data.indexOf("  ],", inicio);
-    const fotos = (data.slice(inicio, fin).match(/\{ src:/g) ?? []).length;
+    const fotos = JSON.parse(readFileSync(join(raiz, "components/natural-flooring/hero-images.json"), "utf8")).length;
 
     const proxy = readFileSync(join(raiz, "proxy.js"), "utf8");
     const declarado = Number(proxy.match(/HERO_IMAGE_COUNT = (\d+)/)?.[1]);

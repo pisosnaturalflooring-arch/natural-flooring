@@ -1,0 +1,8 @@
+[
+  { "src": "/images/hero/deck-pileta-mobile.jpg", "desktopSrc": "/images/hero/deck-pileta-desktop.jpg", "alt": "Deck de madera junto a una pileta", "caption": "Deck junto a la pileta", "desktopPosition": "50% 50%", "mobilePosition": "50% 35%", "aspectRatio": 0.75 },
+  { "src": "/images/maderas/lapacho-piso.jpg", "alt": "Comedor con piso de lapacho", "caption": "Piso de lapacho", "desktopPosition": "50% 34%", "mobilePosition": "50% 48%", "aspectRatio": 0.75 },
+  { "src": "/images/escalera-belzu.jpg", "alt": "Escalera de madera con baranda de hierro", "caption": "Escaleras de madera", "desktopPosition": "50% 35%", "mobilePosition": "50% 45%", "aspectRatio": 0.75 },
+  { "src": "/images/hero-deck.jpg", "alt": "Deck de lapacho con muebles blancos de exterior", "caption": "Deck de lapacho", "desktopPosition": "50% 65%", "mobilePosition": "50% 65%", "mobileScale": 1.28, "aspectRatio": 0.75 },
+  { "src": "/images/escalera-lapacho-3.jpg", "alt": "Escalera revestida en lapacho", "caption": "Escalera de lapacho", "desktopPosition": "50% 32%", "mobilePosition": "50% 48%", "aspectRatio": 0.7472 },
+  { "src": "/images/parquet-espiga-av25-1.jpg", "alt": "Parquet de madera restaurado en espiga", "caption": "Parquet en espiga", "desktopPosition": "50% 65%", "mobilePosition": "50% 55%", "aspectRatio": 0.75 }
+]
