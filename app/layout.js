@@ -1,29 +1,32 @@
-import { Arimo, Cabin, League_Spartan } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 // Display font: Manual de marca pide "Glacial Indifference".
 // Mientras no tengamos el .woff2 oficial, usamos Cabin que tiene
 // proporciones muy parecidas (geométrica, ancha, terminaciones limpias).
-// Para swap: reemplazar este import por next/font/local apuntando a
-// /public/fonts/glacial-indifference-{regular,bold}.woff2
-const displayFont = Cabin({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
+// Las fuentes están en el repo para compilar sin descargar archivos de Google.
+// Para swap: usar los archivos oficiales de Glacial Indifference en src.
+const displayFont = localFont({
+  src: "./fonts/cabin-latin.woff2",
+  weight: "400 700",
+  style: "normal",
   variable: "--font-display",
   display: "swap",
 });
 
-const arimo = Arimo({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
+const arimo = localFont({
+  src: "./fonts/arimo-latin.woff2",
+  weight: "400 700",
+  style: "normal",
   variable: "--font-body",
   display: "swap",
 });
 
 // Solo se usa en etiquetas chicas: no se precarga, así no compite con la foto del hero.
-const leagueSpartan = League_Spartan({
-  weight: ["400", "600"],
-  subsets: ["latin"],
+const leagueSpartan = localFont({
+  src: "./fonts/league-spartan-latin.woff2",
+  weight: "100 900",
+  style: "normal",
   variable: "--font-secondary",
   display: "swap",
   preload: false,
