@@ -1,25 +1,29 @@
-import { Reveal } from "../Reveal";
-import styles from "../NaturalFlooringPage.module.css";
+import styles from "./WarrantySection.module.css";
 import { ExternalLink } from "./shared";
+import WarrantyCoverage from "./WarrantyCoverage";
 
 export default function WarrantySection({ warranty, whatsappHref }) {
   return (
-    <section className={styles.warrantySection} id="garantia">
-      <Reveal className={styles.warrantyInner}>
-        <span className={styles.warrantyIcon} aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z" />
-            <polyline points="9 12 11 14 15 10" />
-          </svg>
-        </span>
-        <div className={styles.warrantyText}>
-          <h2 className={styles.warrantyTitle}>{warranty.title}</h2>
-          <p className={styles.warrantyDescription}>{warranty.description}</p>
+    <section className={styles.section} id="garantia" aria-labelledby="warranty-title">
+      <div className={styles.inner}>
+        <header className={styles.heading}>
+          <div>
+            <p className={styles.label}>Garantías de obra</p>
+            <h2 id="warranty-title" className={styles.title}>{warranty.title}</h2>
+          </div>
+          <span className={styles.seal} aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3 4 6v6c0 4 3 7 8 9 5-2 8-5 8-9V6l-8-3Z" />
+              <path d="m8.5 12 2.5 2.5 4.5-5" />
+            </svg>
+          </span>
+        </header>
+        <WarrantyCoverage coverages={warranty.coverages} conditions={warranty.conditions} />
+        <div className={styles.bottom}>
+          <p>¿Tenés una consulta sobre la garantía de tu obra?</p>
+          <ExternalLink href={whatsappHref} className={styles.contact}>Consultanos por WhatsApp</ExternalLink>
         </div>
-        <ExternalLink href={whatsappHref} className={styles.primaryButton}>
-          Consultar garantía →
-        </ExternalLink>
-      </Reveal>
+      </div>
     </section>
   );
 }

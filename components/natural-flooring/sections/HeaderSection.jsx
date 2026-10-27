@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../SiteChrome.module.css";
 import { links } from "../links";
 import { NaturalFlooringMark } from "./BrandLogo";
@@ -11,9 +11,34 @@ export default function HeaderSection({ navLinks }) {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef(null);
+  const menuButtonRef = useRef(null);
   // El botón de contacto aparece recién cuando los del hero dejan de verse.
   // En páginas sin hero (por ejemplo /productos) se muestra siempre.
   const [showCta, setShowCta] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onPointerDown = (event) => {
+      if (!headerRef.current?.contains(event.target)) setMenuOpen(false);
+    };
+    const onKeyDown = (event) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    const desktop = window.matchMedia("(min-width: 769px)");
+    const onResize = () => { if (desktop.matches) setMenuOpen(false); };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    desktop.addEventListener("change", onResize);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+      desktop.removeEventListener("change", onResize);
+    };
+  }, [menuOpen]);
 
   // Se esconde al bajar y vuelve al subir. Un solo listener de scroll, con
   // rAF; React descarta los setState que no cambian el valor.
@@ -46,7 +71,7 @@ export default function HeaderSection({ navLinks }) {
 
     const SECTION_NAV_MAP = {
       "nosotros":                "/#nosotros",
-      "garantia":                "/#nosotros",
+      "garantia":                "/#garantia",
       "productos":               "/productos",
       "adentro-afuera":          "/productos",
       "proceso":                 "/productos",
@@ -103,7 +128,13 @@ export default function HeaderSection({ navLinks }) {
   }, []);
 
   return (
-    <header className={cx(styles.header, scrolled && styles.headerScrolled, hidden && styles.headerHidden)}>
+    <header
+      ref={headerRef}
+      className={cx(styles.header, scrolled && styles.headerScrolled, hidden && !menuOpen && styles.headerHidden)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setMenuOpen(false);
+      }}
+    >
       <a href="/" className={styles.logo}>
         <NaturalFlooringMark size={48} />
         <span className={styles.logoText}>
@@ -112,7 +143,7 @@ export default function HeaderSection({ navLinks }) {
         </span>
       </a>
 
-      <nav className={styles.nav}>
+      <nav className={styles.nav} aria-label="Navegación principal">
         {navLinks.map((link) =>
           link.groups ? (
             <div key={link.href} className={styles.navItem}>
@@ -157,6 +188,36 @@ export default function HeaderSection({ navLinks }) {
             </a>
           )
         )}
+      </nav>
+
+      <button
+        ref={menuButtonRef}
+        type="button"
+        className={styles.mobileMenuButton}
+        aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+        aria-expanded={menuOpen}
+        aria-controls="mobile-navigation"
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span>Menú</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
+          <path d={menuOpen ? "m6 6 12 12M6 18 18 6" : "M4 6h16M4 12h16M4 18h16"} />
+        </svg>
+      </button>
+
+      <nav id="mobile-navigation" className={styles.mobileNav} aria-label="Navegación móvil" hidden={!menuOpen}>
+        {navLinks.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            className={cx(styles.mobileNavLink, activeSection === link.href && styles.mobileNavLinkActive)}
+            aria-current={activeSection === link.href ? (link.href.includes("#") ? "location" : "page") : undefined}
+            onClick={() => setMenuOpen(false)}
+          >
+            {link.label}
+          </a>
+        ))}
+        <a href={links.whatsappGeneral} target="_blank" rel="noreferrer" className={styles.mobileNavCta} onClick={() => setMenuOpen(false)}>Consultanos por WhatsApp</a>
       </nav>
 
       <div className={cx(styles.headerIconGroup, !showCta && styles.headerCtaHidden)} inert={!showCta}>

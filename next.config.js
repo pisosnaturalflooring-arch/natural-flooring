@@ -17,9 +17,8 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
     // Las versiones optimizadas se guardan 30 días en vez de 4 horas.
     minimumCacheTTL: 2592000,
-    // 75 es el valor por defecto; 60 se usa solo en la foto del hero, que es la
-    // imagen principal de la home y la que más pesa en celulares.
-    qualities: [60, 75],
+    // El hero usa 85 para conservar la textura de la madera; el resto mantiene 75.
+    qualities: [60, 75, 85],
   },
   async headers() {
     return [

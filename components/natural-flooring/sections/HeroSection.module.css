@@ -1,0 +1,406 @@
+.hero {
+  --hero-header-height: 76px;
+  --hero-caption-right: 6.5rem;
+  --hero-explore-bottom: 5rem;
+  --hero-ink: #292d26;
+  --hero-paper: #fafaf7;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: min(960px, 100svh);
+  padding-top: var(--hero-header-height);
+  color: var(--hero-ink);
+  background: var(--hero-paper);
+}
+
+.editorial {
+  grid-template-columns: 37% 63%;
+}
+
+.content {
+  align-self: center;
+  padding: clamp(2rem, 4.5vw, 5rem);
+  animation: arrive 650ms ease both;
+}
+
+.location {
+  margin: 0 0 2rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: #646a5e;
+  text-align: left;
+}
+
+.title {
+  margin: 0 0 1.5rem;
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 4.9vw, 6rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
+.description {
+  max-width: 36ch;
+  margin: 0 0 2rem;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #62665c;
+  text-align: left;
+  hyphens: none;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.primaryButton {
+  padding: 0.9rem 1.25rem;
+  background: var(--hero-ink);
+  color: #fff !important;
+}
+
+.primaryButton:hover {
+  background: #416d2e;
+}
+
+.secondaryButton {
+  border-bottom: 1px solid currentColor;
+}
+
+.secondaryButton:hover {
+  color: #416d2e;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin: 3rem 0 0;
+}
+
+.stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.35rem;
+}
+
+.stats dt {
+  font-size: 0.67rem;
+  color: #646a5e;
+}
+
+.stats dd {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.75rem;
+}
+
+.photograph {
+  position: relative;
+  min-width: 0;
+  min-height: 460px;
+  margin: 0;
+  overflow: hidden;
+  background: #deded7;
+}
+
+.image {
+  object-fit: cover;
+  object-position: var(--hero-position-desktop, 50% 50%);
+}
+
+.caption {
+  position: absolute;
+  z-index: 2;
+  right: var(--hero-caption-right);
+  bottom: 1.5rem;
+  max-width: calc(100% - 3.5rem);
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(15, 20, 16, 0.65);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.explore {
+  position: absolute;
+  bottom: var(--hero-explore-bottom);
+  left: clamp(2rem, 4.5vw, 5rem);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 32px;
+  font-size: 0.67rem;
+  text-decoration: none;
+}
+
+.explore span {
+  font-size: 1.15rem;
+  transition: transform 180ms ease;
+}
+
+.explore:hover span {
+  transform: translateY(3px);
+}
+
+/* Una franja de texto breve deja todo el ancho a la fotografía. */
+.panoramico {
+  grid-template-rows: auto minmax(320px, 1fr);
+}
+
+.panoramico .content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0 3rem;
+  padding: 2.5rem clamp(2rem, 4.5vw, 5rem);
+}
+
+.panoramico .location {
+  grid-column: 1;
+  margin-bottom: 0.8rem;
+}
+
+.panoramico .title {
+  grid-column: 1;
+  grid-row: 2 / 4;
+  margin-bottom: 0;
+  font-size: clamp(2.8rem, 4.5vw, 5rem);
+}
+
+.panoramico .title br {
+  display: none;
+}
+
+.panoramico .description {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  max-width: 54ch;
+  margin-bottom: 1rem;
+}
+
+.panoramico .actions {
+  grid-column: 2;
+}
+
+.panoramico .stats {
+  display: none;
+}
+
+.panoramico .photograph {
+  min-height: 320px;
+}
+
+.panoramico .explore {
+  padding: 0.3rem 0.8rem;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* El degradé es neutro y localizado: la foto conserva sus colores. */
+.inmersivo {
+  color: #fff;
+  grid-template-columns: 1fr;
+  min-height: min(1000px, 100svh);
+}
+
+.inmersivo .photograph {
+  position: absolute;
+  inset: var(--hero-header-height) 0 0;
+  z-index: -1;
+}
+
+.inmersivo .photograph::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(10, 15, 12, 0.76), rgba(10, 15, 12, 0.2) 32%, rgba(10, 15, 12, 0.04) 75%);
+}
+
+.inmersivo .content {
+  position: relative;
+  isolation: isolate;
+  align-self: center;
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 3rem 2.5rem 5rem;
+  text-align: center;
+}
+
+/* Contraste localizado detrás de la lectura, con bordes suaves y sin teñir
+   toda la foto. La zona exterior conserva su luz y sus colores. */
+.inmersivo .content::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -5rem -8rem;
+  pointer-events: none;
+  background: radial-gradient(ellipse closest-side at center, rgba(7, 13, 10, 0.7) 0%, rgba(7, 13, 10, 0.64) 40%, rgba(7, 13, 10, 0.28) 68%, transparent 100%);
+}
+
+.inmersivo .title {
+  font-size: clamp(4rem, 7.2vw, 7rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+}
+
+.inmersivo .title > span { display: block; }
+.titleAccent { color: var(--brand-sage); }
+
+.inmersivo .description {
+  max-width: 44ch;
+  margin: 1.5rem auto 0.85rem;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+  text-align: inherit;
+}
+
+.showrooms {
+  margin: 0 0 2rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-align: inherit;
+  color: #e1e8da;
+}
+
+.inmersivo .actions { justify-content: center; }
+.inmersivo .primaryButton, .inmersivo .secondaryButton { font-size: 0.9rem; min-height: 52px; }
+.inmersivo .primaryButton { padding: 1rem 1.5rem; }
+
+.inmersivoLeft .content {
+  align-self: end;
+  max-width: none;
+  margin: 0;
+  padding-left: clamp(2.5rem, 6vw, 8rem);
+  text-align: left;
+}
+.inmersivoLeft .title { font-size: clamp(4rem, 7.5vw, 7.5rem); }
+.inmersivoLeft .description { margin-left: 0; }
+.inmersivoLeft .content::before { left: -8rem; right: auto; width: min(1100px, 110vw); }
+.inmersivoLeft .actions { justify-content: flex-start; }
+.inmersivoLeft .photograph::after {
+  background: linear-gradient(90deg, rgba(13, 25, 17, 0.82), rgba(13, 25, 17, 0.42) 46%, transparent 85%);
+}
+
+.inmersivo .description {
+  color: rgba(255, 255, 255, 0.88);
+}
+.inmersivo .description,
+.inmersivo .showrooms { text-shadow: 0 1px 5px rgba(0, 0, 0, 0.65); }
+
+.inmersivo .primaryButton {
+  background: var(--brand-green);
+  color: #152512 !important;
+  font-weight: 700;
+}
+
+.inmersivo .primaryButton:hover {
+  background: #87c94b;
+}
+
+.inmersivo .secondaryButton:hover {
+  color: #e1ead9;
+}
+
+.inmersivo .stats {
+  display: none;
+}
+
+.hero a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+}
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 901px) and (max-height: 760px) {
+  .content { padding-top: 2rem; padding-bottom: 4rem; }
+  .location { margin-bottom: 1rem; }
+  .description { margin-bottom: 1.25rem; }
+  .stats { margin-top: 1.75rem; }
+}
+
+@media (max-width: 1100px) and (min-width: 901px) {
+  .editorial { grid-template-columns: 42% 58%; }
+  .content { padding-left: 2rem; padding-right: 2rem; }
+  .title { font-size: 3.3rem; }
+}
+
+@media (max-width: 900px) {
+  .editorial {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(260px, 1fr);
+  }
+  .editorial .content {
+    padding: 2rem 1.5rem;
+  }
+  .editorial .title br { display: none; }
+  .editorial .title { font-size: clamp(2.5rem, 7vw, 4.5rem); }
+  .editorial .description { max-width: 60ch; }
+  .editorial .stats { display: none; }
+  .editorial .photograph { min-height: 300px; }
+  .editorial .explore { display: none; }
+  .panoramico .content { gap: 0 2rem; padding: 2rem 1.5rem; }
+}
+
+@media (max-width: 768px) {
+  .hero { --hero-header-height: 64px; min-height: 100svh; }
+  .content { padding: 2rem 1.25rem; }
+  .location { margin-bottom: 1rem; font-size: 0.68rem; }
+  .title { letter-spacing: -0.045em; }
+  .description { font-size: 0.82rem; line-height: 1.7; margin-bottom: 1.25rem; }
+  .actions { gap: 0.9rem; }
+  .primaryButton, .secondaryButton { font-size: 0.7rem; }
+  .primaryButton { padding: 0.8rem 1rem; }
+  .editorial { grid-template-rows: minmax(260px, 38svh) auto; }
+  .editorial .content { grid-row: 2; padding: 1.75rem 1.25rem 2.25rem; }
+  .editorial .title { font-size: clamp(2.3rem, 8vw, 3.6rem); margin-bottom: 1rem; }
+  .editorial .photograph { grid-row: 1; min-height: 260px; }
+  .panoramico .content { display: block; padding: 1.75rem 1.25rem; }
+  .panoramico .title { font-size: clamp(2.3rem, 8vw, 3.6rem); margin-bottom: 1rem; }
+  .panoramico .photograph { min-height: 330px; }
+  .image { object-position: var(--hero-position-mobile, 50% 50%); transform: scale(var(--hero-scale-mobile, 1)); transform-origin: center bottom; }
+  .caption { right: 1rem; bottom: 1rem; max-width: calc(100% - 2rem); font-size: 0.7rem; }
+  .panoramico .explore { display: none; }
+  .inmersivo .photograph::after {
+    background: linear-gradient(0deg, rgba(10, 15, 12, 0.8), rgba(10, 15, 12, 0.16) 45%, transparent 80%);
+  }
+  .inmersivo .content { padding: 4rem 1.25rem 5rem; max-width: 600px; }
+  .inmersivo .content::before { inset: -4rem -3.5rem; }
+  .inmersivo .title { font-size: clamp(3.1rem, 14vw, 5rem); }
+  .inmersivo .description { margin-top: 1.5rem; font-size: 1rem; }
+  .showrooms { font-size: 0.8rem; margin-bottom: 1.75rem; }
+  .inmersivo .primaryButton, .inmersivo .secondaryButton { font-size: 0.8rem; }
+  .inmersivo .primaryButton { padding: 0.9rem 1.1rem; }
+  .inmersivoLeft .content { margin: 0; }
+  .inmersivo .caption { top: 1rem; bottom: auto; }
+  .explore { left: 1.25rem; bottom: var(--hero-explore-bottom); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content { animation: none; }
+  .hero a, .explore span { transition: none; }
+}

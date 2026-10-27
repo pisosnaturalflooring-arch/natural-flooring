@@ -1,0 +1,84 @@
+.preview {
+  padding-top: 76px;
+  background: #fafaf7;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2.5rem 0.6rem;
+  color: #292d26;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.intro strong { font-size: 0.85rem; font-weight: 600; }
+.intro span { font-size: 0.7rem; color: #62665c; }
+
+.variants {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: #eaece5;
+  border-radius: 4px;
+}
+
+.variants button,
+.photos button {
+  min-height: 38px;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.variants button[aria-pressed="true"] { background: #292d26; color: #fff; }
+.variants button:hover { background: #d8ddcf; }
+.variants button[aria-pressed="true"]:hover { background: #3f4c34; }
+.photos { display: flex; align-items: center; gap: 0.3rem; }
+.photos span { min-width: 75px; text-align: center; font-size: 0.7rem; }
+.photos button { min-width: 38px; padding: 0.5rem; border: 1px solid #d5d9ce; }
+.photos button:hover { background: #eaece5; }
+.placement { display: flex; align-items: center; gap: 0.65rem; font-size: 0.75rem; }
+.placement select { min-height: 38px; padding: 0.4rem 1.75rem 0.4rem 0.65rem; border: 1px solid #cbd2c0; border-radius: 2px; background: #fafaf7; color: #292d26; font: inherit; cursor: pointer; }
+.controls button:focus-visible { outline: 2px solid #416d2e; outline-offset: 3px; }
+.placement select:focus-visible { outline: 2px solid #416d2e; outline-offset: 3px; }
+
+.description {
+  margin: 0;
+  padding: 0 2.5rem 0.75rem;
+  font-size: 0.72rem;
+  color: #62665c;
+  text-align: center;
+}
+
+/* Cuenta la barra de revisión dentro del primer viewport. */
+.preview > section {
+  --hero-header-height: 0px;
+  --hero-caption-right: 1.75rem;
+  --hero-explore-bottom: 1.5rem;
+  padding-top: 0;
+  min-height: max(600px, calc(100svh - 184px));
+}
+
+@media (max-width: 768px) {
+  .preview { padding-top: 64px; }
+  .controls { flex-wrap: wrap; padding: 0.85rem 1rem 0.6rem; gap: 0.6rem; }
+  .intro { flex: 1; }
+  .intro span { display: none; }
+  .variants { order: 3; width: 100%; }
+  .variants button { flex: 1; padding: 0.5rem; }
+  .placement { order: 4; width: 100%; justify-content: center; }
+  .description { padding: 0 1rem 0.75rem; font-size: 0.67rem; }
+  .preview > section { min-height: max(580px, calc(100svh - 211px - var(--preview-placement-height, 0px))); }
+}

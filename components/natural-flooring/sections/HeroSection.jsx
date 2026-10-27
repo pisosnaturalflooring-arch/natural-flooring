@@ -1,62 +1,62 @@
-import Image from "next/image";
-import styles from "../NaturalFlooringPage.module.css";
+import { getImageProps } from "next/image";
+import styles from "./HeroSection.module.css";
 import { ExternalLink, WhatsAppIcon, cx } from "./shared";
 
-export default function HeroSection({ hero, imageIndex = 0 }) {
+/** La home se renderiza en el servidor; solo el comparador hidrata este hero. */
+export default function HeroSection({ hero, imageIndex = 0, variant = "inmersivo", alignment = "center" }) {
   const image = hero.images[imageIndex % hero.images.length];
+  const immersive = variant === "inmersivo";
+  // Con cover, una foto vertical puede necesitar más ancho que el viewport
+  // para llenar la altura. El srcset debe contemplarlo también en celulares.
+  const mobileScale = image.mobileScale ?? 1;
+  const ratio = (image.aspectRatio ?? 0.75) * mobileScale;
+  const mobileSizes = immersive
+    ? `(max-width: 768px) max(${100 * mobileScale}vw, calc(${100 * ratio}svh - ${64 * ratio}px)), 100vw`
+    : `${100 * mobileScale}vw`;
+  const desktopSizes = variant === "editorial" ? "(max-width: 900px) 100vw, (max-width: 1100px) 58vw, 63vw" : "100vw";
+  const common = { alt: image.alt, fill: true, quality: 85, loading: "eager", fetchPriority: "high" };
+  const { props: desktopImage } = getImageProps({ ...common, src: image.desktopSrc ?? image.src, sizes: desktopSizes });
+  const { props: mobileImage } = getImageProps({ ...common, src: image.src, sizes: mobileSizes });
 
   return (
-    <section className={styles.hero} id="inicio">
-      <div className={styles.heroLeft}>
-        <div className={cx(styles.eyebrow, styles.heroIntro)} style={{ "--delay": "0.06s" }}>
-          <span className={styles.eyebrowLine} />
-          <span className={styles.eyebrowText}>{hero.eyebrow}</span>
-        </div>
-
-        <h1 className={cx(styles.heroTitle, styles.heroIntro)} style={{ "--delay": "0.18s" }}>
-          {hero.titleLead}
-          <br />
-          TU <span className={styles.heroAccent}>{hero.titleAccent}</span>
+    <section
+      className={cx(styles.hero, styles[variant], immersive && alignment === "left" && styles.inmersivoLeft)}
+      id="inicio"
+      aria-labelledby="hero-title"
+      style={{ "--hero-position-desktop": image.desktopPosition ?? "50% 50%", "--hero-position-mobile": image.mobilePosition ?? "50% 50%", "--hero-scale-mobile": image.mobileScale ?? 1 }}
+    >
+      <div className={styles.content}>
+        {!immersive && <p className={styles.location}>{hero.eyebrow}</p>}
+        <h1 className={styles.title} id="hero-title">
+          {immersive ? <><span>Tu espacio,</span><span className={styles.titleAccent}>al natural.</span></> : <>{hero.titleLead}<br />{" "}tu {hero.titleAccent}</>}
         </h1>
-
-        <p className={cx(styles.heroDescription, styles.heroIntro)} style={{ "--delay": "0.3s" }}>
-          {hero.description}
-        </p>
-
-        {/* El header esconde su botón de contacto mientras estos se ven. */}
-        <div id="hero-cta" className={cx(styles.heroActions, styles.heroIntro)} style={{ "--delay": "0.4s" }}>
+        <p className={styles.description}>{immersive ? "Pisos, escaleras y exteriores." : hero.description}</p>
+        {immersive && <p className={styles.showrooms}>{hero.eyebrow}</p>}
+        <div id="hero-cta" className={styles.actions}>
           <ExternalLink href={hero.ctaHref} className={styles.primaryButton}>
-            <WhatsAppIcon />
-            {hero.ctaLabel}
+            <WhatsAppIcon />{hero.ctaLabel}
           </ExternalLink>
-          <a href="/productos" className={styles.secondaryButton}>
-            Ver productos
-          </a>
+          <a href="/productos" className={styles.secondaryButton}>Ver productos</a>
         </div>
-
-        <div className={cx(styles.heroStats, styles.heroIntro)} style={{ "--delay": "0.5s" }}>
-          {hero.stats.map((stat) => (
+        <dl className={styles.stats}>
+          {hero.stats.slice(0, 2).map((stat) => (
             <div key={stat.label}>
-              <div className={styles.heroStatValue}>{stat.value}</div>
-              <div className={styles.heroStatLabel}>{stat.label}</div>
+              <dt>{stat.label}</dt>
+              <dd>{stat.value}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </div>
-
-      <div className={styles.heroRight}>
-        <Image
-            fill
-            src={image.src}
-            alt={image.alt}
-            className={styles.heroImage}
-            sizes="(max-width: 768px) 100vw, 45vw"
-            preload
-            fetchPriority="high"
-            quality={60}
-          />
-        <div className={styles.heroTag}>{hero.imageTag}</div>
-      </div>
+      <figure className={styles.photograph}>
+        <picture>
+          <source media="(min-width: 769px)" srcSet={desktopImage.srcSet} sizes={desktopSizes} />
+          <img {...mobileImage} className={styles.image} />
+        </picture>
+        <figcaption className={styles.caption}>{image.caption ?? image.alt}</figcaption>
+      </figure>
+      <a className={styles.explore} href="#nosotros" aria-label="Conocé Natural Flooring">
+        Conocé nuestro trabajo <span aria-hidden="true">↓</span>
+      </a>
     </section>
   );
 }

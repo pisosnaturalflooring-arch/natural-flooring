@@ -11,6 +11,7 @@ export { links };
 // Con "/" adelante para que también funcionen desde /productos.
 export const navLinks = [
   { label: "Nosotros", href: "/#nosotros" },
+  { label: "Garantías", href: "/#garantia" },
   {
     label: "Productos",
     href: "/productos",
@@ -29,19 +30,19 @@ export const navLinks = [
 
 export const hero = {
   eyebrow: "Showrooms · San Fernando y Escobar",
-  titleLead: "TRANSFORMÁ",
-  titleAccent: "PISO.",
+  titleLead: "Transformá",
+  titleAccent: "piso.",
   description:
     "Pisos, revestimientos, escaleras y exteriores. Visitá nuestros showrooms en San Fernando y Escobar o pedí asesoramiento sin cargo.",
-  // Una de estas fotos sale al azar en cada visita (lo pidió el cliente).
+  // Una obra al azar por visita. Se priorizan los originales de mayor resolución.
+  // desktopSrc permite usar una toma apaisada en escritorio; los encuadres son por foto.
   images: [
-    { src: "/images/hero-deck-pileta.jpg", alt: "Deck gris con reposeras junto a la pileta frente al río" },
-    { src: "/images/maderas/lapacho-piso.jpg", alt: "Comedor con piso de lapacho" },
-    { src: "/images/maderas/guatambu-piso.jpg", alt: "Salón con piso de guatambú recién hidrolaqueado" },
-    { src: "/images/maderas/viraro-escalera.jpg", alt: "Escalera de viraró con baranda de hierro" },
-    { src: "/images/maderas/lapacho-deck.jpg", alt: "Deck de lapacho junto a la pileta" },
-    { src: "/images/escalera-lapacho-3.jpg", alt: "Escalera revestida en lapacho" },
-    { src: "/images/maderas/rostrata-parquet.jpg", alt: "Parquet de eucalipto rostrata en espiga" },
+    { src: "/images/hero/deck-pileta-mobile.jpg", desktopSrc: "/images/hero/deck-pileta-desktop.jpg", alt: "Deck de madera junto a una pileta", caption: "Deck junto a la pileta", desktopPosition: "50% 50%", mobilePosition: "50% 35%", aspectRatio: 0.75 },
+    { src: "/images/maderas/lapacho-piso.jpg", alt: "Comedor con piso de lapacho", caption: "Piso de lapacho", desktopPosition: "50% 34%", mobilePosition: "50% 48%", aspectRatio: 0.75 },
+    { src: "/images/escalera-belzu.jpg", alt: "Escalera de madera con baranda de hierro", caption: "Escaleras de madera", desktopPosition: "50% 35%", mobilePosition: "50% 45%", aspectRatio: 0.75 },
+    { src: "/images/hero-deck.jpg", alt: "Deck de lapacho con muebles blancos de exterior", caption: "Deck de lapacho", desktopPosition: "50% 65%", mobilePosition: "50% 65%", mobileScale: 1.28, aspectRatio: 0.75 },
+    { src: "/images/escalera-lapacho-3.jpg", alt: "Escalera revestida en lapacho", caption: "Escalera de lapacho", desktopPosition: "50% 32%", mobilePosition: "50% 48%", aspectRatio: 0.7472 },
+    { src: "/images/parquet-espiga-av25-1.jpg", alt: "Parquet de madera restaurado en espiga", caption: "Parquet en espiga", desktopPosition: "50% 65%", mobilePosition: "50% 55%", aspectRatio: 0.75 },
   ],
   ctaLabel: "Pedí asesoramiento gratis",
   ctaHref:
@@ -147,12 +148,30 @@ export const why = {
 export const projectsIntro =
   "Cada obra junta dos cosas que no se pueden separar: buenos productos y un buen servicio. Un material de primera mal instalado no dura, y una gran instalación no salva un material pobre. Por eso elegimos lo que vendemos y lo instalamos nosotros, de la medición a la última terminación.";
 
-// TODO(cliente): el alcance y los plazos de la garantía los tiene que definir él
-// (lo anotó "a rellenar"). Por ahora solo se dice lo que el sitio ya decía.
 export const warranty = {
-  title: "GARANTÍA DE OBRA",
-  description:
-    "Todos nuestros trabajos tienen garantía. Tu inversión queda protegida de principio a fin, y ante cualquier duda o ajuste después de la obra, estamos disponibles.",
+  title: "El respaldo de un trabajo bien hecho.",
+  conditions: {
+    care: "La garantía es válida siempre y cuando se cumplan estrictamente los requisitos de cuidado y mantenimiento detallados en los documentos que entregamos al finalizar el trabajo.",
+    exclusions: "Quedan excluidos de esta garantía los daños provocados por factores externos, filtraciones, accidentes o un uso indebido de los pisos y estructuras.",
+  },
+  coverages: [
+    {
+      id: "exteriores-y-flotantes",
+      years: 5,
+      title: "Exteriores y pisos flotantes",
+      paragraphs: {
+        coverage: "Ofrecemos una garantía de cinco años para todos nuestros trabajos de exterior y pisos flotantes, a partir de la finalización de la obra. Esta cobertura asegura la máxima calidad en los materiales y en la ejecución de la colocación.",
+      },
+    },
+    {
+      id: "pisos-y-escaleras-de-madera",
+      years: 10,
+      title: "Pisos y escaleras de madera",
+      paragraphs: {
+        coverage: "Respaldamos nuestros trabajos de pisos de madera y escaleras de madera con una garantía de diez años, a partir de la finalización de la obra. Esta cobertura asegura la durabilidad y la máxima calidad tanto en los materiales como en la ejecución técnica.",
+      },
+    },
+  ],
 };
 
 export const showrooms = [
