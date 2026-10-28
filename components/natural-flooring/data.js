@@ -31,10 +31,6 @@ export const navLinks = [
 
 export const hero = {
   eyebrow: "Showrooms · San Fernando y Escobar",
-  titleLead: "Transformá",
-  titleAccent: "piso.",
-  description:
-    "Pisos, revestimientos, escaleras y exteriores. Visitá nuestros showrooms en San Fernando y Escobar o pedí asesoramiento sin cargo.",
   // Una obra al azar por visita. Se priorizan los originales de mayor resolución.
   // desktopSrc permite usar una toma apaisada en escritorio; los encuadres son por foto.
   images: heroImages,
@@ -42,12 +38,6 @@ export const hero = {
   ctaHref:
     "https://api.whatsapp.com/send?phone=5491169977725&text=" +
     encodeURIComponent("Hola! Quiero asesoramiento para elegir mi piso. ¿Me pueden ayudar?"),
-  imageTag: "Stock disponible · Entrega inmediata",
-  stats: [
-    { value: "200+", label: "Obras realizadas" },
-    { value: "15+", label: "Años en el rubro" },
-    { value: "GRATIS", label: "Consulta inicial" },
-  ],
 };
 
 export const featuredProjects = [

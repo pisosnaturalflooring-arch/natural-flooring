@@ -13,22 +13,10 @@
   background: var(--hero-paper);
 }
 
-.editorial {
-  grid-template-columns: 37% 63%;
-}
-
 .content {
   align-self: center;
   padding: clamp(2rem, 4.5vw, 5rem);
   animation: arrive 650ms ease both;
-}
-
-.location {
-  margin: 0 0 2rem;
-  font-size: 0.75rem;
-  line-height: 1.6;
-  color: #646a5e;
-  text-align: left;
 }
 
 .title {
@@ -88,29 +76,6 @@
   color: #416d2e;
 }
 
-.stats {
-  display: flex;
-  gap: 2rem;
-  margin: 3rem 0 0;
-}
-
-.stats > div {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 0.35rem;
-}
-
-.stats dt {
-  font-size: 0.67rem;
-  color: #646a5e;
-}
-
-.stats dd {
-  margin: 0;
-  font-family: var(--display);
-  font-size: 1.75rem;
-}
-
 .photograph {
   position: relative;
   min-width: 0;
@@ -168,59 +133,6 @@
 
 .explore:hover span {
   transform: translateY(3px);
-}
-
-/* Una franja de texto breve deja todo el ancho a la fotografía. */
-.panoramico {
-  grid-template-rows: auto minmax(320px, 1fr);
-}
-
-.panoramico .content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 0 3rem;
-  padding: 2.5rem clamp(2rem, 4.5vw, 5rem);
-}
-
-.panoramico .location {
-  grid-column: 1;
-  margin-bottom: 0.8rem;
-}
-
-.panoramico .title {
-  grid-column: 1;
-  grid-row: 2 / 4;
-  margin-bottom: 0;
-  font-size: clamp(2.8rem, 4.5vw, 5rem);
-}
-
-.panoramico .title br {
-  display: none;
-}
-
-.panoramico .description {
-  grid-column: 2;
-  grid-row: 1 / 3;
-  max-width: 54ch;
-  margin-bottom: 1rem;
-}
-
-.panoramico .actions {
-  grid-column: 2;
-}
-
-.panoramico .stats {
-  display: none;
-}
-
-.panoramico .photograph {
-  min-height: 320px;
-}
-
-.panoramico .explore {
-  padding: 0.3rem 0.8rem;
-  background: rgba(255, 255, 255, 0.92);
 }
 
 /* El degradé es neutro y localizado: la foto conserva sus colores. */
@@ -302,8 +214,11 @@
   max-width: none;
   margin: 0;
   padding-left: clamp(2.5rem, 6vw, 8rem);
+  /* El texto apoya abajo: deja lugar al "Conocé nuestro trabajo" que va debajo. */
+  padding-bottom: calc(var(--hero-explore-bottom) + 3.5rem);
   text-align: left;
 }
+.inmersivoLeft .explore { left: clamp(2.5rem, 6vw, 8rem); }
 .inmersivoLeft .title { font-size: clamp(4rem, 7.5vw, 7.5rem); }
 .inmersivoLeft .description { margin-left: 0; }
 .inmersivoLeft .content::before { left: -8rem; right: auto; width: min(1100px, 110vw); }
@@ -332,10 +247,6 @@
   color: #e1ead9;
 }
 
-.inmersivo .stats {
-  display: none;
-}
-
 .hero a:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 5px;
@@ -348,54 +259,25 @@
 
 @media (min-width: 901px) and (max-height: 760px) {
   .content { padding-top: 2rem; padding-bottom: 4rem; }
-  .location { margin-bottom: 1rem; }
   .description { margin-bottom: 1.25rem; }
-  .stats { margin-top: 1.75rem; }
 }
 
 @media (max-width: 1100px) and (min-width: 901px) {
-  .editorial { grid-template-columns: 42% 58%; }
   .content { padding-left: 2rem; padding-right: 2rem; }
   .title { font-size: 3.3rem; }
-}
-
-@media (max-width: 900px) {
-  .editorial {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(260px, 1fr);
-  }
-  .editorial .content {
-    padding: 2rem 1.5rem;
-  }
-  .editorial .title br { display: none; }
-  .editorial .title { font-size: clamp(2.5rem, 7vw, 4.5rem); }
-  .editorial .description { max-width: 60ch; }
-  .editorial .stats { display: none; }
-  .editorial .photograph { min-height: 300px; }
-  .editorial .explore { display: none; }
-  .panoramico .content { gap: 0 2rem; padding: 2rem 1.5rem; }
 }
 
 @media (max-width: 768px) {
   .hero { --hero-header-height: 64px; min-height: 100svh; }
   .content { padding: 2rem 1.25rem; }
-  .location { margin-bottom: 1rem; font-size: 0.68rem; }
   .title { letter-spacing: -0.045em; }
   .description { font-size: 0.82rem; line-height: 1.7; margin-bottom: 1.25rem; }
   .actions { gap: 0.9rem; }
   .primaryButton, .secondaryButton { font-size: 0.7rem; }
   .primaryButton { padding: 0.8rem 1rem; }
-  .editorial { grid-template-rows: minmax(260px, 38svh) auto; }
-  .editorial .content { grid-row: 2; padding: 1.75rem 1.25rem 2.25rem; }
-  .editorial .title { font-size: clamp(2.3rem, 8vw, 3.6rem); margin-bottom: 1rem; }
-  .editorial .photograph { grid-row: 1; min-height: 260px; }
-  .panoramico .content { display: block; padding: 1.75rem 1.25rem; }
-  .panoramico .title { font-size: clamp(2.3rem, 8vw, 3.6rem); margin-bottom: 1rem; }
-  .panoramico .photograph { min-height: 330px; }
   .image { object-position: var(--hero-position-mobile, 50% 50%); transform: scale(var(--hero-scale-mobile, 1)); transform-origin: center bottom; }
   .preview { background-image: var(--hero-preview-mobile); background-position: var(--hero-position-mobile, 50% 50%); transform: scale(var(--hero-scale-mobile, 1)); transform-origin: center bottom; }
   .caption { right: 1rem; bottom: 1rem; max-width: calc(100% - 2rem); font-size: 0.7rem; }
-  .panoramico .explore { display: none; }
   .inmersivo .photograph::after {
     background: linear-gradient(0deg, rgba(10, 15, 12, 0.8), rgba(10, 15, 12, 0.16) 45%, transparent 80%);
   }
@@ -406,7 +288,8 @@
   .showrooms { font-size: 0.8rem; margin-bottom: 1.75rem; }
   .inmersivo .primaryButton, .inmersivo .secondaryButton { font-size: 0.8rem; }
   .inmersivo .primaryButton { padding: 0.9rem 1.1rem; }
-  .inmersivoLeft .content { margin: 0; }
+  .inmersivoLeft .content { margin: 0; padding-bottom: calc(var(--hero-explore-bottom) + 3rem); }
+  .inmersivoLeft .explore { left: 1.25rem; }
   .inmersivo .caption { top: 1rem; bottom: auto; }
   .explore { left: 1.25rem; bottom: var(--hero-explore-bottom); }
 }

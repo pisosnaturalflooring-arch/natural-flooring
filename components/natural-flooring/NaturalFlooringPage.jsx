@@ -26,7 +26,6 @@ import {
 import { insideOut, practicalOptions, species, speciesOnRequest } from "./catalog";
 import { DeferredWidgets, LazyTools } from "./HomeClientParts";
 import ProjectsArea from "./ProjectsArea";
-import HeroPreview from "./HeroPreview";
 import BeforeAfterSection from "./sections/BeforeAfterSection";
 import ContactSection from "./sections/ContactSection";
 import FooterSection from "./sections/FooterSection";
@@ -49,13 +48,13 @@ import WhySection from "./sections/WhySection";
  * interactivas (header, escenas, obras, mantenimiento) y lo pesado se carga
  * diferido (asesor y visualizador, chatbot, popup).
  */
-export default function NaturalFlooringPage({ heroImageIndex = 0, previewHero = false }) {
+export default function NaturalFlooringPage({ heroImageIndex = 0 }) {
   return (
     <main className={styles.page}>
       <HeaderSection navLinks={navLinks} />
 
       {/* 1. What you do */}
-      {previewHero ? <HeroPreview hero={hero} /> : <HeroSection hero={hero} imageIndex={heroImageIndex} variant="inmersivo" alignment="center" />}
+      <HeroSection hero={hero} imageIndex={heroImageIndex} />
 
       {/* 2. Nosotros: quiénes somos y por qué elegirnos */}
       <WhySection why={why} whyItems={whyItems} />
@@ -115,7 +114,7 @@ export default function NaturalFlooringPage({ heroImageIndex = 0, previewHero = 
         whatsappHref={links.whatsappGeneral}
       />
 
-      {!previewHero && <DeferredWidgets chatbotFaq={chatbotFaq} />}
+      <DeferredWidgets chatbotFaq={chatbotFaq} />
     </main>
   );
 }
