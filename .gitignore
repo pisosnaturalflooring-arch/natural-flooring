@@ -14,3 +14,8 @@ npm-debug.log*
 public/images/NATURAL FLOORING*/
 *.HEIC
 *.heic
+
+# Cloudflare (OpenNext / Wrangler)
+.open-next
+.wrangler
+.dev.vars

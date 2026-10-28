@@ -1,7 +1,6 @@
 import { citriqsDesdeEntorno } from "../../../lib/citriqs.mjs";
 import { createLeadNotifier } from "../../../lib/leadNotifier.mjs";
 import { normalizePhone, normalizeSource } from "../../../lib/leadValidation.mjs";
-import { getLeadsStore } from "../../../lib/leadsStore.mjs";
 import { clientIp, createRateLimiter } from "../../../lib/rateLimit.mjs";
 
 export const runtime = "nodejs";
@@ -30,28 +29,8 @@ export async function POST(request) {
   }
   const source = normalizeSource(body?.source);
 
-  const store = await getLeadsStore();
-  if (!store) {
-    // Sin base configurada el lead se perderia: mejor decirlo que fingir que se guardo.
-    console.error("[subscribe] Falta TURSO_DATABASE_URL. Lead no guardado:", phone, source);
-    return Response.json(
-      { error: "No pudimos registrar tu teléfono. Escribinos por WhatsApp y te atendemos igual." },
-      { status: 503 }
-    );
-  }
-
-  try {
-    await store.insertLead({ phone, source });
-  } catch (e) {
-    console.error("[subscribe] Error guardando el lead:", e);
-    return Response.json(
-      { error: "No pudimos registrar tu teléfono. Escribinos por WhatsApp y te atendemos igual." },
-      { status: 503 }
-    );
-  }
-
-  // El lead ya esta a salvo. Citriqs y el mail no dependen uno del otro: van
-  // en paralelo para no sumar las dos latencias. Si fallan, solo queda en el log.
+  // No hay base: el mail (y Citriqs, si esta configurado) es el unico registro
+  // del lead. Van en paralelo para no sumar las dos latencias.
   const notify = createLeadNotifier({
     apiKey: process.env.RESEND_API_KEY,
     to: process.env.LEADS_NOTIFY_EMAIL,
@@ -62,8 +41,15 @@ export async function POST(request) {
     notify({ phone, source, createdAt: new Date().toISOString() }),
   ]);
   if (!enviada.ok) console.warn("[subscribe] Consulta sin llegar a Citriqs:", enviada.motivo);
-  if (!notified.sent) {
-    console.warn("[subscribe] Lead guardado pero sin aviso por mail:", notified.reason);
+  if (!notified.sent) console.warn("[subscribe] Lead sin aviso por mail:", notified.reason);
+
+  if (!enviada.ok && !notified.sent) {
+    // No llego a ningun lado: mejor decirlo que fingir que se guardo.
+    console.error("[subscribe] Lead perdido:", phone, source);
+    return Response.json(
+      { error: "No pudimos registrar tu teléfono. Escribinos por WhatsApp y te atendemos igual." },
+      { status: 503 }
+    );
   }
 
   return Response.json({ ok: true });

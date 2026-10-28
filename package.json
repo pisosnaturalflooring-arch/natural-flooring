@@ -7,14 +7,27 @@
     "check:images": "node scripts/check-images.mjs",
     "prepare:images": "node scripts/prepare-images.mjs",
     "build": "node scripts/check-images.mjs && node scripts/prepare-images.mjs && next build",
-    "start": "next start"
+    "start": "next start",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload"
   },
   "dependencies": {
-    "@libsql/client": "^0.17.4",
+    "@opennextjs/cloudflare": "1.20.14",
     "framer-motion": "^12.38.0",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "sharp": "^0.34.5"
+    "next": "16.4.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5",
+    "wrangler": "4.154.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "workerd"
+    ]
   }
 }

@@ -3,7 +3,6 @@ import { citriqsDesdeEntorno } from "../../../lib/citriqs.mjs";
 import { createFloorCheck } from "../../../lib/floorCheck.mjs";
 import { createLeadNotifier } from "../../../lib/leadNotifier.mjs";
 import { normalizePhone } from "../../../lib/leadValidation.mjs";
-import { getLeadsStore } from "../../../lib/leadsStore.mjs";
 import {
   ERROR_CODES,
   SEVERIDAD_INTERNA,
@@ -13,7 +12,7 @@ import { clientIp, createRateLimiter } from "../../../lib/rateLimit.mjs";
 import { buildPrompt, validateVisualizerInput } from "../../../lib/visualizerInput.mjs";
 
 export const runtime = "nodejs";
-export const maxDuration = 60; // tope del plan Hobby de Vercel
+export const maxDuration = 60; // Cloudflare no corta por duración: el tiempo esperando a OpenAI no cuenta como CPU
 
 // Cada generacion cuesta plata, asi que el limite es mas duro que en subscribe.
 const limiter = createRateLimiter({ limit: 3, windowMs: 10 * 60 * 1000 });
@@ -64,13 +63,14 @@ export async function POST(request) {
     );
   }
 
-  // El telefono se guarda antes de generar: si despues algo falla (una foto
-  // sin piso, OpenAI sin credito) el contacto ya esta a salvo.
-  await guardarLead(phone);
+  const bytes = Buffer.from(await image.arrayBuffer());
+  // Sin base, el mail es el unico registro del telefono: todo camino que pase
+  // de aca (incluida una foto sin piso) tiene que avisar.
+  const avisar = (resultBase64) =>
+    avisarLead({ consultaId, phone, material, original: bytes, originalType: image.type, resultBase64 });
 
   // Antes de gastar la generacion cara, un modelo chico confirma que la foto
   // muestre un piso. Falla abierto: ver lib/floorCheck.mjs.
-  const bytes = Buffer.from(await image.arrayBuffer());
   const dataUrl = `data:${image.type};base64,${bytes.toString("base64")}`;
   const chequeo = await createFloorCheck({
     apiKey,
@@ -79,14 +79,12 @@ export async function POST(request) {
 
   if (!chequeo.allowed) {
     console.warn("[visualizer] Foto rechazada:", chequeo.motivo);
+    await avisar();
     return falla(ERROR_CODES.SIN_PISO, 422);
   }
   if (chequeo.skipped) {
     console.warn("[visualizer] Chequeo de foto omitido:", chequeo.skipped);
   }
-
-  const avisar = (resultBase64) =>
-    avisarLead({ consultaId, phone, material, original: bytes, originalType: image.type, resultBase64 });
 
   try {
     const oaForm = new FormData();
@@ -127,20 +125,6 @@ export async function POST(request) {
     console.error("[visualizer] Error inesperado:", e);
     await avisar();
     return falla(ERROR_CODES.DESCONOCIDO, 500);
-  }
-}
-
-/** Nunca corta la generacion: sin base, el mail sigue llevando el telefono. */
-async function guardarLead(phone) {
-  try {
-    const store = await getLeadsStore();
-    if (!store) {
-      console.error("[visualizer] Falta TURSO_DATABASE_URL. Lead no guardado:", phone);
-      return;
-    }
-    await store.insertLead({ phone, source: "visualizador" });
-  } catch (e) {
-    console.error("[visualizer] Error guardando el lead:", phone, e);
   }
 }
 

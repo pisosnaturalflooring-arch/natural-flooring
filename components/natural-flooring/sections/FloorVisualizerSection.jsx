@@ -14,8 +14,9 @@ import { ExternalLink, cx } from "./shared";
 const SAMPLE_IMAGE = "/images/euca-rostrata-dormitorio.jpg";
 const WHATSAPP_BASE = "https://api.whatsapp.com/send?phone=5491169977725&text=";
 
-// Vercel corta los pedidos de mas de 4,5 MB y una foto de celular los pasa
-// seguido. OpenAI devuelve a lo sumo 1536 px, asi que 2048 no pierde nada.
+// Una foto de celular pesa varios MB y el Worker gasta CPU en pasarla a base64:
+// achicarla en el navegador lo mantiene liviano. OpenAI devuelve a lo sumo
+// 1536 px, asi que 2048 no pierde nada.
 const LADO_MAXIMO = 2048;
 const PESO_SIN_TOCAR = 3 * 1024 * 1024;
 
