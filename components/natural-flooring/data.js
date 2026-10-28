@@ -12,7 +12,6 @@ export { links };
 // Con "/" adelante para que también funcionen desde /productos.
 export const navLinks = [
   { label: "Nosotros", href: "/#nosotros" },
-  { label: "Garantías", href: "/#garantia" },
   {
     label: "Productos",
     href: "/productos",
@@ -25,7 +24,7 @@ export const navLinks = [
   },
   { label: "Asesor", href: "/#herramientas" },
   { label: "Proyectos", href: "/#proyectos" },
-  { label: "Showrooms", href: "/#showrooms" },
+  { label: "Garantías", href: "/#garantia" },
   { label: "Contacto", href: "/#contacto" },
 ];
 
@@ -168,11 +167,11 @@ export const showrooms = [
     alt: "Frente del showroom de Natural Flooring en San Fernando",
   },
   {
-    // TODO: dirección exacta, horario y link de Maps del showroom de Escobar.
+    // TODO: horario del showroom de Escobar.
     name: "Escobar",
-    address: "Matheu, Escobar",
+    address: "Linares 67, Matheu, Escobar",
     hours: null,
-    href: "https://maps.google.com/?q=Matheu+Escobar+Buenos+Aires",
+    href: "https://maps.google.com/?q=Linares+67,+B1627BBB+Matheu,+Provincia+de+Buenos+Aires",
     image: "/images/piso-de-madera-natural.jpg",
     alt: "Piso de madera natural",
   },
@@ -661,12 +660,12 @@ export const contactItems = [
     value: "pisosnaturalflooring@gmail.com",
     href: links.email,
   },
-  {
+  ...showrooms.map((showroom) => ({
     kind: "location",
-    label: "Local",
-    value: "3 de Febrero 234, San Fernando",
-    href: links.maps,
-  },
+    label: `Showroom ${showroom.name}`,
+    value: showroom.address,
+    href: showroom.href,
+  })),
   {
     kind: "hours",
     label: "Horario de atención",
@@ -730,7 +729,7 @@ export const processSteps = [
     num: "01",
     title: "Consultá",
     description:
-      "Contactanos por WhatsApp o visitá el showroom en San Fernando. Sin cargo.",
+      "Contactanos por WhatsApp o visitá nuestros showrooms en San Fernando o Escobar. Sin cargo.",
   },
   {
     num: "02",

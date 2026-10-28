@@ -7,8 +7,7 @@
 .section {
   position: relative;
   height: calc(var(--count) * 38vh + 100vh);
-  /* Viene de la franja oscura de garantía: entra con degradé, sin corte. */
-  background: linear-gradient(to bottom, var(--olive-dark) 0, var(--cream) 96px);
+  background: var(--cream);
   color: var(--warm-black);
 }
 

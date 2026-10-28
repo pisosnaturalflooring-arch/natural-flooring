@@ -35,7 +35,6 @@ import InsideOutSection from "./sections/InsideOutSection";
 import MaintenanceSection from "./sections/MaintenanceSection";
 import ProcessSection from "./sections/ProcessSection";
 import ReviewsSection from "./sections/ReviewsSection";
-import ShowroomsSection from "./sections/ShowroomsSection";
 import SocialSection from "./sections/SocialSection";
 import SpeciesWallSection from "./sections/SpeciesWallSection";
 import StaircaseSection from "./sections/StaircaseSection";
@@ -58,7 +57,6 @@ export default function NaturalFlooringPage({ heroImageIndex = 0 }) {
 
       {/* 2. Nosotros: quiénes somos y por qué elegirnos */}
       <WhySection why={why} whyItems={whyItems} />
-      <WarrantySection warranty={warranty} whatsappHref={links.whatsappGeneral} />
 
       {/* 3. Productos: las maderas una por una y el lapacho de adentro hacia afuera. */}
       <SpeciesWallSection species={species} onRequest={speciesOnRequest} practical={practicalOptions} />
@@ -83,13 +81,16 @@ export default function NaturalFlooringPage({ heroImageIndex = 0 }) {
         <BeforeAfterSection beforeAfter={beforeAfter} whatsappHref={links.whatsappGeneral} />
       </ProjectsArea>
 
-      {/* 8. Maintenance products */}
+      {/* 8. Garantías: el respaldo de las obras que se acaban de ver */}
+      <WarrantySection warranty={warranty} whatsappHref={links.whatsappGeneral} />
+
+      {/* 9. Maintenance products */}
       <MaintenanceSection
         maintenanceProducts={maintenanceProducts}
         whatsappHref={links.whatsappMaintenanceHelp}
       />
 
-      {/* 9. Social proof */}
+      {/* 10. Social proof */}
       <ReviewsSection
         mapsHref={links.maps}
         mapsAllReviewsHref={links.mapsAllReviews}
@@ -97,13 +98,10 @@ export default function NaturalFlooringPage({ heroImageIndex = 0 }) {
         reviewsSecondary={reviewsSecondary}
       />
 
-      {/* 10. Content */}
+      {/* 11. Content */}
       <SocialSection instagramPosts={instagramPosts} instagramHref={links.instagram} />
 
-      {/* 11. Showrooms */}
-      <ShowroomsSection showrooms={showrooms} />
-
-      {/* 12. Action */}
+      {/* 12. Action: contacto con los dos showrooms */}
       <ContactSection contactItems={contactItems} whatsappHref={links.whatsappGeneral} />
 
       <FooterSection

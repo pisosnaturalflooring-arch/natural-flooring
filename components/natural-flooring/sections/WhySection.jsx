@@ -74,13 +74,16 @@ export default function WhySection({ why, whyItems }) {
             ))}
           </div>
 
-          <Reveal delay={0.35}>
+          <Reveal delay={0.35} className={styles.whyActions}>
             <ExternalLink
               href={links.whatsappGeneral}
               className={cx(styles.primaryButton, styles.whyCta)}
             >
               Consultanos sin cargo →
             </ExternalLink>
+            <a href="#productos" className={styles.whyNext}>
+              Conocé nuestras maderas <span aria-hidden="true">↓</span>
+            </a>
           </Reveal>
         </div>
       </div>

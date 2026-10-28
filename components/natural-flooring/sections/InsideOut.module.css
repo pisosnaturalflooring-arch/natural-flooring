@@ -6,7 +6,7 @@
   color: var(--warm-black);
 }
 
-/* El recorrido de la escena fija; el degradé final queda afuera para que la escena no lo tape. */
+/* El recorrido de la escena fija. */
 .track {
   height: calc(var(--count) * 60vh + 100vh);
 }
@@ -155,12 +155,6 @@
 
 .image {
   object-fit: cover;
-}
-
-/* Termina fundiéndose en el verde de "Cómo trabajamos", sin corte duro. */
-.tail {
-  height: 160px;
-  background: linear-gradient(to bottom, var(--cream), var(--olive));
 }
 
 @media (max-width: 899px) {

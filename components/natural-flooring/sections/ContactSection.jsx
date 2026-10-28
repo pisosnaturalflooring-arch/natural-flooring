@@ -34,7 +34,7 @@ export default function ContactSection({ contactItems, whatsappHref }) {
             HABLEMOS DE TU PROYECTO
           </h2>
           <p className={styles.contactIntro}>
-            Venís al showroom o te visitamos en casa — asesoramiento y presupuesto sin cargo.
+            Venís a nuestros showrooms en San Fernando o Escobar, o te visitamos en casa — asesoramiento y presupuesto sin cargo.
           </p>
         </Reveal>
 

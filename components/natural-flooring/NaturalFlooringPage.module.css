@@ -427,61 +427,6 @@
   color: var(--muted);
 }
 
-/* ── Showrooms ── */
-.showroomsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
-}
-
-.showroomCard {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border-radius: 3px;
-  background: var(--cream);
-}
-
-.showroomImageWrap {
-  position: relative;
-  aspect-ratio: 16 / 9;
-}
-
-.showroomImage {
-  object-fit: cover;
-}
-
-.showroomBody {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 1.5rem;
-}
-
-.showroomName {
-  margin: 0;
-  font-family: var(--display);
-  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
-  line-height: 1;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--olive-dark);
-}
-
-.showroomRow {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.88rem;
-  color: var(--brand-gray);
-}
-
-.showroomRow svg {
-  flex-shrink: 0;
-  color: var(--olive-mid);
-}
-
 .obrasGrid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -571,9 +516,10 @@
   color: var(--cream);
 }
 
+/* Blanco: separa "Nosotros" de las secciones de productos que siguen, en crema. */
 .whySection {
   padding: 5rem 2.5rem;
-  background: var(--cream);
+  background: var(--brand-white);
 }
 
 /* El título va a todo el ancho y la foto se estira a la altura del texto:
@@ -686,12 +632,35 @@
   margin-top: 2rem;
 }
 
-.whyCta {
+.whyActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
   margin-top: 2rem;
+}
+
+.whyCta {
   display: inline-flex;
   background: var(--brand-green) !important;
   color: #fff !important;
 }
+
+/* Invita a seguir bajando hacia las maderas, sin competir con el botón. */
+.whyNext {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 2px;
+  border-bottom: 1px solid currentColor;
+  color: var(--olive);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.whyNext span { transition: transform 180ms ease; }
+.whyNext:hover span { transform: translateY(3px); }
 
 .whyItem {
   display: flex;
@@ -785,17 +754,15 @@
 .processSteps {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid rgba(200, 212, 168, 0.12);
 }
 
-/* Timeline column sits to the left of the number */
+/* Sin separadores ni números: el recorrido lo marca la línea con un punto por paso.
+   El espacio entre pasos va dentro del cuerpo, así la línea llega hasta el punto siguiente. */
 .processStep {
   display: grid;
-  grid-template-columns: 1.5rem 3rem 1fr;
-  gap: 0 1.75rem;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid rgba(200, 212, 168, 0.12);
-  align-items: start;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 0 1.5rem;
+  align-items: stretch;
   position: relative;
 }
 
@@ -803,8 +770,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 0.35rem;
-  height: 100%;
+  padding-top: 0.45rem;
 }
 
 .processTimelineDot {
@@ -816,28 +782,23 @@
   box-shadow: 0 0 8px rgba(96, 174, 27, 0.5);
 }
 
+/* Termina 6px antes del punto siguiente, la misma distancia que deja debajo de este. */
 .processTimelineLine {
   flex: 1;
   width: 2px;
-  margin-top: 4px;
-  background: linear-gradient(to bottom, var(--brand-green), rgba(96, 174, 27, 0.1));
-  min-height: 40px;
-}
-
-.processNum {
-  font-family: var(--display);
-  font-size: 1.1rem;
-  line-height: 1.4;
-  color: var(--brand-green);
-  letter-spacing: 0.06em;
-  padding-top: 0.15rem;
-  font-weight: 700;
+  margin: 6px 0 calc(6px - 0.45rem);
+  background: rgba(183, 201, 164, 0.35);
 }
 
 .processStepBody {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  padding-bottom: 2.25rem;
+}
+
+.processStep:last-child .processStepBody {
+  padding-bottom: 0;
 }
 
 .processStepTitle {
@@ -853,6 +814,8 @@
   font-size: 0.88rem;
   line-height: 1.75;
   color: rgba(244, 241, 232, 0.6);
+  /* Líneas cortas: justificado abría huecos entre palabras. */
+  text-align: left;
 }
 
 .processCta {
@@ -1218,20 +1181,7 @@
   padding-left: 1rem;
 }
 
-.archiveRowNum {
-  font-family: var(--display);
-  font-size: 1.6rem;
-  line-height: 1;
-  color: var(--olive-light);
-  min-width: 2.5rem;
-  text-align: right;
-  transition: color 0.2s ease;
-  flex-shrink: 0;
-}
 
-.archiveRow:hover .archiveRowNum {
-  color: var(--olive-mid);
-}
 
 .archiveRowInfo {
   flex: 1;
@@ -3879,10 +3829,6 @@ a.contactRow:hover {
     gap: 2.75rem;
   }
 
-  .showroomsGrid {
-    grid-template-columns: 1fr;
-  }
-
   .obra1 {
     grid-column: 1 / -1;
     grid-row: auto;
@@ -3924,9 +3870,6 @@ a.contactRow:hover {
     display: none;
   }
 
-  .archiveRowNum {
-    font-size: 1.2rem;
-  }
 
   .archiveRow {
     gap: 1rem;

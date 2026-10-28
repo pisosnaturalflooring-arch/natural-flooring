@@ -71,10 +71,6 @@ export default function ArchiveSection({
               className={styles.archiveRow}
               onClick={() => onProjectOpen(project)}
             >
-              <span className={styles.archiveRowNum}>
-                {String(index + 1).padStart(2, "0")}
-              </span>
-
               <span className={styles.archiveRowInfo}>
                 <span className={styles.archiveRowTitle}>{project.title}</span>
                 {project.subtitle && (

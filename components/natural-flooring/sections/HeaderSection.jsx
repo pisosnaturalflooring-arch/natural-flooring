@@ -71,7 +71,6 @@ export default function HeaderSection({ navLinks }) {
 
     const SECTION_NAV_MAP = {
       "nosotros":                "/#nosotros",
-      "garantia":                "/#garantia",
       "productos":               "/productos",
       "adentro-afuera":          "/productos",
       "proceso":                 "/productos",
@@ -80,10 +79,10 @@ export default function HeaderSection({ navLinks }) {
       "proyectos":               "/#proyectos",
       "antes-despues":           "/#proyectos",
       "archivo":                 "/#proyectos",
+      "garantia":                "/#garantia",
       "productos-mantenimiento": "/productos",
       "resenas":                 "",
       "redes":                   "",
-      "showrooms":               "/#showrooms",
       "contacto":                "/#contacto",
     };
 

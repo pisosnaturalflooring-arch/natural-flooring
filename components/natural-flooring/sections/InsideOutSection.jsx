@@ -83,7 +83,6 @@ export default function InsideOutSection({ insideOut }) {
           </div>
         </div>
       </div>
-      <div className={styles.tail} aria-hidden="true" />
     </section>
   );
 }
