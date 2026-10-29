@@ -2876,6 +2876,7 @@ a.contactRow:hover {
      ancla abajo para que mande el parquet. */
   background-size: auto 138%;
   background-position: center bottom;
+  background-repeat: no-repeat;
   border-right: 3px solid var(--brand-green);
 }
 
@@ -2887,23 +2888,28 @@ a.contactRow:hover {
   overflow-y: auto;
 }
 
+/* Con fondo propio: la línea fina sola se perdía sobre el crema. */
 .promoClose {
   position: absolute;
-  top: 0.85rem;
-  right: 0.9rem;
+  z-index: 1;
+  top: 0.75rem;
+  right: 0.75rem;
   display: flex;
-  padding: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   border: none;
   border-radius: 50%;
-  background: none;
-  color: var(--muted);
+  background: var(--cream-dark);
+  color: var(--warm-black);
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
 .promoClose:hover {
-  background: var(--cream-dark);
-  color: var(--warm-black);
+  background: #d6cfbb;
 }
 
 .promoClose:focus-visible {
@@ -2912,6 +2918,8 @@ a.contactRow:hover {
 }
 
 .promoBadge {
+  /* El cuerpo es flex en columna: sin esto la etiqueta se estira a todo el ancho y queda bajo la cruz. */
+  align-self: flex-start;
   display: inline-block;
   margin-bottom: 0.75rem;
   padding: 0.26rem 0.68rem;
@@ -3042,7 +3050,11 @@ a.contactRow:hover {
     grid-template-rows: 130px 1fr;
   }
 
+  /* Franja apaisada: con el 138% de alto la foto quedaba más angosta que el
+     modal y se repetía de costado. */
   .promoFigure {
+    background-size: cover;
+    background-position: center 75%;
     border-right: none;
     border-bottom: 3px solid var(--brand-green);
   }
