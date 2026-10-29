@@ -1,29 +1,30 @@
 /*
- * Muestrario de "Las maderas". El JS solo escribe --t (índice continuo de la
- * especie al frente) en .scene; cada tabla y cada capa de foto calcula su
- * propio estado a partir de --t y de su --i.
+ * Muestrario de "Las maderas". El JS solo escribe --t (índice de la especie
+ * al frente) en .scene; cada tabla y cada capa de foto calcula su propio
+ * estado a partir de --t y de su --i.
  */
+
+/* Registrada para que el navegador pueda animarla: al tocar otra tabla, --t
+   pasa por los valores intermedios y la foto barre en vez de cortar. */
+@property --t {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
 
 .section {
   position: relative;
-  height: calc(var(--count) * 38vh + 100vh);
   background: var(--cream);
   color: var(--warm-black);
 }
 
-.anchor {
-  position: absolute;
-  left: 0;
-  top: calc((100% - 100vh) * var(--at));
-  scroll-margin-top: 0;
-}
-
 .scene {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
+  /* Alto fijo, como cuando era una escena de pantalla completa: las tablas
+     toman el espacio que sobra en la columna. */
+  height: clamp(660px, 92svh, 860px);
   max-width: 1360px;
+  /* Corta: con el hover se cambia seguido y el barrido no tiene que quedar atrás. */
+  transition: --t 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   margin: 0 auto;
   padding: 96px clamp(1.5rem, 4vw, 3.5rem) 2rem;
   display: grid;
@@ -76,6 +77,10 @@
   box-shadow: 0 calc(var(--d) * 16px) calc(var(--d) * 26px) rgba(26, 28, 20, calc(var(--d) * 0.32));
 }
 
+.plank:focus {
+  outline: none;
+}
+
 .plank:focus-visible {
   outline: 2px solid var(--brand-green);
   outline-offset: 3px;
@@ -98,10 +103,6 @@
   white-space: nowrap;
   color: #fff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75), 0 0 10px rgba(0, 0, 0, 0.45);
-}
-
-.plank:hover .plankName {
-  text-decoration: underline;
 }
 
 .info {
@@ -258,7 +259,6 @@
     padding: 4rem 1.25rem 3rem;
   }
 
-  .anchor,
   .scene {
     display: none;
   }
@@ -311,5 +311,9 @@
   .info,
   .mobileCard {
     animation: none;
+  }
+
+  .scene {
+    transition: none;
   }
 }

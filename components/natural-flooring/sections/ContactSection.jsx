@@ -29,7 +29,6 @@ export default function ContactSection({ contactItems, whatsappHref }) {
       {/* Right — contact info + map stacked */}
       <div className={styles.contactRight}>
         <Reveal className={styles.contactHead}>
-          <p className={styles.sectionLabelInverse}>Contacto</p>
           <h2 className={styles.sectionTitleInverse}>
             HABLEMOS DE TU PROYECTO
           </h2>

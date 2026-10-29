@@ -34,7 +34,7 @@
   color: var(--warm-black);
   font-family: var(--body);
   /* clip y no hidden: hidden convierte a .page en contenedor de scroll y
-     rompe los position: sticky de las escenas fijas. */
+     rompe los position: sticky (la barra del catálogo de productos). */
   overflow-x: clip;
 }
 .page *,

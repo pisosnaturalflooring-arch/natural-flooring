@@ -230,11 +230,7 @@ export default function FloorVisualizerSection({ presetMaterial }) {
       <div className={styles.visualizerInner}>
         <div className={styles.visualizerHead}>
           <span className={styles.woodShowcaseBannerTag}>Visualizador con IA</span>
-          <h3 className={styles.visualizerTitle}>Probá el piso en tu ambiente</h3>
-          <p className={styles.visualizerLead}>
-            Subí una foto y elegí un material: la inteligencia artificial reemplaza el piso
-            conservando la luz, las sombras y la perspectiva reales.
-          </p>
+          <h3 className={styles.visualizerTitle}>Subí una foto y probá tu piso</h3>
         </div>
 
         <div className={styles.visualizerPanel}>

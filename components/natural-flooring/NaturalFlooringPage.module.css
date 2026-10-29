@@ -2133,14 +2133,6 @@ a.contactRow:hover {
   border-color: rgba(96, 174, 27, 0.6);
 }
 
-.visualizerLead {
-  max-width: none;
-  margin: 0;
-  /* --muted esta calibrado para fondo crema y sobre el sage queda lavado. */
-  color: rgba(26, 28, 20, 0.78);
-  font-size: 1rem;
-  line-height: 1.6;
-}
 
 .visualizerHead {
   display: flex;
@@ -4668,13 +4660,6 @@ a.contactRow:hover {
   margin: 0 auto;
 }
 
-.toolsIntro {
-  max-width: 480px;
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: rgba(26, 28, 20, 0.78);
-}
 
 .toolsBridge {
   display: flex;

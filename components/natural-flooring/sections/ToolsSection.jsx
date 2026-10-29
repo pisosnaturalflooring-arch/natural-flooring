@@ -32,14 +32,6 @@ export default function ToolsSection() {
               ELEGÍ Y PROBÁ TU PISO
             </>
           }
-          side={
-            <Reveal delay={0.1}>
-              <p className={styles.toolsIntro}>
-                Dos herramientas gratis: el asesor te recomienda el material ideal y el visualizador
-                te muestra cómo queda en tu casa.
-              </p>
-            </Reveal>
-          }
         />
 
         <WoodRecommenderSection onTryMaterial={probarEnAmbiente} />

@@ -1,7 +1,6 @@
 .hero {
   --hero-header-height: 76px;
   --hero-caption-right: 6.5rem;
-  --hero-explore-bottom: 5rem;
   --hero-ink: #292d26;
   --hero-paper: #fafaf7;
   position: relative;
@@ -114,27 +113,6 @@
   line-height: 1.5;
 }
 
-.explore {
-  position: absolute;
-  bottom: var(--hero-explore-bottom);
-  left: clamp(2rem, 4.5vw, 5rem);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  min-height: 32px;
-  font-size: 0.67rem;
-  text-decoration: none;
-}
-
-.explore span {
-  font-size: 1.15rem;
-  transition: transform 180ms ease;
-}
-
-.explore:hover span {
-  transform: translateY(3px);
-}
-
 /* El degradé es neutro y localizado: la foto conserva sus colores. */
 .inmersivo {
   color: #fff;
@@ -198,12 +176,17 @@
 }
 
 .showrooms {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   margin: 0 0 2rem;
   font-size: 0.875rem;
   line-height: 1.5;
   text-align: inherit;
   color: #e1e8da;
 }
+
+.showrooms svg { flex-shrink: 0; color: var(--brand-sage); }
 
 .inmersivo .actions { justify-content: center; }
 .inmersivo .primaryButton, .inmersivo .secondaryButton { font-size: 0.9rem; min-height: 52px; }
@@ -214,13 +197,12 @@
   max-width: none;
   margin: 0;
   padding-left: clamp(2.5rem, 6vw, 8rem);
-  /* El texto apoya abajo: deja lugar al "Conocé nuestro trabajo" que va debajo. */
-  padding-bottom: calc(var(--hero-explore-bottom) + 3.5rem);
+  /* Deja aire sobre la pastilla fija de "10% OFF" (abajo a la izquierda, ~5rem del borde). */
+  padding-bottom: 8rem;
   text-align: left;
 }
-.inmersivoLeft .explore { left: clamp(2.5rem, 6vw, 8rem); }
 .inmersivoLeft .title { font-size: clamp(4rem, 7.5vw, 7.5rem); }
-.inmersivoLeft .description { margin-left: 0; }
+.inmersivoLeft .description { max-width: 60ch; margin-left: 0; }
 .inmersivoLeft .content::before { left: -8rem; right: auto; width: min(1100px, 110vw); }
 .inmersivoLeft .actions { justify-content: flex-start; }
 .inmersivoLeft .photograph::after {
@@ -243,8 +225,19 @@
   background: #87c94b;
 }
 
+/* Botón con borde, del mismo alto que el verde: se lee como segunda opción y no como un link suelto. */
+.inmersivo .secondaryButton {
+  padding: 1rem 1.5rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  color: #fff;
+  font-weight: 700;
+  backdrop-filter: blur(2px);
+}
+
 .inmersivo .secondaryButton:hover {
-  color: #e1ead9;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
 }
 
 .hero a:focus-visible {
@@ -288,13 +281,14 @@
   .showrooms { font-size: 0.8rem; margin-bottom: 1.75rem; }
   .inmersivo .primaryButton, .inmersivo .secondaryButton { font-size: 0.8rem; }
   .inmersivo .primaryButton { padding: 0.9rem 1.1rem; }
-  .inmersivoLeft .content { margin: 0; padding-bottom: calc(var(--hero-explore-bottom) + 3rem); }
-  .inmersivoLeft .explore { left: 1.25rem; }
+  .inmersivoLeft .content { margin: 0; padding-bottom: 6.5rem; }
+  /* Los dos botones del mismo ancho, uno debajo del otro: anchos distintos se veían desparejos. */
+  .inmersivoLeft .actions { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  .inmersivo .primaryButton, .inmersivo .secondaryButton { width: 100%; padding: 0.95rem 1.1rem; }
   .inmersivo .caption { top: 1rem; bottom: auto; }
-  .explore { left: 1.25rem; bottom: var(--hero-explore-bottom); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .content { animation: none; }
-  .hero a, .explore span { transition: none; }
+  .hero a { transition: none; }
 }

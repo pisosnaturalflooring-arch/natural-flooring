@@ -23,7 +23,7 @@ import {
   why,
   whyItems,
 } from "./data";
-import { insideOut, practicalOptions, species, speciesOnRequest } from "./catalog";
+import { practicalOptions, species, speciesOnRequest } from "./catalog";
 import { DeferredWidgets, LazyTools } from "./HomeClientParts";
 import ProjectsArea from "./ProjectsArea";
 import BeforeAfterSection from "./sections/BeforeAfterSection";
@@ -31,7 +31,6 @@ import ContactSection from "./sections/ContactSection";
 import FooterSection from "./sections/FooterSection";
 import HeaderSection from "./sections/HeaderSection";
 import HeroSection from "./sections/HeroSection";
-import InsideOutSection from "./sections/InsideOutSection";
 import MaintenanceSection from "./sections/MaintenanceSection";
 import ProcessSection from "./sections/ProcessSection";
 import ReviewsSection from "./sections/ReviewsSection";
@@ -58,9 +57,8 @@ export default function NaturalFlooringPage({ heroImageIndex = 0 }) {
       {/* 2. Nosotros: quiénes somos y por qué elegirnos */}
       <WhySection why={why} whyItems={whyItems} />
 
-      {/* 3. Productos: las maderas una por una y el lapacho de adentro hacia afuera. */}
+      {/* 3. Productos: las maderas una por una. */}
       <SpeciesWallSection species={species} onRequest={speciesOnRequest} practical={practicalOptions} />
-      <InsideOutSection insideOut={insideOut} />
 
       {/* 4. How easy it is to start */}
       <ProcessSection processSteps={processSteps} whatsappHref={links.whatsappGeneral} />

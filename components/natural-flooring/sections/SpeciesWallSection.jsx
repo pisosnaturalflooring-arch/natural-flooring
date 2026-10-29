@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { useScrollProgress } from "../useScrollProgress";
+import { useState } from "react";
 import styles from "./SpeciesWall.module.css";
 import ConsultButton from "./ConsultButton";
 import { cx } from "./shared";
@@ -38,75 +37,47 @@ function Footnote({ onRequest, practical }) {
 }
 
 /**
+ * Qué tabla corresponde a la posición del mouse, repartiendo el muestrario en
+ * partes iguales. No se usa la tabla que queda debajo: la elegida se ensancha
+ * y corre a las demás, y con eso la selección saltaría sola de una a otra.
+ */
+function slotUnder(event, count) {
+  const { left, width } = event.currentTarget.getBoundingClientRect();
+  const slot = Math.floor(((event.clientX - left) / width) * count);
+  return Math.min(count - 1, Math.max(0, slot));
+}
+
+/**
  * "Las maderas": un muestrario de tablas reales, como la pared del showroom.
- * El scroll saca una tabla por vez y barre su foto sobre la anterior; tocar
- * una tabla salta a esa especie. Todo el movimiento sale de una variable CSS
- * (--t, índice continuo de la especie al frente): el scroll no re-renderiza
- * React por frame.
+ * Tocar una tabla la saca al frente y barre su foto sobre la anterior. No
+ * frena el scroll: la sección tiene alto normal y todo el movimiento sale de
+ * una variable CSS animada (--t, índice de la especie al frente).
  */
 export default function SpeciesWallSection({ species, onRequest, practical }) {
-  const sectionRef = useRef(null);
-  const sceneRef = useRef(null);
   const [active, setActive] = useState(0);
-  // En mobile no hay escena fija: se elige tocando la tabla.
-  const [picked, setPicked] = useState(0);
-  const last = species.length - 1;
-
-  useScrollProgress(sectionRef, (progress) => {
-    const t = progress * last;
-    sceneRef.current?.style.setProperty("--t", t.toFixed(3));
-    const index = Math.round(t);
-    setActive((current) => (current === index ? current : index));
-  });
-
-  // Lleva el scroll al punto exacto donde esa especie queda al frente.
-  const goTo = (index) => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const top = section.getBoundingClientRect().top + window.scrollY;
-    const travel = section.offsetHeight - window.innerHeight;
-    window.scrollTo({ top: top + (last ? (travel * index) / last : 0), behavior: "smooth" });
-  };
-
   const current = species[active];
-  const mobileItem = species[picked];
 
   return (
-    <section
-      ref={sectionRef}
-      id="productos"
-      className={styles.section}
-      style={{ "--count": species.length }}
-      aria-label="Las maderas"
-    >
-      {/* Anclas a la altura de scroll donde queda al frente cada especie. */}
-      {species.map((item, index) => (
-        <span
-          key={item.id}
-          id={`madera-${item.id}`}
-          className={styles.anchor}
-          style={{ "--at": last ? index / last : 0 }}
-          aria-hidden="true"
-        />
-      ))}
-
-      <div ref={sceneRef} className={styles.scene} style={{ "--t": 0 }}>
+    <section id="productos" className={styles.section} aria-label="Las maderas">
+      <div className={styles.scene} style={{ "--t": active }}>
         <div className={styles.left}>
           <h2 className={styles.title}>Las maderas</h2>
 
-          <div className={styles.wall}>
+          {/* Pasar el mouse ya muestra la madera; el click y el teclado también la eligen. */}
+          <div className={styles.wall} onMouseMove={(event) => setActive(slotUnder(event, species.length))}>
             {species.map((item, index) => (
               <button
                 key={item.id}
                 type="button"
                 className={styles.plank}
                 style={{ "--i": index }}
-                onClick={() => goTo(index)}
+                onFocus={() => setActive(index)}
+                onClick={() => setActive(index)}
                 aria-label={`Ver ${item.name}`}
                 aria-pressed={index === active}
               >
-                <Image src={item.tabla} alt="" fill sizes="96px" className={styles.plankImage} />
-                <span className={styles.plankName}>{item.name}</span>
+                <Image src={item.tabla} alt="" fill sizes="120px" className={styles.plankImage} />
+                <span className={styles.plankName} aria-hidden="true">{item.name}</span>
               </button>
             ))}
           </div>
@@ -160,20 +131,20 @@ export default function SpeciesWallSection({ species, onRequest, practical }) {
             <button
               key={item.id}
               type="button"
-              className={cx(styles.mobilePlank, index === picked && styles.mobilePlankActive)}
-              onClick={() => setPicked(index)}
+              className={cx(styles.mobilePlank, index === active && styles.mobilePlankActive)}
+              onClick={() => setActive(index)}
               aria-label={`Ver ${item.name}`}
-              aria-pressed={index === picked}
+              aria-pressed={index === active}
             >
               <Image src={item.tabla} alt="" fill sizes="40px" className={styles.plankImage} />
             </button>
           ))}
         </div>
-        <div className={styles.mobileCard} key={mobileItem.id}>
+        <div className={styles.mobileCard} key={current.id}>
           <div className={styles.mobilePhoto}>
-            <Image src={mobileItem.photo.src} alt={mobileItem.photo.alt} fill sizes="100vw" className={styles.photoImage} />
+            <Image src={current.photo.src} alt={current.photo.alt} fill sizes="100vw" className={styles.photoImage} />
           </div>
-          <SpeciesInfo item={mobileItem} />
+          <SpeciesInfo item={current} />
         </div>
         <Footnote onRequest={onRequest} practical={practical} />
       </div>

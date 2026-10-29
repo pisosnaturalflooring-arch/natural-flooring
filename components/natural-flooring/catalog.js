@@ -137,37 +137,6 @@ export const species = [
 
 export const speciesOnRequest = "También trabajamos anchico y paraíso a pedido.";
 
-/**
- * Una sola especie recorriendo los tres usos. Lapacho es la única con fotos
- * propias de piso, escalera y deck.
- */
-export const insideOut = {
-  title: "La misma madera, de adentro hacia afuera",
-  lead:
-    "El lapacho aguanta el tránsito de un living, el golpe de una escalera y el sol de un deck. Por eso lo trabajamos en los tres.",
-  stages: [
-    {
-      id: "piso",
-      label: "Piso",
-      text: 'Tablas de 3/4" a 1" de espesor, colocadas, pulidas e hidrolaqueadas en obra.',
-      photo: { src: "/images/maderas/lapacho-piso.jpg", alt: "Comedor con piso de lapacho" },
-    },
-    {
-      id: "escalera",
-      label: "Escalera",
-      text: "Escalones, frentines y descansos hechos a medida sobre la escalera que ya tenés.",
-      photo: { src: "/images/maderas/lapacho-escalera.jpg", alt: "Escalera revestida en lapacho" },
-    },
-    {
-      id: "deck",
-      label: "Deck",
-      text: 'Tablas de 1"×4" con clips ocultos, sobre tirantes de madera dura o perfil galvanizado.',
-      photo: { src: "/images/maderas/lapacho-deck.jpg", alt: "Deck de lapacho junto a la pileta" },
-    },
-  ],
-  href: whatsappAbout("lapacho"),
-};
-
 /** Línea al pie de "Las maderas" que lleva al catálogo completo. */
 export const practicalOptions = {
   text: "Ver todos los productos: SPC, MDF, pre-finish, revestimientos e insumos",

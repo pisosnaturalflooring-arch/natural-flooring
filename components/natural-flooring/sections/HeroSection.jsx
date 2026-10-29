@@ -2,7 +2,7 @@ import { getImageProps } from "next/image";
 import imageManifest from "../../../lib/image-manifest.json";
 import { heroImageSrcSet, preparedImageUrl } from "../../../lib/image-presets.mjs";
 import styles from "./HeroSection.module.css";
-import { ExternalLink, WhatsAppIcon, cx } from "./shared";
+import { ExternalLink, MapPinIcon, WhatsAppIcon, cx } from "./shared";
 
 /** Foto a pantalla completa con el texto sobre la imagen, alineado a la izquierda. Se renderiza en el servidor. */
 export default function HeroSection({ hero, imageIndex = 0 }) {
@@ -33,8 +33,8 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
         <h1 className={styles.title} id="hero-title">
           <span>Tu espacio,</span><span className={styles.titleAccent}>al natural.</span>
         </h1>
-        <p className={styles.description}>Pisos, escaleras y exteriores.</p>
-        <p className={styles.showrooms}>{hero.eyebrow}</p>
+        <p className={styles.description}>Pisos, escaleras y decks de madera, instalados por nuestro equipo.</p>
+        <p className={styles.showrooms}><MapPinIcon />{hero.eyebrow}</p>
         <div id="hero-cta" className={styles.actions}>
           <ExternalLink href={hero.ctaHref} className={styles.primaryButton}>
             <WhatsAppIcon />{hero.ctaLabel}
@@ -52,9 +52,6 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
         </picture>
         <figcaption className={styles.caption}>{image.caption ?? image.alt}</figcaption>
       </figure>
-      <a className={styles.explore} href="#nosotros" aria-label="Conocé Natural Flooring">
-        Conocé nuestro trabajo <span aria-hidden="true">↓</span>
-      </a>
     </section>
   );
 }

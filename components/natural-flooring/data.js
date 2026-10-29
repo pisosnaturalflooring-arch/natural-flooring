@@ -24,12 +24,11 @@ export const navLinks = [
   },
   { label: "Asesor", href: "/#herramientas" },
   { label: "Proyectos", href: "/#proyectos" },
-  { label: "Garantías", href: "/#garantia" },
   { label: "Contacto", href: "/#contacto" },
 ];
 
 export const hero = {
-  eyebrow: "Showrooms · San Fernando y Escobar",
+  eyebrow: "Showrooms en San Fernando y Escobar",
   // Una obra al azar por visita. Se priorizan los originales de mayor resolución.
   // desktopSrc permite usar una toma apaisada en escritorio; los encuadres son por foto.
   images: heroImages,
