@@ -14,10 +14,11 @@ export function generateStaticParams() {
   return hero.images.map((_, index) => ({ foto: String(index) }));
 }
 
+// La URL pública es "/"; estas rutas son internas. Ojo: lo que se ve en "/" ES
+// esta página (proxy.js reescribe), así que un noindex acá saca la home de Google.
+// El canonical alcanza para que Google no indexe /inicio/N por separado.
 export const metadata = {
-  // La URL pública es "/"; estas rutas son internas.
   alternates: { canonical: "/" },
-  robots: { index: false, follow: true },
 };
 
 export default async function HomeVariant({ params }) {
