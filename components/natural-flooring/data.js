@@ -166,10 +166,9 @@ export const showrooms = [
     alt: "Frente del showroom de Natural Flooring en San Fernando",
   },
   {
-    // TODO: horario del showroom de Escobar.
     name: "Escobar",
     address: "Linares 67, Matheu, Escobar",
-    hours: null,
+    hours: "Lun–Vie 9 a 13 y 14 a 17 · Sáb 9 a 13",
     href: "https://maps.google.com/?q=Linares+67,+B1627BBB+Matheu,+Provincia+de+Buenos+Aires",
     image: "/images/piso-de-madera-natural.jpg",
     alt: "Piso de madera natural",
@@ -713,7 +712,7 @@ export const chatbotFaq = {
     {
       id: "showroom",
       q: "¿Dónde están y en qué horario?",
-      a: "Showroom San Fernando: 3 de Febrero 234, lunes a viernes de 9 a 13 y de 14 a 17, y sábados de 9 a 13. También tenemos showroom en Escobar: en la sección Showrooms están los datos. Vení a ver y tocar los materiales en persona.",
+      a: "Showroom San Fernando: 3 de Febrero 234, y Showroom Escobar: Linares 67, Matheu. Los dos abren de lunes a viernes de 9 a 13 y de 14 a 17, y sábados de 9 a 13. Vení a ver y tocar los materiales en persona.",
     },
     {
       id: "escaleras",

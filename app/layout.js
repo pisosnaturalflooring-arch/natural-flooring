@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { jsonLdScript, localBusinessJsonLd } from "../lib/localBusiness.mjs";
 
 // Display font: Manual de marca pide "Glacial Indifference".
 // Mientras no tengamos el .woff2 oficial, usamos Cabin que tiene
@@ -36,7 +37,7 @@ const leagueSpartan = localFont({
 // sin tocar código, para previews o si el dominio cambia.
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://naturalflooring.com.ar";
 
-const title = "Natural Flooring — Pisos & Escaleras · San Fernando";
+const title = "Pisos de madera, escaleras y decks en San Fernando y Escobar | Natural Flooring";
 const description =
   "Showrooms en San Fernando y Escobar. Pisos de madera, SPC y MDF, revestimientos, escaleras, decks, pérgolas y muelles.";
 
@@ -77,7 +78,11 @@ export default function RootLayout({ children }) {
       lang="es"
       className={`${displayFont.variable} ${arimo.variable} ${leagueSpartan.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Ficha del negocio para Google: showrooms, teléfono y horarios. */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(localBusinessJsonLd(siteUrl)) }} />
+      </body>
     </html>
   );
 }
