@@ -58,7 +58,7 @@ export default function FooterSection({ footer, footerLinks, showrooms, instagra
             <div className={styles.footerMetaRow}>
               <PhoneIcon />
               <ExternalLink href={links.phone} className={styles.footerMetaLink}>
-                +54 11 6997-7725
+                +54 9 11 5737-7469
               </ExternalLink>
             </div>
             <div className={styles.footerMetaRow}>

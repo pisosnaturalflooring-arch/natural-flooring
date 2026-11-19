@@ -12,7 +12,7 @@ import WoodWipe, { useWoodWipe } from "./WoodWipe";
 import { ExternalLink, cx } from "./shared";
 
 const SAMPLE_IMAGE = "/images/euca-rostrata-dormitorio.jpg";
-const WHATSAPP_BASE = "https://api.whatsapp.com/send?phone=5491169977725&text=";
+const WHATSAPP_BASE = "https://api.whatsapp.com/send?phone=5491157377469&text=";
 
 // Una foto de celular pesa varios MB y el Worker gasta CPU en pasarla a base64:
 // achicarla en el navegador lo mantiene liviano. OpenAI devuelve a lo sumo

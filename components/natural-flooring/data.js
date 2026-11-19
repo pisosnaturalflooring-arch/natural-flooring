@@ -34,7 +34,7 @@ export const hero = {
   images: heroImages,
   ctaLabel: "Pedí asesoramiento gratis",
   ctaHref:
-    "https://api.whatsapp.com/send?phone=5491169977725&text=" +
+    "https://api.whatsapp.com/send?phone=5491157377469&text=" +
     encodeURIComponent("Hola! Quiero asesoramiento para elegir mi piso. ¿Me pueden ayudar?"),
 };
 
@@ -503,49 +503,49 @@ export const maintenanceProducts = [
     category: "Madera — Terminación",
     title: "Varathane Poliuretano",
     description: "Poliuretano al agua de secado rápido. El mismo que usamos en cada escalera y piso de madera.",
-    href: "https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Me%20interesa%20el%20Varathane%20Poliuretano.%20%C2%BFTienen%20disponible?",
+    href: "https://api.whatsapp.com/send?phone=5491157377469&text=Hola!%20Me%20interesa%20el%20Varathane%20Poliuretano.%20%C2%BFTienen%20disponible?",
   },
   {
     image: "/images/products/kekol-k4045-official.jpg",
     category: "Madera — Terminación",
     title: "Kekol Lackol K-4045",
     description: "Laca poliuretánica brillante de alto tránsito. Uso profesional para escaleras y pisos de alta exigencia.",
-    href: "https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Me%20interesa%20la%20Laca%20Kekol%20K-4045.%20%C2%BFTienen%20disponible?",
+    href: "https://api.whatsapp.com/send?phone=5491157377469&text=Hola!%20Me%20interesa%20la%20Laca%20Kekol%20K-4045.%20%C2%BFTienen%20disponible?",
   },
   {
     image: "/images/products/kekol-k4035.jpg",
     category: "Madera — Terminación",
     title: "Kekol Hidrokol K-4035",
     description: "Laca acrílica premium en base agua. Acabado satinado o brillante para pisos y escaleras.",
-    href: "https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Me%20interesa%20el%20Kekol%20Hidrokol%20K-4035.%20%C2%BFTienen%20disponible?",
+    href: "https://api.whatsapp.com/send?phone=5491157377469&text=Hola!%20Me%20interesa%20el%20Kekol%20Hidrokol%20K-4035.%20%C2%BFTienen%20disponible?",
   },
   {
     image: "/images/products/kekol-k403.jpg",
     category: "Madera — Sellado",
     title: "Kekol Sellador K-403",
     description: "Sellador base acuosa para preparar la madera antes de lacar. Penetra y consolida la fibra.",
-    href: "https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Me%20interesa%20el%20Sellador%20K-403.%20%C2%BFTienen%20disponible?",
+    href: "https://api.whatsapp.com/send?phone=5491157377469&text=Hola!%20Me%20interesa%20el%20Sellador%20K-403.%20%C2%BFTienen%20disponible?",
   },
   {
     image: "/images/products/kekol-k1004.jpg",
     category: "Madera — Adhesivo",
     title: "Kekol K-1004 Adhesivo",
     description: "Adhesivo vinílico para pisos de madera. Alta resistencia al tránsito intenso y a la humedad.",
-    href: "https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Me%20interesa%20el%20Kekol%20K-1004.%20%C2%BFTienen%20disponible?",
+    href: "https://api.whatsapp.com/send?phone=5491157377469&text=Hola!%20Me%20interesa%20el%20Kekol%20K-1004.%20%C2%BFTienen%20disponible?",
   },
   {
     image: "/images/products/vermeister-detergente.webp",
     category: "Madera — Limpieza",
     title: "Detergente Neutro Vermeister",
     description: "Limpieza diaria sin dañar el barniz. Para parquet, machimbre y pisos flotantes de madera.",
-    href: "https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Me%20interesa%20el%20Detergente%20Neutro%20Vermeister.%20%C2%BFTienen%20disponible?",
+    href: "https://api.whatsapp.com/send?phone=5491157377469&text=Hola!%20Me%20interesa%20el%20Detergente%20Neutro%20Vermeister.%20%C2%BFTienen%20disponible?",
   },
   {
     image: "/images/products/vermeister-wpc-cleaner.webp",
     category: "WPC / Exterior — Limpieza",
     title: "WPC Cleaner Vermeister",
     description: "Limpiador específico para decks WPC y composite. Elimina verdín, hongos y suciedad exterior.",
-    href: "https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Me%20interesa%20el%20WPC%20Cleaner%20Vermeister.%20%C2%BFTienen%20disponible?",
+    href: "https://api.whatsapp.com/send?phone=5491157377469&text=Hola!%20Me%20interesa%20el%20WPC%20Cleaner%20Vermeister.%20%C2%BFTienen%20disponible?",
   },
 ];
 
@@ -649,7 +649,7 @@ export const contactItems = [
   {
     kind: "phone",
     label: "Teléfono",
-    value: "+54 11 6997-7725",
+    value: "+54 9 11 5737-7469",
     href: links.phone,
   },
   {

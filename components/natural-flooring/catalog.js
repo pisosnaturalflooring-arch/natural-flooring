@@ -10,7 +10,7 @@
  * TODO(cliente): validar los textos de tono y dureza de cada especie.
  */
 
-const WHATSAPP_PHONE = "5491169977725";
+const WHATSAPP_PHONE = "5491157377469";
 
 // Link de WhatsApp con un mensaje que ya nombra lo consultado.
 export function whatsappAbout(producto) {

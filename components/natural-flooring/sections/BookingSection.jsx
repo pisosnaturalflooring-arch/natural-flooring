@@ -4,7 +4,7 @@ import styles from "../NaturalFlooringPage.module.css";
 import { ExternalLink } from "./shared";
 
 const WHATSAPP_SHOWROOM =
-  "https://api.whatsapp.com/send?phone=5491169977725&text=Hola!%20Me%20gustar%C3%ADa%20agendar%20una%20visita%20al%20showroom.";
+  "https://api.whatsapp.com/send?phone=5491157377469&text=Hola!%20Me%20gustar%C3%ADa%20agendar%20una%20visita%20al%20showroom.";
 
 export default function BookingSection() {
   return (
