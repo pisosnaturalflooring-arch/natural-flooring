@@ -2,7 +2,6 @@ import { getImageProps } from "next/image";
 import imageManifest from "../../../lib/image-manifest.json";
 import { heroImageSrcSet, preparedImageUrl } from "../../../lib/image-presets.mjs";
 import { HERO_FADE_SCRIPT } from "../../../lib/heroFade.mjs";
-import { NaturalFlooringMark } from "./BrandLogo";
 import styles from "./HeroSection.module.css";
 import { ExternalLink, MapPinIcon, WhatsAppIcon, cx } from "./shared";
 
@@ -52,10 +51,8 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
           <source type="image/avif" srcSet={heroImageSrcSet(mobileAsset)} sizes={mobileSizes} />
           <img {...mobileImage} className={styles.image} />
         </picture>
-        {/* Solo se ve mientras baja la foto (data-loading): el logo late y se va cuando la foto entra. */}
-        <span className={styles.loader} aria-hidden="true">
-          <NaturalFlooringMark size={88} title="" className={styles.loaderMark} />
-        </span>
+        {/* Destino invisible: si la foto tarda, el logo del header baja hasta acá (lib/heroFade.mjs). */}
+        <span className={styles.logoTarget} data-hero-logo-target="" aria-hidden="true" />
         <script dangerouslySetInnerHTML={{ __html: HERO_FADE_SCRIPT }} />
         <figcaption className={styles.caption}>{image.caption ?? image.alt}</figcaption>
       </figure>

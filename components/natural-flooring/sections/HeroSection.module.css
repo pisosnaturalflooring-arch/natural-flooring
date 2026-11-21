@@ -94,50 +94,32 @@
   transition: opacity 500ms var(--hero-ease-out);
 }
 
-/* Logo de carga, en la zona de la foto que no tapa el texto. Entrada y salida
-   van solo con transiciones: con keyframes, al sacarse data-loading el logo se
-   cortaba de golpe en vez de desvanecerse. */
-.loader {
+/* Destino del logo mientras carga la foto, en la zona que no tapa el texto.
+   No se dibuja: el logo del header viaja hasta acá (lib/heroFade.mjs). */
+.logoTarget {
   position: absolute;
-  z-index: 2;
   top: 50%;
   left: 72%;
-  margin: -44px 0 0 -44px; /* mitad del logo de 88 px */
-  opacity: 0;
-  transform: scale(0.96);
-  transition: opacity 300ms var(--hero-ease-out), transform 300ms var(--hero-ease-out);
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
   pointer-events: none;
 }
 
-/* Con data-loading entra a los 200 ms: si la foto llega antes, no se llega a ver. */
-.photograph[data-loading] .loader {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 400ms var(--hero-ease-out) 200ms, transform 400ms var(--hero-ease-out) 200ms;
-}
-
-@starting-style {
-  .photograph[data-loading] .loader { opacity: 0; transform: scale(0.96); }
-}
-
-.loaderMark {
+/* Cuando el logo llegó al hero, un aro se expande y se apaga a su alrededor
+   para indicar que está cargando. Arranca cuando termina el viaje (700 ms). */
+:root:has(.photograph[data-loader]) [data-hero-logo] {
   position: relative;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
-/* El aro que se expande y se apaga indica que está cargando. Vive dentro del
-   logo, así que se desvanece con él al llegar la foto. */
-.loader::before {
+:root:has(.photograph[data-loader]) [data-hero-logo]::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid rgba(183, 201, 164, 0.7);
+  border: 1px solid rgba(183, 201, 164, 0.8);
   opacity: 0;
-}
-
-.photograph[data-loading] .loader::before {
-  animation: heroLoaderRipple 1.6s var(--hero-ease-out) 600ms infinite;
+  animation: heroLoaderRipple 1.6s cubic-bezier(0.23, 1, 0.32, 1) 700ms infinite;
 }
 
 @keyframes heroLoaderRipple {
@@ -318,7 +300,7 @@
 @media (max-width: 768px) {
   .hero { --hero-header-height: 64px; min-height: 100svh; }
   /* En el celular el texto ocupa la mitad de abajo: el logo va arriba, centrado. */
-  .loader { top: 18%; left: 50%; }
+  .logoTarget { top: 18%; left: 50%; }
   .content { padding: 2rem 1.25rem; }
   .title { letter-spacing: -0.045em; }
   .description { font-size: 0.82rem; line-height: 1.7; margin-bottom: 1.25rem; }
@@ -346,10 +328,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .content { animation: none; }
-  /* Se quedan los fundidos (ayudan a entender que la foto llegó); se van la escala y el aro. */
-  .loader,
-  .photograph[data-loading] .loader { transform: none; }
-  .photograph[data-loading] .loader::before { animation: none; }
+  /* Se queda el fundido de la foto (ayuda a entender que llegó); el logo no viaja (heroFade.mjs). */
   .hero a { transition: none; }
 }
 
