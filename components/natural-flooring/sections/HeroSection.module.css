@@ -81,16 +81,68 @@
   min-height: 460px;
   margin: 0;
   overflow: hidden;
-  /* Mientras baja la foto se ve este fondo liso, del verde del header. Antes
-     había una vista previa de 32 px estirada: con conexión lenta quedaba
-     segundos a la vista y se veía borrosa. El texto blanco se lee igual. */
+  /* Mientras baja la foto se ve este fondo liso, del verde del header, con el
+     logo latiendo. Antes había una vista previa de 32 px estirada: con conexión
+     lenta quedaba segundos a la vista y se veía borrosa. */
   background: #252e18;
+  --hero-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .image {
   object-fit: cover;
   object-position: var(--hero-position-desktop, 50% 50%);
-  transition: opacity 500ms ease-out;
+  transition: opacity 500ms var(--hero-ease-out);
+}
+
+/* Logo de carga, en la zona de la foto que no tapa el texto. Entrada y salida
+   van solo con transiciones: con keyframes, al sacarse data-loading el logo se
+   cortaba de golpe en vez de desvanecerse. */
+.loader {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 72%;
+  margin: -44px 0 0 -44px; /* mitad del logo de 88 px */
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 300ms var(--hero-ease-out), transform 300ms var(--hero-ease-out);
+  pointer-events: none;
+}
+
+/* Con data-loading entra a los 200 ms: si la foto llega antes, no se llega a ver. */
+.photograph[data-loading] .loader {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 400ms var(--hero-ease-out) 200ms, transform 400ms var(--hero-ease-out) 200ms;
+}
+
+@starting-style {
+  .photograph[data-loading] .loader { opacity: 0; transform: scale(0.96); }
+}
+
+.loaderMark {
+  position: relative;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* El aro que se expande y se apaga indica que está cargando. Vive dentro del
+   logo, así que se desvanece con él al llegar la foto. */
+.loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(183, 201, 164, 0.7);
+  opacity: 0;
+}
+
+.photograph[data-loading] .loader::before {
+  animation: heroLoaderRipple 1.6s var(--hero-ease-out) 600ms infinite;
+}
+
+@keyframes heroLoaderRipple {
+  from { opacity: 0.8; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.7); }
 }
 
 /* Al llegar, la foto entra con un fundido en vez de aparecer de golpe. Ver lib/heroFade.mjs.
@@ -113,7 +165,7 @@
   color: #fff;
   font-size: 0.75rem;
   line-height: 1.5;
-  transition: opacity 500ms ease-out;
+  transition: opacity 500ms var(--hero-ease-out);
 }
 
 /* El degradé es neutro y localizado: la foto conserva sus colores. */
@@ -265,6 +317,8 @@
 
 @media (max-width: 768px) {
   .hero { --hero-header-height: 64px; min-height: 100svh; }
+  /* En el celular el texto ocupa la mitad de abajo: el logo va arriba, centrado. */
+  .loader { top: 18%; left: 50%; }
   .content { padding: 2rem 1.25rem; }
   .title { letter-spacing: -0.045em; }
   .description { font-size: 0.82rem; line-height: 1.7; margin-bottom: 1.25rem; }
@@ -292,6 +346,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .content { animation: none; }
-  .image, .caption { transition: none; }
+  /* Se quedan los fundidos (ayudan a entender que la foto llegó); se van la escala y el aro. */
+  .loader,
+  .photograph[data-loading] .loader { transform: none; }
+  .photograph[data-loading] .loader::before { animation: none; }
   .hero a { transition: none; }
 }
+
