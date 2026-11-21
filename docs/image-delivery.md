@@ -14,9 +14,11 @@ sin depender de que el entorno habilite los hooks `prebuild`.
   versiona junto con los originales para que el loader y el hero puedan usarlo.
 - `next/image` conserva los tamaños adaptables y la carga diferida. Su loader
   selecciona el archivo preparado, sin usar `/_next/image`.
-- El hero incluye AVIF con WebP de respaldo, prioridad alta y una vista previa
-  embebida de la misma foto. La selección móvil/escritorio la hace `<picture>`;
-  no se descargan las dos fotos.
+- El hero incluye AVIF con WebP de respaldo y prioridad alta. Mientras baja se
+  ve un fondo liso del verde del header y la foto entra con un fundido
+  (`lib/heroFade.mjs`); no se usa la vista previa embebida del manifiesto
+  porque, estirada a pantalla completa, se veía borrosa. La selección
+  móvil/escritorio la hace `<picture>`; no se descargan las dos fotos.
 
 Se mantienen los originales y sus encuadres. No se agrandan fuentes pequeñas.
 WebP usa calidad 75, o 85 en el hero. El AVIF del hero usa la conversión de

@@ -44,8 +44,7 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
         </div>
       </div>
       {/* El script le agrega data-loading a la figura antes de que hidrate React. */}
-      <figure suppressHydrationWarning className={styles.photograph} style={{ "--hero-preview": `url("${desktopAsset.preview}")`, "--hero-preview-mobile": `url("${mobileAsset.preview}")` }}>
-        <span className={styles.preview} aria-hidden="true" />
+      <figure suppressHydrationWarning className={styles.photograph}>
         <picture>
           <source media="(min-width: 769px)" type="image/avif" srcSet={heroImageSrcSet(desktopAsset)} sizes={desktopSizes} />
           <source media="(min-width: 769px)" srcSet={desktopImage.srcSet} sizes={desktopSizes} />
