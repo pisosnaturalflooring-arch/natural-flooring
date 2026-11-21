@@ -87,6 +87,14 @@
 .image {
   object-fit: cover;
   object-position: var(--hero-position-desktop, 50% 50%);
+  transition: opacity 500ms ease-out;
+}
+
+/* Mientras baja la foto se ve la vista previa; al llegar entra con un fundido
+   en vez de aparecer de golpe (se veía como un flash). Ver lib/heroFade.mjs. */
+.photograph[data-loading] .image {
+  opacity: 0;
+  transition: none;
 }
 
 /* Embebida en el HTML: se ve la misma escena mientras llega el archivo nítido. */
@@ -290,5 +298,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .content { animation: none; }
+  .image { transition: none; }
   .hero a { transition: none; }
 }

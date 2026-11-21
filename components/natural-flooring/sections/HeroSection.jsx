@@ -1,6 +1,7 @@
 import { getImageProps } from "next/image";
 import imageManifest from "../../../lib/image-manifest.json";
 import { heroImageSrcSet, preparedImageUrl } from "../../../lib/image-presets.mjs";
+import { HERO_FADE_SCRIPT } from "../../../lib/heroFade.mjs";
 import styles from "./HeroSection.module.css";
 import { ExternalLink, MapPinIcon, WhatsAppIcon, cx } from "./shared";
 
@@ -42,7 +43,8 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
           <a href="/productos" className={styles.secondaryButton}>Ver productos</a>
         </div>
       </div>
-      <figure className={styles.photograph} style={{ "--hero-preview": `url("${desktopAsset.preview}")`, "--hero-preview-mobile": `url("${mobileAsset.preview}")` }}>
+      {/* El script le agrega data-loading a la figura antes de que hidrate React. */}
+      <figure suppressHydrationWarning className={styles.photograph} style={{ "--hero-preview": `url("${desktopAsset.preview}")`, "--hero-preview-mobile": `url("${mobileAsset.preview}")` }}>
         <span className={styles.preview} aria-hidden="true" />
         <picture>
           <source media="(min-width: 769px)" type="image/avif" srcSet={heroImageSrcSet(desktopAsset)} sizes={desktopSizes} />
@@ -50,6 +52,7 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
           <source type="image/avif" srcSet={heroImageSrcSet(mobileAsset)} sizes={mobileSizes} />
           <img {...mobileImage} className={styles.image} />
         </picture>
+        <script dangerouslySetInnerHTML={{ __html: HERO_FADE_SCRIPT }} />
         <figcaption className={styles.caption}>{image.caption ?? image.alt}</figcaption>
       </figure>
     </section>
