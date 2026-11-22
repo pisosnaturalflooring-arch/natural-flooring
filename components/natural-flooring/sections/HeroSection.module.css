@@ -10,12 +10,13 @@
   padding-top: var(--hero-header-height);
   color: var(--hero-ink);
   background: var(--hero-paper);
+  --hero-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --hero-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .content {
   align-self: center;
   padding: clamp(2rem, 4.5vw, 5rem);
-  animation: arrive 650ms ease both;
 }
 
 .title {
@@ -81,56 +82,17 @@
   min-height: 460px;
   margin: 0;
   overflow: hidden;
-  /* Mientras baja la foto se ve este fondo liso, del verde del header, con el
-     logo latiendo. Antes había una vista previa de 32 px estirada: con conexión
-     lenta quedaba segundos a la vista y se veía borrosa. */
+  /* Fondo liso por si la foto falla o llega después de la pantalla de carga.
+     Antes había una vista previa de 32 px estirada, que se veía borrosa. */
   background: #252e18;
-  --hero-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .image {
   object-fit: cover;
   object-position: var(--hero-position-desktop, 50% 50%);
-  transition: opacity 500ms var(--hero-ease-out);
 }
 
-/* Destino del logo mientras carga la foto, en la zona que no tapa el texto.
-   No se dibuja: el logo del header viaja hasta acá (lib/heroFade.mjs). */
-.logoTarget {
-  position: absolute;
-  top: 50%;
-  left: 72%;
-  width: 88px;
-  height: 88px;
-  margin: -44px 0 0 -44px;
-  pointer-events: none;
-}
-
-/* Cuando el logo llegó al hero, un aro se expande y se apaga a su alrededor
-   para indicar que está cargando. Arranca cuando termina el viaje (700 ms). */
-:root:has(.photograph[data-loader]) [data-hero-logo] {
-  position: relative;
-}
-
-:root:has(.photograph[data-loader]) [data-hero-logo]::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(183, 201, 164, 0.8);
-  opacity: 0;
-  animation: heroLoaderRipple 1.6s cubic-bezier(0.23, 1, 0.32, 1) 700ms infinite;
-}
-
-@keyframes heroLoaderRipple {
-  from { opacity: 0.8; transform: scale(1); }
-  to { opacity: 0; transform: scale(1.7); }
-}
-
-/* Al llegar, la foto entra con un fundido en vez de aparecer de golpe. Ver lib/heroFade.mjs.
-   La etiqueta entra con ella: sin foto, "Piso de pinotea" no describe nada. */
-.photograph[data-loading] .image,
-.photograph[data-loading] .caption {
+.caption {
   opacity: 0;
   transition: none;
 }
@@ -147,7 +109,6 @@
   color: #fff;
   font-size: 0.75rem;
   line-height: 1.5;
-  transition: opacity 500ms var(--hero-ease-out);
 }
 
 /* El degradé es neutro y localizado: la foto conserva sus colores. */
@@ -282,9 +243,143 @@
   outline-offset: 5px;
 }
 
-@keyframes arrive {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Pantalla de carga y entrada (lib/heroFade.mjs). Sin JS no hay data-entrance:
+   ni capa ni nada oculto.
+   1. data-entrance: la capa tapa toda la página (header y botones flotantes
+      incluidos) con el logo y una línea de progreso.
+   2. data-lift: el logo se va subiendo y la capa se levanta como una cortina,
+      de abajo hacia arriba. Debajo, la foto ya está y se asienta con un leve
+      zoom; el texto entra escalonado a medida que la cortina lo descubre.
+   3. data-loader-gone: la capa terminó de irse y deja de tapar. */
+.loader {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  place-items: center;
+  /* Espiga (parquet en chevron) en líneas finas, que se desvanece hacia el
+     centro para dejar limpio el logo, y un leve viñeteado en los bordes. */
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 50%, #252e18 22%, rgba(37, 46, 24, 0.82) 48%, rgba(37, 46, 24, 0) 82%),
+    radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(12, 17, 8, 0.55) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='224' height='40' viewBox='0 0 224 40'%3E%3Cg fill='none' stroke='%23b7c9a4' stroke-opacity='.17' stroke-width='1'%3E%3Cpath d='M0 -8L112 -120L224 -8M0 32L112 -80L224 32M0 72L112 -40L224 72M0 112L112 0L224 112'/%3E%3Cpath d='M.5 0V40M112.5 0V40'/%3E%3C/g%3E%3C/svg%3E") center / 224px 40px,
+    #252e18;
+  clip-path: inset(0 0 0 0);
+}
+
+.hero[data-entrance]:not([data-loader-gone]) {
+  /* La sección aísla su apilamiento: para tapar el header (200) y los botones
+     flotantes, la sección entera sube mientras está la capa. Sin fondo: el suyo
+     está en la franja del header y lo taparía mientras sube la cortina. */
+  z-index: 9000;
+  background: transparent;
+}
+
+.hero[data-entrance]:not([data-loader-gone]) .loader { display: grid; }
+
+.loaderBrand {
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+  animation: heroLoaderIn 500ms var(--hero-ease-out) backwards;
+}
+
+.loaderName {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  color: var(--cream, #f4efe4);
+}
+
+/* Progreso indeterminado: un tramo que recorre la línea a ritmo constante. */
+.loaderTrack {
+  position: relative;
+  width: 132px;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(244, 239, 228, 0.16);
+}
+
+.loaderBar {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: var(--brand-sage, #b7c9a4);
+  transform: translateX(-100%);
+  animation: heroLoaderBar 1.3s linear 300ms infinite;
+}
+
+@keyframes heroLoaderIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+}
+
+@keyframes heroLoaderBar {
+  to { transform: translateX(250%); }
+}
+
+.hero[data-lift] .loader {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 900ms var(--hero-ease-in-out) 150ms;
+}
+
+.hero[data-lift] .loaderBrand {
+  opacity: 0;
+  transform: translateY(-16px);
+  transition: opacity 250ms var(--hero-ease-out), transform 400ms var(--hero-ease-out);
+}
+
+.title > span:first-child { --hero-step: 0; }
+.titleAccent { --hero-step: 1; }
+.description { --hero-step: 2; }
+.showrooms { --hero-step: 3; }
+.actions { --hero-step: 4; }
+.caption { --hero-step: 5; }
+
+.hero[data-entrance] .title > span,
+.hero[data-entrance] .description,
+.hero[data-entrance] .showrooms,
+.hero[data-entrance] .actions {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.hero[data-entrance] .caption { opacity: 0; }
+
+/* El texto entra cuando la cortina ya lo está descubriendo (450 ms), en orden
+   de lectura y con 70 ms entre pasos. */
+.hero[data-text-in] .title > span,
+.hero[data-text-in] .description,
+.hero[data-text-in] .showrooms,
+.hero[data-text-in] .actions,
+.hero[data-photo-in] .caption {
+  opacity: 1;
+  transform: none;
+  transition: opacity 600ms var(--hero-ease-out), transform 600ms var(--hero-ease-out);
+  transition-delay: calc(450ms + var(--hero-step) * 70ms);
+}
+
+.hero[data-entrance] .image {
+  opacity: 0;
+  scale: 1.08;
+}
+
+/* La foto aparece debajo de la capa y se asienta mientras la cortina sube.
+   Si llega después (tope de la pantalla de carga), entra con un fundido. */
+.hero[data-photo-in] .image {
+  opacity: 1;
+  scale: 1;
+  transition: opacity 500ms var(--hero-ease-out), scale 1600ms var(--hero-ease-out);
+}
+
+/* Los degradés existen para leer el texto sobre la foto. Sin foto ensucian el
+   fondo liso con manchas negras: entran con la foto. */
+.hero[data-entrance] .photograph::after,
+.hero[data-entrance] .content::before { opacity: 0; }
+
+.hero[data-photo-in] .photograph::after,
+.hero[data-photo-in] .content::before {
+  opacity: 1;
+  transition: opacity 800ms var(--hero-ease-out);
 }
 
 @media (min-width: 901px) and (max-height: 760px) {
@@ -299,8 +394,6 @@
 
 @media (max-width: 768px) {
   .hero { --hero-header-height: 64px; min-height: 100svh; }
-  /* En el celular el texto ocupa la mitad de abajo: el logo va arriba, centrado. */
-  .logoTarget { top: 18%; left: 50%; }
   .content { padding: 2rem 1.25rem; }
   .title { letter-spacing: -0.045em; }
   .description { font-size: 0.82rem; line-height: 1.7; margin-bottom: 1.25rem; }
@@ -327,8 +420,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .content { animation: none; }
-  /* Se queda el fundido de la foto (ayuda a entender que llegó); el logo no viaja (heroFade.mjs). */
+  /* Misma secuencia, solo con fundidos: la capa se desvanece en vez de subir,
+     sin desplazamientos ni zoom, y la línea de progreso queda quieta. */
+  .loaderBrand { animation: none; }
+  .loaderBar { animation: none; transform: none; width: 100%; opacity: 0.5; }
+  .hero[data-lift] .loader { clip-path: none; opacity: 0; transition: opacity 500ms var(--hero-ease-out); }
+  .hero[data-lift] .loaderBrand { transform: none; }
+  .hero[data-entrance] .title > span,
+  .hero[data-entrance] .description,
+  .hero[data-entrance] .showrooms,
+  .hero[data-entrance] .actions { transform: none; }
+  .hero[data-entrance] .image { scale: none; }
   .hero a { transition: none; }
 }
-

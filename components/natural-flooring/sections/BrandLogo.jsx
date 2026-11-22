@@ -7,7 +7,7 @@ import styles from "../SiteChrome.module.css";
  *
  * Por defecto se envuelve en un disco blanco para garantizar legibilidad
  * sobre fondos oscuros. Pasar `bg={false}` para el isotipo desnudo.
- * El resto de las props (por ejemplo `data-hero-logo`) van al contenedor.
+ * El resto de las props van al contenedor.
  */
 export function NaturalFlooringMark({
   size = 32,

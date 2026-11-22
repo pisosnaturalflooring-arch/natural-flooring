@@ -1,7 +1,8 @@
 import { getImageProps } from "next/image";
 import imageManifest from "../../../lib/image-manifest.json";
 import { heroImageSrcSet, preparedImageUrl } from "../../../lib/image-presets.mjs";
-import { HERO_FADE_SCRIPT } from "../../../lib/heroFade.mjs";
+import { HERO_FADE_SCRIPT, HERO_INTRO_SCRIPT } from "../../../lib/heroFade.mjs";
+import { NaturalFlooringMark } from "./BrandLogo";
 import styles from "./HeroSection.module.css";
 import { ExternalLink, MapPinIcon, WhatsAppIcon, cx } from "./shared";
 
@@ -25,11 +26,22 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
 
   return (
     <section
+      suppressHydrationWarning
       className={cx(styles.hero, styles.inmersivo, styles.inmersivoLeft)}
       id="inicio"
       aria-labelledby="hero-title"
       style={{ "--hero-position-desktop": image.desktopPosition ?? "50% 50%", "--hero-position-mobile": image.mobilePosition ?? "50% 50%", "--hero-scale-mobile": image.mobileScale ?? 1 }}
     >
+      {/* Pantalla de carga: tapa toda la página hasta que la foto está lista (lib/heroFade.mjs).
+          Sin JS no se muestra. Los scripts agregan atributos antes de que hidrate React. */}
+      <div className={styles.loader} aria-hidden="true">
+        <div className={styles.loaderBrand}>
+          <NaturalFlooringMark size={76} title="" />
+          <span className={styles.loaderName}>Natural Flooring</span>
+          <span className={styles.loaderTrack}><span className={styles.loaderBar} /></span>
+        </div>
+      </div>
+      <script dangerouslySetInnerHTML={{ __html: HERO_INTRO_SCRIPT }} />
       <div className={styles.content}>
         <h1 className={styles.title} id="hero-title">
           <span>Tu espacio,</span><span className={styles.titleAccent}>al natural.</span>
@@ -43,7 +55,6 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
           <a href="/productos" className={styles.secondaryButton}>Ver productos</a>
         </div>
       </div>
-      {/* El script le agrega data-loading a la figura antes de que hidrate React. */}
       <figure suppressHydrationWarning className={styles.photograph}>
         <picture>
           <source media="(min-width: 769px)" type="image/avif" srcSet={heroImageSrcSet(desktopAsset)} sizes={desktopSizes} />
@@ -51,8 +62,6 @@ export default function HeroSection({ hero, imageIndex = 0 }) {
           <source type="image/avif" srcSet={heroImageSrcSet(mobileAsset)} sizes={mobileSizes} />
           <img {...mobileImage} className={styles.image} />
         </picture>
-        {/* Destino invisible: si la foto tarda, el logo del header baja hasta acá (lib/heroFade.mjs). */}
-        <span className={styles.logoTarget} data-hero-logo-target="" aria-hidden="true" />
         <script dangerouslySetInnerHTML={{ __html: HERO_FADE_SCRIPT }} />
         <figcaption className={styles.caption}>{image.caption ?? image.alt}</figcaption>
       </figure>

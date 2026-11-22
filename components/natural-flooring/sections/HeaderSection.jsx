@@ -133,8 +133,7 @@ export default function HeaderSection({ navLinks }) {
       }}
     >
       <a href="/" className={styles.logo}>
-        {/* data-hero-logo: el hero lo lleva al centro mientras carga la foto (lib/heroFade.mjs). */}
-        <NaturalFlooringMark size={48} data-hero-logo="" />
+        <NaturalFlooringMark size={48} />
         <span className={styles.logoText}>
           <span className={styles.logoTop}>Natural Flooring</span>
           <span className={styles.logoSub}>Pisos & Escaleras · San Fernando</span>
