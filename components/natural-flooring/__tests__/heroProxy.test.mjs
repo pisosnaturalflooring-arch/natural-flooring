@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { proxy } from "../../../proxy.js";
 
 /**
  * proxy.js elige al azar una de las versiones estáticas de la home
@@ -22,4 +23,18 @@ describe("fotos del hero y proxy", () => {
     assert.ok(fotos > 0, "no se encontraron fotos en hero.images");
     assert.equal(declarado, fotos);
   });
+
+  it("\"/\" se reescribe a una de las versiones de la home", () => {
+    const response = proxy(new Request("https://naturalflooring.com.ar/"));
+    const destino = new URL(response.headers.get("x-middleware-rewrite"));
+    assert.match(destino.pathname, /^\/inicio\/\d+$/);
+  });
+
+  for (const ruta of ["/inicio", "/inicio/2", "/inicio/2/algo"]) {
+    it(`entrar directo a ${ruta} redirige a "/"`, () => {
+      const response = proxy(new Request(`https://naturalflooring.com.ar${ruta}`));
+      assert.equal(response.status, 308);
+      assert.equal(response.headers.get("location"), "https://naturalflooring.com.ar/");
+    });
+  }
 });
